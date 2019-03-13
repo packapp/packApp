@@ -11,34 +11,39 @@ export default class SignUp extends React.Component {
       errorMessage: null,
       firstName: '',
       lastName: '',
-      imageUrl: ''
+      imageUrl: '',
     };
   }
 
   handleSignUp = () => {
     const db = firebase.firestore();
     const usersRef = db.collection('users');
-    const email = this.state.email;
+    const { email, firstName, lastName, imageUrl } = this.state.email;
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(user => {
         usersRef.doc(user.user.uid).set({
-          email
+          email,
+          // firstName,
+          // lastName,
+          // imageUrl,
         });
       })
       .then(() => this.props.navigation.navigate('Main'))
-      .catch(error => this.setState({ errorMessage: error.message }));
-  }
+      .catch(error => {
+        this.setState({ errorMessage: error.message });
+        console.log(error);
+      });
+  };
 
   render() {
     return (
       <View style={styles.container}>
         <Text>Sign Up</Text>
-        {this.state.errorMessage &&
-          <Text style={{ color: 'red' }}>
-            {this.state.errorMessage}
-          </Text>}
+        {this.state.errorMessage && (
+          <Text style={{ color: 'red' }}>{this.state.errorMessage}</Text>
+        )}
         <TextInput
           placeholder="Email"
           autoCapitalize="none"
@@ -54,6 +59,27 @@ export default class SignUp extends React.Component {
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
+        {/* <TextInput
+          placeholder="First Name"
+          autoCapitalize="none"
+          style={styles.textInput}
+          onChangeText={firstName => this.setState({ firstName })}
+          value={this.state.firstName}
+        /> */}
+        {/* <TextInput
+          placeholder="Last Name"
+          autoCapitalize="none"
+          style={styles.textInput}
+          onChangeText={lastName => this.setState({ lastName })}
+          value={this.state.lastName}
+        />
+        <TextInput
+          placeholder="Image"
+          autoCapitalize="none"
+          style={styles.textInput}
+          onChangeText={imageUrl => this.setState({ imageUrl })}
+          value={this.state.imageUrl}
+        /> */}
         <Button title="Sign Up" onPress={this.handleSignUp} />
         <Button
           title="Already have an account? Login"
@@ -67,13 +93,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   textInput: {
     height: 40,
     width: '90%',
     borderColor: 'gray',
     borderWidth: 1,
-    marginTop: 8
-  }
+    marginTop: 8,
+  },
 });
