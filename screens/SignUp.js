@@ -18,16 +18,16 @@ export default class SignUp extends React.Component {
   handleSignUp = () => {
     const db = firebase.firestore();
     const usersRef = db.collection('users');
-    const { email, firstName, lastName, imageUrl } = this.state.email;
+    const { email, firstName, lastName, imageUrl } = this.state;
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(user => {
         usersRef.doc(user.user.uid).set({
           email,
-          // firstName,
-          // lastName,
-          // imageUrl,
+          firstName,
+          lastName,
+          imageUrl,
         });
       })
       .then(() => this.props.navigation.navigate('Main'))
@@ -59,14 +59,14 @@ export default class SignUp extends React.Component {
           onChangeText={password => this.setState({ password })}
           value={this.state.password}
         />
-        {/* <TextInput
+        <TextInput
           placeholder="First Name"
           autoCapitalize="none"
           style={styles.textInput}
           onChangeText={firstName => this.setState({ firstName })}
           value={this.state.firstName}
-        /> */}
-        {/* <TextInput
+        />
+        <TextInput
           placeholder="Last Name"
           autoCapitalize="none"
           style={styles.textInput}
@@ -79,7 +79,7 @@ export default class SignUp extends React.Component {
           style={styles.textInput}
           onChangeText={imageUrl => this.setState({ imageUrl })}
           value={this.state.imageUrl}
-        /> */}
+        />
         <Button title="Sign Up" onPress={this.handleSignUp} />
         <Button
           title="Already have an account? Login"
