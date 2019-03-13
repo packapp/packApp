@@ -1,5 +1,6 @@
-import * as firebase from 'firebase'
-require('../secrets')
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+require('../secrets');
 
 //Initialize firebase
 const firebaseConfig = {
@@ -11,12 +12,13 @@ const firebaseConfig = {
   messagingSenderId: "262058969678"
 };
 
+// REWORK THIS TO USE FIRESTORE
 export const makeRef = path => {
-  return firebase.database().ref(path)
-}
+  return firebase.database().ref(path);
+};
 
 export default (!firebase.apps.length
   ? firebase.initializeApp(firebaseConfig)
   : firebase.app());
 
-export const storageRef = firebase.storage().ref()
+export const storageRef = firebase.storage().ref();
