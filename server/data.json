@@ -1,0 +1,246 @@
+{
+  "users": {
+    "H4hILMW5zgQSWHq2pGbrcAAsvbE3": {
+      "places": {
+        "Yosemite": {
+          "location": "Yosemite",
+          "expert": true
+        },
+        "Croatia": {
+          "location": "Croatia",
+          "expert": false
+        },
+        "Greece": {
+          "location": "Greece",
+          "expert": false
+        }
+      }
+    },
+    "Zoap5Oj0UlXbQuNKQYawbpo1aP13": {
+      "places": {
+        "Philippines": {
+          "location": "Philippines",
+          "expert": false
+        },
+        "Croatia": {
+          "location": "Croatia",
+          "expert": true
+        },
+        "Slovakia": {
+          "location": "Slovakia",
+          "expert": false
+        }
+      }
+    },
+    "xSnhikuzZMZBAkzC7hhOrlik5j62": {
+      "places": {
+        "South Africa": {
+          "location": "South Africa",
+          "expert": true
+        },
+        "Sri Lanka": {
+          "location": "Sri Lanka",
+          "expert": false
+        },
+        "Singapore": {
+          "location": "Singapore",
+          "expert": false
+        }
+      }
+    }
+  },
+  "trips": {
+    "Bora Bora": {
+      "name": "Bora Bora",
+      "location": "Bora Bora",
+      "imageUrl": "https://www.fourseasons.com/content/dam/fourseasons/images/web/BOR/BOR_306_original.jpg",
+      "host": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
+      "attendees": {
+        "1": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
+        "2": "xSnhikuzZMZBAkzC7hhOrlik5j62"
+      },
+      "todos": {
+        "1": {
+          "task": "Book Flights",
+          "assign": {
+            "1": {
+              "userId": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
+              "completed": true
+            },
+            "2": {
+              "userId": "H4hILMW5zgQSWHq2pGbrcAAsvbE3",
+              "completed": true
+            },
+            "3": {
+              "userId": "xSnhikuzZMZBAkzC7hhOrlik5j62",
+              "completed": false
+            }
+          }
+        },
+        "2": {
+          "task": "Book Hotels",
+          "assign": {
+            "1": {
+              "userId": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
+              "completed": true
+            },
+            "2": {
+              "userId": "H4hILMW5zgQSWHq2pGbrcAAsvbE3",
+              "completed": true
+            },
+            "3": {
+              "userId": "xSnhikuzZMZBAkzC7hhOrlik5j62",
+              "completed": false
+            }
+          }
+        },
+        "3": {
+          "task": "Buy Dress",
+          "assign": {
+            "1": {
+              "userId": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
+              "completed": true
+            }
+          }
+        }
+      },
+      "itinerary": {
+        "start": "Bora Bora",
+        "location1": {
+          "location": "Beach Bongo",
+          "approved": true
+        },
+        "location2": {
+          "location": "Underwater Super Secret Cave 5",
+          "approved": false
+        },
+        "end": "Bora Bora"
+      }
+    },
+    "Ecuador": {
+      "name": "Ecuador",
+      "location": "Ecuador",
+      "imageUrl": "https://inassets1-internationsgmbh.netdna-ssl.com/image/static_1280_720/static/bundles/internationsseo/frontend/images/countryHeroV2/ecu.jpg",
+      "host": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
+      "attendees": {
+        "1": "H4hILMW5zgQSWHq2pGbrcAAsvbE3",
+        "2": "xSnhikuzZMZBAkzC7hhOrlik5j62"
+      },
+      "todos": {
+        "1": {
+          "task": "Book Flights",
+          "assign": {
+            "1": {
+              "userId": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
+              "completed": true
+            },
+            "2": {
+              "userId": "H4hILMW5zgQSWHq2pGbrcAAsvbE3",
+              "completed": true
+            },
+            "3": {
+              "userId": "xSnhikuzZMZBAkzC7hhOrlik5j62",
+              "completed": false
+            }
+          }
+        },
+        "2": {
+          "task": "Book excursion",
+          "assign": {
+            "1": {
+              "userId": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
+              "completed": true
+            }
+          }
+        }
+      },
+      "itinerary": {
+        "start": "Ecuador",
+        "location1": {
+          "location": "Galapagos",
+          "approved": true
+        },
+        "location2": {
+          "location": "Turtle Beach",
+          "approved": false
+        },
+        "location3": {
+          "location": "Peru",
+          "approved": true
+        },
+        "end": "Ecuador"
+      }
+    },
+    "Antarctica": {
+      "name": "Antarctica",
+      "location": "Antarctica",
+      "imageUrl": "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BBSjfdx.img?h=416&w=624&m=6&q=60&u=t&o=f&l=f",
+      "host": "xSnhikuzZMZBAkzC7hhOrlik5j62",
+      "attendees": {
+        "1": "H4hILMW5zgQSWHq2pGbrcAAsvbE3",
+        "2": "Zoap5Oj0UlXbQuNKQYawbpo1aP13"
+      },
+      "todos": {
+        "1": {
+          "task": "Book Flights",
+          "assign": {
+            "1": {
+              "userId": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
+              "completed": true
+            },
+            "2": {
+              "userId": "H4hILMW5zgQSWHq2pGbrcAAsvbE3",
+              "completed": true
+            },
+            "3": {
+              "userId": "xSnhikuzZMZBAkzC7hhOrlik5j62",
+              "completed": false
+            }
+          }
+        },
+        "2": {
+          "task": "Book Hotels",
+          "assign": {
+            "1": {
+              "userId": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
+              "completed": true
+            },
+            "2": {
+              "userId": "H4hILMW5zgQSWHq2pGbrcAAsvbE3",
+              "completed": true
+            },
+            "3": {
+              "userId": "xSnhikuzZMZBAkzC7hhOrlik5j62",
+              "completed": false
+            }
+          }
+        },
+        "3": {
+          "task": "Buy Parka",
+          "assign": {
+            "3": {
+              "userId": "xSnhikuzZMZBAkzC7hhOrlik5j62",
+              "completed": true
+            }
+          }
+        }
+      },
+      "itinerary": {
+        "start": "Antarctica",
+        "location1": {
+          "location": "Penguin Coast",
+          "approved": true
+        },
+        "location2": {
+          "location": "Concordia Station",
+          "approved": true
+        },
+        "location3": {
+          "location": "Shark Center",
+          "approved": false
+        },
+        "end": "Antarctica"
+      }
+    }
+  }
+}
