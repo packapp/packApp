@@ -1,5 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, KeyboardAvoidingView } from 'react-native';
+import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+
 import firebase from '../server/config';
 
 export default class SignUp extends React.Component {
@@ -39,7 +41,7 @@ export default class SignUp extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container}>
         <Text>Sign Up</Text>
         {this.state.errorMessage && (
           <Text style={{ color: 'red' }}>{this.state.errorMessage}</Text>
@@ -85,7 +87,7 @@ export default class SignUp extends React.Component {
           title="Already have an account? Login"
           onPress={() => this.props.navigation.navigate('Login')}
         />
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
