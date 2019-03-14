@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { StyleSheet, Platform, Image, Text, View } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 // import the different screens
@@ -10,20 +10,29 @@ import Dashboard from './screens/Dashboard';
 const AppStackNavigator = createStackNavigator(
   {
     Loading: {
-      screen: Loading
+      screen: Loading,
     },
     SignUp: {
-      screen: SignUp
+      screen: SignUp,
+      navigationOptions: {
+        headerLeft: null,
+      },
     },
     Login: {
-      screen: Login
+      screen: Login,
+      navigationOptions: {
+        headerLeft: null,
+      },
     },
     Dashboard: {
-      screen: Dashboard
-    }
+      screen: Dashboard,
+      navigationOptions: {
+        headerLeft: null,
+      },
+    },
   },
   {
-    initialRouteName: 'Loading'
+    initialRouteName: 'Loading',
   }
 );
 
