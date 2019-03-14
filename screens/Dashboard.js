@@ -26,12 +26,17 @@ export default class Dashboard extends React.Component {
 
   render() {
     const { currentUser } = this.state;
+    const {navigate} = this.props.navigation
     return (
       <View style={styles.container}>
         <Text>
           Hi {currentUser && currentUser.email}!
         </Text>
         <Button title='Log Out' onPress={this.handleLogOut}/>
+        <Button
+        title="single trip"
+        onPress={() => navigate('SingleTrip')}
+      />
       </View>
     );
   }
