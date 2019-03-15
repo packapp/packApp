@@ -2,13 +2,32 @@ import React, {Component} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import firebase from '../server/config';
 
 export default class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.handleLogOut = this.handleLogOut.bind(this);
+  }
+
+  handleLogOut() {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.props.navigation.navigate('Loading');
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  }
+
   render(){
     return(
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
           <Text>Profile</Text>
+          <Button title="Log Out" onPress={this.handleLogOut} />
         </View>
         <View style={styles.footer}>
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl')}/>

@@ -54,9 +54,6 @@ const AppStackNavigator = createStackNavigator(
     },
     Howl: {
       screen: Howl,
-      navigationOptions: {
-        headerLeft: null,
-      },
     },
     Profile: {
       screen: Profile,
