@@ -13,6 +13,7 @@ import firebase from '../server/config';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchUser } from '../store/user';
+import { fetchAlphaTrips, fetchPackTrips } from '../store/trip';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -24,7 +25,10 @@ class Dashboard extends React.Component {
   async componentDidMount() {
     const { currentUser } = await firebase.auth();
     this.setState({ currentUser });
-    this.props.fetchUser(this.state.currentUser.uid);
+    const userId = this.state.currentUser.uid;
+    this.props.fetchUser(userId);
+    this.props.fetchAlphaTrips(userId);
+    this.props.fetchPackTrips(userId);
   }
 
   handleLogOut() {
@@ -90,6 +94,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchUser: userId => dispatch(fetchUser(userId)),
+    fetchAlphaTrips: userId => dispatch(fetchAlphaTrips(userId)),
+    fetchPackTrips: userId => dispatch(fetchPackTrips(userId)),
   };
 };
 
