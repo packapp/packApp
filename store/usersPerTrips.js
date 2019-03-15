@@ -2,9 +2,6 @@ import firebase from '../server/config';
 // ACTION TYPES
 
 // INITIAL STATE
-const initialState = {
-  users: [],
-};
 
 // ACTION CREATORS
 export const SET_USERS = 'SET_USERS';
@@ -19,12 +16,12 @@ export const fetchUsers = userIdArr => dispatch => {
   try {
     const db = firebase.firestore();
     const usersRef = db.collection('users');
-    const users = [];
-    userIdArr.forEach(async userId => {
+    //const users = [];
+    const users = userIdArr.map(async userId => {
       let userRef = usersRef.doc(userId);
       const query = await userRef.get();
       const user = query.data();
-      users.push(user);
+      return user;
     });
     dispatch(gotUsers(users));
   } catch (err) {
@@ -33,10 +30,10 @@ export const fetchUsers = userIdArr => dispatch => {
 };
 
 // REDUCER
-export default (state = initialState, action) => {
+export default (state = [], action) => {
   switch (action.type) {
     case SET_USERS:
-      return { ...state, users: action.users };
+      return action.users;
     default:
       return state;
   }
