@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import { StyleSheet, Platform, Image, Text, View } from 'react-native';
+import React, { Component } from 'react';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -14,23 +15,32 @@ import store from './store/index';
 const AppStackNavigator = createStackNavigator(
   {
     Loading: {
-      screen: Loading
+      screen: Loading,
     },
     SignUp: {
-      screen: SignUp
+      screen: SignUp,
+      navigationOptions: {
+        headerLeft: null,
+      },
     },
     Login: {
-      screen: Login
+      screen: Login,
+      navigationOptions: {
+        headerLeft: null,
+      },
     },
     Dashboard: {
-      screen: Dashboard
+      screen: Dashboard,
+      navigationOptions: {
+        headerLeft: null,
+      },
     },
     SingleTrip: {
       screen: SingleTrip
     }
   },
   {
-    initialRouteName: 'Loading'
+    initialRouteName: 'Loading',
   }
 );
 
@@ -40,7 +50,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <AppContainer/>
+        <AppContainer />
       </Provider>
     );
   }

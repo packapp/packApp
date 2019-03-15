@@ -8,11 +8,15 @@ export class SingleTrip extends Component {
     this.props.getFlights()
   }
   render() {
+
+    console.log(this.props)
     return (
       <View style={{ flex: 1, justifyContent: "top", alignItems: "center" }}>
         <Image source={{uri: 'https://placeimg.com/400/100/nature'}}
        style={{width: 400, height: 200}} />
-        <Text>Test</Text>
+       {this.props.flights ? this.props.flights.map(flight => (
+        <Text key={flight.CityId}>{flight.CityName}</Text>
+       )) : 'no flights'}
       </View>
     )
   }
@@ -20,7 +24,7 @@ export class SingleTrip extends Component {
 
 const mapState = state => {
   return {
-    flights: state.flights
+    flights: state.flight
   }
 }
 

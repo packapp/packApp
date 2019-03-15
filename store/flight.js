@@ -17,9 +17,16 @@ export const getFlights = (flights) => {
 // THUNK CREATORS
 export const fetchFlights = () => {
   return async (dispatch) => {
-    const flights = await axios.get("https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsedates/v1.0/US/USD/en-US/SFO-sky/LAX-sky/2019-01-01?inboundpartialdate=2019-01-01")
-    .header("X-RapidAPI-Key", "909373ee33msh904e78720ba25e4p140105jsn1dd6200f19d9")
-    dispatch(flights)
+    try {
+      const flights = await axios({
+        url: "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browsedates/v1.0/US/USD/en-US/SFO-sky/LAX-sky/2019-05-01?inboundpartialdate=2019-05-01",
+        method: 'GET',
+        headers: {"X-RapidAPI-Key": "909373ee33msh904e78720ba25e4p140105jsn1dd6200f19d9"}
+      })
+      dispatch(getFlights(flights.data.Places))
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 // REDUCER
