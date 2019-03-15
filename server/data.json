@@ -55,10 +55,10 @@
       "location": "Bora Bora",
       "imageUrl": "https://www.fourseasons.com/content/dam/fourseasons/images/web/BOR/BOR_306_original.jpg",
       "host": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
-      "attendees": {
-        "1": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
-        "2": "xSnhikuzZMZBAkzC7hhOrlik5j62"
-      },
+      "attendees": [
+        "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
+        "xSnhikuzZMZBAkzC7hhOrlik5j62"
+      ],
       "todos": {
         "1": {
           "task": "Book Flights",
@@ -122,10 +122,10 @@
       "location": "Ecuador",
       "imageUrl": "https://inassets1-internationsgmbh.netdna-ssl.com/image/static_1280_720/static/bundles/internationsseo/frontend/images/countryHeroV2/ecu.jpg",
       "host": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
-      "attendees": {
-        "1": "H4hILMW5zgQSWHq2pGbrcAAsvbE3",
-        "2": "xSnhikuzZMZBAkzC7hhOrlik5j62"
-      },
+      "attendees": [
+        "H4hILMW5zgQSWHq2pGbrcAAsvbE3",
+        "xSnhikuzZMZBAkzC7hhOrlik5j62"
+      ],
       "todos": {
         "1": {
           "task": "Book Flights",
@@ -176,10 +176,10 @@
       "location": "Antarctica",
       "imageUrl": "https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BBSjfdx.img?h=416&w=624&m=6&q=60&u=t&o=f&l=f",
       "host": "xSnhikuzZMZBAkzC7hhOrlik5j62",
-      "attendees": {
-        "1": "H4hILMW5zgQSWHq2pGbrcAAsvbE3",
-        "2": "Zoap5Oj0UlXbQuNKQYawbpo1aP13"
-      },
+      "attendees": [
+        "H4hILMW5zgQSWHq2pGbrcAAsvbE3",
+        "Zoap5Oj0UlXbQuNKQYawbpo1aP13"
+      ],
       "todos": {
         "1": {
           "task": "Book Flights",
