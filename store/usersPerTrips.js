@@ -12,7 +12,7 @@ export const gotUsers = users => ({
 });
 
 // THUNK CREATORS
-export const fetchUsers = userIdArr => dispatch => {
+export const fetchUsers = userIdArr => async dispatch => {
   try {
     const db = firebase.firestore();
     const usersRef = db.collection('users');
@@ -23,7 +23,8 @@ export const fetchUsers = userIdArr => dispatch => {
       const user = query.data();
       return user;
     });
-    dispatch(gotUsers(users));
+    const usersArr = await Promise.all(users);
+    dispatch(gotUsers(usersArr));
   } catch (err) {
     console.error(err);
   }
