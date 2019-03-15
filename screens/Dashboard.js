@@ -10,11 +10,7 @@ import {
   // Button,
 } from 'react-native';
 import firebase from '../server/config';
-<<<<<<< HEAD
-import { Icon, Card, PricingCard } from 'react-native-elements';
-=======
 import { Icon, Card, PricingCard, Button } from 'react-native-elements';
->>>>>>> a6d7c6881e55cd90aba135094d6f7facf0bd5b3c
 import { connect } from 'react-redux';
 import { fetchUser } from '../store/user';
 import {
@@ -28,7 +24,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.handleLogOut = this.handleLogOut.bind(this);
   }
   state = { currentUser: null };
 
@@ -46,18 +41,6 @@ class Dashboard extends React.Component {
       'Zoap5Oj0UlXbQuNKQYawbpo1aP13',
       'xSnhikuzZMZBAkzC7hhOrlik5j62',
     ]);
-  }
-
-  handleLogOut() {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        this.props.navigation.navigate('Loading');
-      })
-      .catch(err => {
-        console.error(err);
-      });
   }
 
   render() {
@@ -121,14 +104,26 @@ class Dashboard extends React.Component {
             ) : (
               <Text>You have not joined any packs yet!</Text>
             )}
-            <Button title="Log Out" onPress={this.handleLogOut} />
-            <Button title="single trip" onPress={() => navigate('SingleTrip')} />
           </View>
         </ScrollView>
         <View style={styles.footer}>
-            <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl')}/>
-            <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={30} color="#ff9933"/>} />
-            <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile')}/>
+          <Button
+            style={styles.navBtns}
+            type="clear"
+            icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa" />}
+            onPress={() => this.props.navigation.navigate('Howl')}
+          />
+          <Button
+            style={styles.navBtns}
+            type="clear"
+            icon={<Ionicons name="ios-home" size={30} color="#ff9933" />}
+          />
+          <Button
+            style={styles.navBtns}
+            type="clear"
+            icon={<Ionicons name="ios-person" size={30} color="#aaaaaa" />}
+            onPress={() => this.props.navigation.navigate('Profile')}
+          />
         </View>
       </View>
     );
@@ -149,10 +144,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
     width: 300,
-<<<<<<< HEAD
     backgroundColor: '#aaaaaa',
-  },
-=======
   },
   footer: {
     position: 'absolute',
@@ -163,16 +155,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   tripBtns: {
-    padding: 10
+    padding: 10,
   },
   navBtns: {
     paddingLeft: 30,
-    paddingRight: 30
-  }
->>>>>>> a6d7c6881e55cd90aba135094d6f7facf0bd5b3c
+    paddingRight: 30,
+  },
 });
 
 const mapStateToProps = state => {
