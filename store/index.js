@@ -5,8 +5,9 @@ import user from './user';
 import trip from './trip';
 import todos from './todos';
 import itinerary from './itinerary';
+import flight from './flight';
 
-const reducer = combineReducers({ user, trip, todos, itinerary });
+const reducer = combineReducers({ user, trip, todos, itinerary, flight });
 const middleWare = applyMiddleware(
   thunkMiddleware,
   createLogger({ collapsed: true })
@@ -18,3 +19,4 @@ export * from './user';
 export * from './trip';
 export * from './todos';
 export * from './itinerary';
+export * from './flight';
