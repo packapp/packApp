@@ -1,29 +1,29 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView} from 'react-native';
 import { Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { GiftedChat } from 'react-native-gifted-chat';
 
 export default class Howl extends Component {
   render(){
     return(
-      <View style={{ flex: 1 }}>
-        <View style={styles.container}>
-          <Text>Howl</Text>
-        </View>
+      <KeyboardAvoidingView style={{ flex: 1 }}>
+          <GiftedChat
+          />
+        <View style={{flex: .2}}/>
         <View style={styles.footer}>
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#ff9933"/>} />
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile')}/>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
+    height: 250
   },
   footer: {
     position: 'absolute',
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f8f8',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   navBtns: {
     paddingLeft: 30,

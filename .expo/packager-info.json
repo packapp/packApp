@@ -1,16 +1,9 @@
 {
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://6s-twg.toricpope.packapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.6s-twg.toricpope.packapp.exp.direct",
+  "ngrokPid": 76467,
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-<<<<<<< HEAD
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
-=======
-  "expoServerNgrokUrl": "https://6s-twg.anonymous.pack.exp.direct",
-  "packagerNgrokUrl": "https://packager.6s-twg.anonymous.pack.exp.direct",
-  "ngrokPid": 3595,
->>>>>>> 5456658b1a0979ca68b2e7c40a8affbcb4eb612c
-  "webpackServerPort": null
+  "packagerPort": 19003,
+  "packagerPid": 76431
 }
