@@ -2,14 +2,13 @@ import firebase from '../server/config';
 // ACTION TYPES
 export const SET_ALPHA_TRIPS = 'SET_ALPHA_TRIPS';
 export const SET_PACK_TRIPS = 'SET_PACK_TRIPS';
+export const SET_SELECTED_TRIP = 'SET_SELECTED_TRIP';
 
 // INITIAL STATE
 const initialState = {
-  trips: {
-    alpha: [],
-    pack: [],
-    selectedTrip: {},
-  },
+  alpha: [],
+  pack: [],
+  selectedTrip: {},
 };
 
 // ACTION CREATORS
@@ -23,7 +22,12 @@ export const gotPackTrips = trips => ({
   trips,
 });
 
+export const gotSelectedTrip = trip => ({
+  type: SET_SELECTED_TRIP,
+  trip,
+});
 // THUNK CREATORS
+//grabs all trips that the logged in user is hosting
 export const fetchAlphaTrips = userId => async dispatch => {
   try {
     const db = firebase.firestore();
@@ -39,6 +43,7 @@ export const fetchAlphaTrips = userId => async dispatch => {
   }
 };
 
+//grabs all the trips that the logged in user is attending
 export const fetchPackTrips = userId => async dispatch => {
   try {
     const db = firebase.firestore();
@@ -56,6 +61,18 @@ export const fetchPackTrips = userId => async dispatch => {
   }
 };
 
+//grabs a single trip based on the name of the trip/document
+export const fetchSingleTrip = tripName => async dispatch => {
+  try {
+    const db = firebase.firestore();
+    const tripRef = db.collection('trips').doc(tripName);
+    const query = await tripRef.get();
+    const trip = query.data();
+    dispatch(gotSelectedTrip(trip));
+  } catch (err) {
+    console.error(err);
+  }
+};
 // REDUCER
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -63,6 +80,8 @@ export default (state = initialState, action) => {
       return { ...state, alpha: action.trips };
     case SET_PACK_TRIPS:
       return { ...state, pack: action.trips };
+    case SET_SELECTED_TRIP:
+      return { ...state, selectedTrip: action.trip };
     default:
       return state;
   }

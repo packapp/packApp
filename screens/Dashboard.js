@@ -13,7 +13,12 @@ import firebase from '../server/config';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchUser } from '../store/user';
-import { fetchAlphaTrips, fetchPackTrips } from '../store/trip';
+import {
+  fetchAlphaTrips,
+  fetchPackTrips,
+  fetchSingleTrip,
+} from '../store/trip';
+import { fetchUsers } from '../store/usersPerTrips';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -29,6 +34,13 @@ class Dashboard extends React.Component {
     this.props.fetchUser(userId);
     this.props.fetchAlphaTrips(userId);
     this.props.fetchPackTrips(userId);
+    //testing if fetch single trip works:
+    this.props.fetchSingleTrip('Antarctica');
+    this.props.fetchUsers([
+      'H4hILMW5zgQSWHq2pGbrcAAsvbE3',
+      'Zoap5Oj0UlXbQuNKQYawbpo1aP13',
+      'xSnhikuzZMZBAkzC7hhOrlik5j62',
+    ]);
   }
 
   handleLogOut() {
@@ -52,6 +64,14 @@ class Dashboard extends React.Component {
     // } else {
     //   console.log('USER');
     // }
+    //for use in singleTrips:
+    let userIds = [];
+    if (this.props.selectedTrip.attendees) {
+      userIds = [...this.props.selectedTrip.attendees];
+      userIds.push(this.props.selectedTrip.host);
+    }
+
+    console.log(userIds);
     return (
       // <View>
 
@@ -88,6 +108,7 @@ const mapStateToProps = state => {
   return {
     user: state.user.user,
     places: state.user.user.places,
+    selectedTrip: state.trip.selectedTrip,
   };
 };
 
@@ -96,6 +117,8 @@ const mapDispatchToProps = dispatch => {
     fetchUser: userId => dispatch(fetchUser(userId)),
     fetchAlphaTrips: userId => dispatch(fetchAlphaTrips(userId)),
     fetchPackTrips: userId => dispatch(fetchPackTrips(userId)),
+    fetchSingleTrip: trip => dispatch(fetchSingleTrip(trip)),
+    fetchUsers: userIds => dispatch(fetchUsers(userIds)),
   };
 };
 
