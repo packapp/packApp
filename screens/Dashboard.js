@@ -7,7 +7,7 @@ import {
   ScrollView,
   FlatList,
   View,
-  // Button,
+  TouchableHighlight,
 } from 'react-native';
 import firebase from '../server/config';
 import { Icon, Card, PricingCard, Button } from 'react-native-elements';
@@ -46,41 +46,25 @@ class Dashboard extends React.Component {
   render() {
     const { currentUser } = this.state;
     const { navigate } = this.props.navigation;
-    // if (this.props.user.places) {
-    //   //debugger;
-    //   console.log('USER', this.props.user.places.Singapore);
-    // } else {
-    //   console.log('USER');
-    // }
-    //for use in singleTrips:
-    let userIds = [];
-    if (this.props.selectedTrip.attendees) {
-      userIds = [...this.props.selectedTrip.attendees];
-      userIds.push(this.props.selectedTrip.host);
-    }
-
-    console.log(userIds);
     return (
       <View style={{ flex: 1 }}>
         <ScrollView>
           <View style={styles.buttonContainer}>
             <Icon reverse name="add" type="material" color="#ff9933" />
           </View>
-          <View style={styles.container}>
-            {/* {this.props.user.places ? (
-              <Text>{this.props.user.places.Singapore.location}</Text>
-            ) : null} */}
+          <View>
             {this.props.alphaTrips.length > 0 ? (
               this.props.alphaTrips.map((trip, idx) => {
                 return (
-                  <View style={styles.cardContainer} key={idx}>
-                    <Button
-                      title={trip.location}
+                  <View key={idx}>
+                    <TouchableHighlight
                       style={styles.tripBtns}
                       onPress={() =>
                         navigate('SingleTrip', { location: trip.location })
                       }
-                    />
+                    >
+                      <Text>{trip.location}</Text>
+                    </TouchableHighlight>
                   </View>
                 );
               })
@@ -90,14 +74,14 @@ class Dashboard extends React.Component {
             {this.props.packTrips.length > 0 ? (
               this.props.packTrips.map((trip, idx) => {
                 return (
-                  <View style={styles.cardContainer} key={idx}>
-                    <Button
-                      style={styles.tripBtns}
-                      title={trip.location}
+                  <View key={idx} style={styles.tripBtns}>
+                    <TouchableHighlight
                       onPress={() =>
                         navigate('SingleTrip', { location: trip.location })
                       }
-                    />
+                    >
+                      <Text style={styles.card}>{trip.location}</Text>
+                    </TouchableHighlight>
                   </View>
                 );
               })
@@ -146,6 +130,9 @@ const styles = StyleSheet.create({
     width: 300,
     backgroundColor: '#aaaaaa',
   },
+  card: {
+    color: 'white',
+  },
   footer: {
     position: 'absolute',
     left: 0,
@@ -159,6 +146,9 @@ const styles = StyleSheet.create({
   },
   tripBtns: {
     padding: 10,
+    backgroundColor: '#aaaaaa',
+    margin: 20,
+    alignItems: 'center',
   },
   navBtns: {
     paddingLeft: 30,
