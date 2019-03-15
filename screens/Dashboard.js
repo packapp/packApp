@@ -83,6 +83,7 @@ class Dashboard extends React.Component {
           {/* {this.props.user.places ? (
             <Text>{this.props.user.places.Singapore.location}</Text>
           ) : null} */}
+          <Text>Alpha</Text>
           {this.props.alphaTrips.length > 0 ? (
             this.props.alphaTrips.map((trip, idx) => {
               return (
@@ -99,6 +100,7 @@ class Dashboard extends React.Component {
           ) : (
             <Text>You are not the Alpha for any trips yet!</Text>
           )}
+          <Text>Pack</Text>
           {this.props.packTrips.length > 0 ? (
             this.props.packTrips.map((trip, idx) => {
               return (
@@ -137,6 +139,7 @@ const styles = StyleSheet.create({
   cardContainer: {
     flex: 1,
     width: 300,
+    backgroundColor: '#aaaaaa',
   },
 });
 
