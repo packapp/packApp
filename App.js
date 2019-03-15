@@ -4,7 +4,6 @@ import { createStackNavigator, createAppContainer, createBottomTabNavigator } fr
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import store from './store/index';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 // import the different screens
 import Loading from './screens/Loading';
 import SignUp from './screens/SignUp';
@@ -16,7 +15,6 @@ import Itinerary from './screens/Itinerary';
 import Todos from './screens/Todos';
 import Profile from './screens/Profile';
 import Howl from './screens/Howl';
-import { Icon } from 'react-native-elements';
 
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
@@ -53,6 +51,18 @@ const AppStackNavigator = createStackNavigator(
     },
     Todos: {
       screen: Todos
+    },
+    Howl: {
+      screen: Howl,
+      navigationOptions: {
+        headerLeft: null,
+      },
+    },
+    Profile: {
+      screen: Profile,
+      navigationOptions: {
+        headerLeft: null,
+      },
     }
   },
   {
@@ -60,42 +70,7 @@ const AppStackNavigator = createStackNavigator(
   }
 );
 
-const NavBar = createBottomTabNavigator(
-  {
-    Howl: {
-      screen: Howl
-    },
-    Dashboard: AppStackNavigator,
-    Profile: {
-      screen: Profile
-    }
-  },
-  {
-    defaultNavigationOptions: ({navigation}) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
-        let IconComponent = Ionicons;
-        let iconName;
-        if (routeName === 'Howl') {
-          iconName = 'ios-chatbubbles';
-        } else if (routeName === 'Dashboard') {
-          iconName = 'ios-home';
-        } else {
-          iconName = 'ios-person';
-        }
-        return <IconComponent name={iconName} size={25} color={tintColor} />
-      }
-    })
-  },
-  {
-    tabBarOptions: {
-      activeTintColor: 'black',
-      inactiveTintColor: 'gray'
-    }
-  }
-);
-
-const AppContainer = createAppContainer(NavBar);
+const AppContainer = createAppContainer(AppStackNavigator);
 
 export default class App extends Component {
   render() {
