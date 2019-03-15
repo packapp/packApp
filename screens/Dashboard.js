@@ -35,12 +35,12 @@ class Dashboard extends React.Component {
     this.props.fetchAlphaTrips(userId);
     this.props.fetchPackTrips(userId);
     //testing if fetch single trip works:
-    this.props.fetchSingleTrip('Antarctica');
-    this.props.fetchUsers([
-      'H4hILMW5zgQSWHq2pGbrcAAsvbE3',
-      'Zoap5Oj0UlXbQuNKQYawbpo1aP13',
-      'xSnhikuzZMZBAkzC7hhOrlik5j62',
-    ]);
+    // this.props.fetchSingleTrip('Antarctica');
+    // this.props.fetchUsers([
+    //   'H4hILMW5zgQSWHq2pGbrcAAsvbE3',
+    //   'Zoap5Oj0UlXbQuNKQYawbpo1aP13',
+    //   'xSnhikuzZMZBAkzC7hhOrlik5j62',
+    // ]);
   }
 
   handleLogOut() {

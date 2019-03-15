@@ -33,10 +33,10 @@ export const fetchUsers = userIdArr => dispatch => {
 };
 
 // REDUCER
-export default (state = initialState, action) => {
+export default (state = [], action) => {
   switch (action.type) {
     case SET_USERS:
-      return { ...state, users: action.users };
+      return action.users;
     default:
       return state;
   }
