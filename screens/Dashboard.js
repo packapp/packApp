@@ -41,9 +41,14 @@ class Dashboard extends React.Component {
 
   render() {
     const { currentUser } = this.state;
-    if (this.props.user.places) {
+    if (this.props.places) {
       //debugger;
-      console.log('USER', this.props.user.places.Singapore);
+      console.log(
+        'USER',
+        Object.keys(this.props.places).map(place => {
+          return this.props.places[place].expert;
+        })
+      );
     } else {
       console.log('USER');
     }
@@ -55,9 +60,9 @@ class Dashboard extends React.Component {
           <Icon reverse name="add" type="material" color="#ff9933" />
         </View>
         <View style={styles.container}>
-          {/* {this.props.user ? (
-            <Text>{this.props.user.user.places['Singapore']}</Text>
-          ) : null} */}
+          {this.props.user.places ? (
+            <Text>{this.props.user.places.Singapore.location}</Text>
+          ) : null}
           <Button title="Log Out" onPress={this.handleLogOut} />
         </View>
       </ScrollView>
@@ -81,6 +86,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     user: state.user.user,
+    places: state.user.user.places,
   };
 };
 
