@@ -8,6 +8,7 @@ import Loading from './screens/Loading';
 import SignUp from './screens/SignUp';
 import Login from './screens/Login';
 import Dashboard from './screens/Dashboard';
+import SingleTrip from './screens/SingleTrip'
 import store from './store/index';
 // create our app's navigation stack
 
@@ -34,6 +35,9 @@ const AppStackNavigator = createStackNavigator(
         headerLeft: null,
       },
     },
+    SingleTrip: {
+      screen: SingleTrip
+    }
   },
   {
     initialRouteName: 'Loading',

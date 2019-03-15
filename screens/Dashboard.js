@@ -41,17 +41,13 @@ class Dashboard extends React.Component {
 
   render() {
     const { currentUser } = this.state;
-    if (this.props.places) {
-      //debugger;
-      console.log(
-        'USER',
-        Object.keys(this.props.places).map(place => {
-          return this.props.places[place].expert;
-        })
-      );
-    } else {
-      console.log('USER');
-    }
+    const { navigate } = this.props.navigation;
+    // if (this.props.user.places) {
+    //   //debugger;
+    //   console.log('USER', this.props.user.places.Singapore);
+    // } else {
+    //   console.log('USER');
+    // }
     return (
       // <View>
 
@@ -64,6 +60,7 @@ class Dashboard extends React.Component {
             <Text>{this.props.user.places.Singapore.location}</Text>
           ) : null}
           <Button title="Log Out" onPress={this.handleLogOut} />
+          <Button title="single trip" onPress={() => navigate('SingleTrip')} />
         </View>
       </ScrollView>
     );
