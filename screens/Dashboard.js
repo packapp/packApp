@@ -10,7 +10,7 @@ import {
   Button,
 } from 'react-native';
 import firebase from '../server/config';
-import { Icon } from 'react-native-elements';
+import { Icon, Card, PricingCard } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchUser } from '../store/user';
 import {
@@ -80,9 +80,41 @@ class Dashboard extends React.Component {
           <Icon reverse name="add" type="material" color="#ff9933" />
         </View>
         <View style={styles.container}>
-          {this.props.user.places ? (
+          {/* {this.props.user.places ? (
             <Text>{this.props.user.places.Singapore.location}</Text>
-          ) : null}
+          ) : null} */}
+          {this.props.alphaTrips.length > 0 ? (
+            this.props.alphaTrips.map((trip, idx) => {
+              return (
+                <View style={styles.cardContainer} key={idx}>
+                  <Button
+                    title={trip.location}
+                    onPress={() =>
+                      navigate('SingleTrip', { location: trip.location })
+                    }
+                  />
+                </View>
+              );
+            })
+          ) : (
+            <Text>You are not the Alpha for any trips yet!</Text>
+          )}
+          {this.props.packTrips.length > 0 ? (
+            this.props.packTrips.map((trip, idx) => {
+              return (
+                <View style={styles.cardContainer} key={idx}>
+                  <Button
+                    title={trip.location}
+                    onPress={() =>
+                      navigate('SingleTrip', { location: trip.location })
+                    }
+                  />
+                </View>
+              );
+            })
+          ) : (
+            <Text>You have not joined any packs yet!</Text>
+          )}
           <Button title="Log Out" onPress={this.handleLogOut} />
           <Button title="single trip" onPress={() => navigate('SingleTrip')} />
         </View>
@@ -102,6 +134,10 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
   },
+  cardContainer: {
+    flex: 1,
+    width: 300,
+  },
 });
 
 const mapStateToProps = state => {
@@ -109,6 +145,8 @@ const mapStateToProps = state => {
     user: state.user.user,
     places: state.user.user.places,
     selectedTrip: state.trip.selectedTrip,
+    alphaTrips: state.trip.alpha,
+    packTrips: state.trip.pack,
   };
 };
 
