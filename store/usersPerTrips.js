@@ -2,9 +2,6 @@ import firebase from '../server/config';
 // ACTION TYPES
 
 // INITIAL STATE
-const initialState = {
-  users: [],
-};
 
 // ACTION CREATORS
 export const SET_USERS = 'SET_USERS';
@@ -15,18 +12,19 @@ export const gotUsers = users => ({
 });
 
 // THUNK CREATORS
-export const fetchUsers = userIdArr => dispatch => {
+export const fetchUsers = userIdArr => async dispatch => {
   try {
     const db = firebase.firestore();
     const usersRef = db.collection('users');
-    const users = [];
-    userIdArr.forEach(async userId => {
+    //const users = [];
+    const users = userIdArr.map(async userId => {
       let userRef = usersRef.doc(userId);
       const query = await userRef.get();
       const user = query.data();
-      users.push(user);
+      return user;
     });
-    dispatch(gotUsers(users));
+    const usersArr = await Promise.all(users);
+    dispatch(gotUsers(usersArr));
   } catch (err) {
     console.error(err);
   }

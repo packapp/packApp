@@ -1,6 +1,10 @@
 {
   "users": {
     "H4hILMW5zgQSWHq2pGbrcAAsvbE3": {
+      "firstName": "Grant",
+      "lastName": "Wiess",
+      "email": "grant.sweiss@gmail.com",
+      "imgUrl": "https://www.pngarts.com/files/3/Avatar-Transparent-Image.png",
       "places": {
         "Yosemite": {
           "location": "Yosemite",
@@ -17,6 +21,10 @@
       }
     },
     "Zoap5Oj0UlXbQuNKQYawbpo1aP13": {
+      "firstName": "Tori",
+      "lastName": "Pope",
+      "email": "toricpope@gmail.com",
+      "imgUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNngF0RFPjyGl4ybo78-XYxxeap88Nvsyj1_txm6L4eheH8ZBu",
       "places": {
         "Philippines": {
           "location": "Philippines",
@@ -33,6 +41,10 @@
       }
     },
     "xSnhikuzZMZBAkzC7hhOrlik5j62": {
+      "firstName": "Steffeni",
+      "lastName": "Veren",
+      "email": "steffveren@gmail.com",
+      "imgUrl": "https://cdn.iconscout.com/icon/free/png-256/avatar-369-456321.png",
       "places": {
         "South Africa": {
           "location": "South Africa",
@@ -54,7 +66,7 @@
       "name": "Bora Bora",
       "location": "Bora Bora",
       "imageUrl": "https://www.fourseasons.com/content/dam/fourseasons/images/web/BOR/BOR_306_original.jpg",
-      "host": "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
+      "host": "H4hILMW5zgQSWHq2pGbrcAAsvbE3",
       "attendees": [
         "Zoap5Oj0UlXbQuNKQYawbpo1aP13",
         "xSnhikuzZMZBAkzC7hhOrlik5j62"

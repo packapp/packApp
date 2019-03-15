@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchFlights } from '../store/flight';
-import { PricingCard, Tile } from 'react-native-elements';
+import { PricingCard, Tile, Avatar } from 'react-native-elements';
 import {fetchSingleTrip} from '../store/trip'
 import {fetchUsers} from '../store/usersPerTrips'
 
@@ -22,7 +22,7 @@ export class SingleTrip extends Component {
 
     // console.log('USERS', userIds)
     if (this.props.users) {
-      console.log('USERS', this.props.users)
+      console.log('TRIP', this.props.trip)
     }
     return (
       <ScrollView>
@@ -34,6 +34,17 @@ export class SingleTrip extends Component {
             caption={`Start date: something - Endate: something`}
             height={200}
           />
+            <ScrollView horizontal={true} contentContainerStyle={styles.contentContainer}>
+              {this.props.users ? this.props.users.map(user => (
+                <Avatar
+                  size="medium"
+                  key={user.firstName}
+                  rounded
+                  source={{uri:`${user.imgUrl}`}}
+                  containerStyle={{flex: 2, marginLeft: 20, marginTop: 5}}
+                  />
+              )) : (<Text>No users</Text>)}
+            </ScrollView>
           {this.props.flights.Carriers ? (
             this.props.flights.Carriers.map(carrier => (
               <PricingCard
@@ -55,6 +66,12 @@ export class SingleTrip extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  contentContainer: {
+    paddingVertical: 20
+  }
+});
 
 const mapState = state => {
   return {
