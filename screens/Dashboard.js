@@ -10,7 +10,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import firebase from '../server/config';
-import { Icon, Card, PricingCard, Button } from 'react-native-elements';
+import { Icon, Card, PricingCard, Button, Avatar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchUser } from '../store/user';
 import {
@@ -20,6 +20,7 @@ import {
 } from '../store/trip';
 import { fetchUsers } from '../store/usersPerTrips';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import ProgressCircle from 'react-native-progress-circle';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -46,6 +47,13 @@ class Dashboard extends React.Component {
   render() {
     const { currentUser } = this.state;
     const { navigate } = this.props.navigation;
+    // const alphaTodos = this.props.alphaTrips.map(trip => {
+    //   return trip.todos;
+    // });
+    // const packTodos = this.props.packTrips.map(trip => {
+    //   return trip.todos;
+    // });
+    // console.log(alphaTodos, packTodos);
     return (
       <View style={{ flex: 1 }}>
         <ScrollView>
@@ -55,24 +63,23 @@ class Dashboard extends React.Component {
           <View>
             {this.props.alphaTrips.length > 0 ? (
               this.props.alphaTrips.map((trip, idx) => {
-                return (
-                  <View key={idx}>
-                    <TouchableHighlight
-                      style={styles.tripBtns}
-                      onPress={() =>
-                        navigate('SingleTrip', { location: trip.location })
-                      }
-                    >
-                      <Text>{trip.location}</Text>
-                    </TouchableHighlight>
-                  </View>
-                );
-              })
-            ) : (
-              <Text>You are not the Alpha for any trips yet!</Text>
-            )}
-            {this.props.packTrips.length > 0 ? (
-              this.props.packTrips.map((trip, idx) => {
+                const todosTotal = Object.keys(trip.todos)
+                  .reduce((acc, key) => {
+                    return acc.concat(
+                      trip.todos[key].map(obj => obj.completed)
+                    );
+                  }, [])
+                  .reduce(
+                    (acc, bool) => {
+                      bool ? (acc.true += 1) : (acc.false += 1);
+                      return acc;
+                    },
+                    { true: 0, false: 0 }
+                  );
+                const percentage =
+                  (todosTotal.true / (todosTotal.true + todosTotal.false)) *
+                  100;
+                console.log('TODOS TOTAL', todosTotal);
                 return (
                   <View key={idx} style={styles.tripBtns}>
                     <TouchableHighlight
@@ -82,6 +89,80 @@ class Dashboard extends React.Component {
                     >
                       <Text style={styles.card}>{trip.location}</Text>
                     </TouchableHighlight>
+                    <ProgressCircle
+                      percent={percentage}
+                      radius={30}
+                      borderWidth={8}
+                      color="#66cc66"
+                      shadowColor="#999"
+                      bgColor="#aaaaaa"
+                    >
+                      <Avatar
+                        size="medium"
+                        key={trip.location}
+                        rounded
+                        source={{ uri: `${trip.imageUrl}` }}
+                        containerStyle={{
+                          flex: 2,
+                          // marginLeft: 15,
+                          // marginTop: 5,
+                        }}
+                      />
+                    </ProgressCircle>
+                  </View>
+                );
+              })
+            ) : (
+              <Text>You are not the Alpha for any trips yet!</Text>
+            )}
+            {this.props.packTrips.length > 0 ? (
+              this.props.packTrips.map((trip, idx) => {
+                const todosTotal = Object.keys(trip.todos)
+                  .reduce((acc, key) => {
+                    return acc.concat(
+                      trip.todos[key].map(obj => obj.completed)
+                    );
+                  }, [])
+                  .reduce(
+                    (acc, bool) => {
+                      bool ? (acc.true += 1) : (acc.false += 1);
+                      return acc;
+                    },
+                    { true: 0, false: 0 }
+                  );
+                const percentage =
+                  (todosTotal.true / (todosTotal.true + todosTotal.false)) *
+                  100;
+                console.log('TODOS TOTAL', todosTotal, percentage);
+                return (
+                  <View key={idx} style={styles.tripBtns}>
+                    <TouchableHighlight
+                      onPress={() =>
+                        navigate('SingleTrip', { location: trip.location })
+                      }
+                    >
+                      <Text style={styles.card}>{trip.location}</Text>
+                    </TouchableHighlight>
+                    <ProgressCircle
+                      percent={percentage}
+                      radius={30}
+                      borderWidth={8}
+                      color="#66cc66"
+                      shadowColor="#999"
+                      bgColor="#aaaaaa"
+                    >
+                      <Avatar
+                        size="medium"
+                        key={trip.location}
+                        rounded
+                        source={{ uri: `${trip.imageUrl}` }}
+                        containerStyle={{
+                          flex: 2,
+                          // marginLeft: 15,
+                          // marginTop: 5,
+                        }}
+                      />
+                    </ProgressCircle>
                   </View>
                 );
               })
@@ -132,6 +213,8 @@ const styles = StyleSheet.create({
   },
   card: {
     color: 'white',
+    fontFamily: 'Verdana',
+    fontSize: 30,
   },
   footer: {
     position: 'absolute',
@@ -149,6 +232,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#aaaaaa',
     margin: 20,
     alignItems: 'center',
+    borderRadius: 10,
   },
   navBtns: {
     paddingLeft: 30,
