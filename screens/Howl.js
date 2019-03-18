@@ -6,15 +6,16 @@ import { GiftedChat } from 'react-native-gifted-chat';
 
 export default class Howl extends Component {
   render(){
+    const user = this.props.navigation.state.params.user;
     return(
-      <KeyboardAvoidingView style={{ flex: 1 }}>
+      <KeyboardAvoidingView style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
           <GiftedChat
           />
-        <View style={{flex: .2}}/>
+        <View style={{flex: .11}}/>
         <View style={styles.footer}>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#ff9933"/>} />
+          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="black"/>} />
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile')}/>
+          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user })}/>
         </View>
       </KeyboardAvoidingView>
     );
@@ -31,10 +32,10 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     height: 70,
-    backgroundColor: '#f8f8f8',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: 'white'
   },
   navBtns: {
     paddingLeft: 30,

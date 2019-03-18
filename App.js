@@ -1,7 +1,5 @@
-import { StyleSheet, Platform, Image, Text, View } from 'react-native';
 import React, { Component } from 'react';
-import { createStackNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation';
-import { createStore } from 'redux';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { Provider } from 'react-redux';
 import store from './store/index';
 // import the different screens
@@ -16,6 +14,7 @@ import Todos from './screens/Todos';
 import Profile from './screens/Profile';
 import Howl from './screens/Howl';
 import Flights from './screens/Flights'
+import Places from './screens/Places';
 
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
@@ -64,6 +63,9 @@ const AppStackNavigator = createStackNavigator(
     },
     Flights : {
       screen: Flights
+    },
+    Places: {
+      screen: Places
     }
   },
   {

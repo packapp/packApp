@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Text, View, Image, ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchFlights } from '../store/flight';
-import { PricingCard, Tile, Avatar, Divider} from 'react-native-elements';
+import { PricingCard, Tile, Avatar, Divider, Button} from 'react-native-elements';
 import {fetchSingleTrip} from '../store/trip'
 import {fetchUsers} from '../store/usersPerTrips'
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export class SingleTrip extends Component {
  async componentDidMount() {
@@ -25,6 +26,7 @@ export class SingleTrip extends Component {
       console.log('TRIP', this.props.trip)
     }
     return (
+      <View style={{ flex: 1 }}>
       <ScrollView>
         <View style={{ flex: 1, justifyContent: 'top'}}>
           <Tile
@@ -78,6 +80,12 @@ export class SingleTrip extends Component {
         <Divider style={{ backgroundColor: 'gray', marginTop: 15}} />
         <Text style={{marginTop: 30, marginLeft: 20, fontSize: 20}}>Recent activity</Text>
       </ScrollView>
+      <View style={styles.footer}>
+        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user })}/>
+        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
+        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="black"/>} />
+        </View>
+      </View>
     );
   }
 }
@@ -85,6 +93,21 @@ export class SingleTrip extends Component {
 const styles = StyleSheet.create({
   contentContainer: {
     paddingVertical: 20,
+  },
+  footer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 70,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'white'
+  },
+  navBtns: {
+    paddingLeft: 30,
+    paddingRight: 30
   }
 });
 
