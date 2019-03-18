@@ -7,13 +7,13 @@ export default class Todos extends Component {
     console.log('FLIGHTS FLIGHTS', flights)
     return(
       <View>
-        <Header
+        {/* <Header
           centerComponent={{ text: 'Flights', style: { color: '#fff', fontSize: 24}}}
           containerStyle={{
             backgroundColor: "#aaaaaa",
             justifyContent: 'space-around',
           }}
-        />
+        /> */}
         <ScrollView style={{marginBottom: 50}}>
           <View style={{ flex: 1, justifyContent: 'top', alignItems: 'center' }}>
             {flights.Carriers ? (

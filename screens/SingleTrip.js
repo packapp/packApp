@@ -21,6 +21,7 @@ export class SingleTrip extends Component {
   }
   render() {
     const { navigate } = this.props.navigation
+    const user = this.props.navigation.state.params.user;
     // console.log('USERS', userIds)
     if (this.props.users) {
       console.log('TRIP', this.props.trip)
@@ -71,7 +72,7 @@ export class SingleTrip extends Component {
                 size="large"
                 rounded
                 icon={{name: 'calendar', color: 'white', type: 'font-awesome'}}
-                onPress={() => navigate('Todos')}
+                onPress={() => navigate('Itinerary')}
                 activeOpacity={0.7}
                 containerStyle={{marginLeft: 20, marginTop: 5, marginRight: 20}}
               />
@@ -83,7 +84,7 @@ export class SingleTrip extends Component {
       <View style={styles.footer}>
         <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user })}/>
         <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
-        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="black"/>} />
+        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="#aaaaaa"/>} />
         </View>
       </View>
     );
