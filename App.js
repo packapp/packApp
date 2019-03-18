@@ -13,6 +13,7 @@ import Itinerary from './screens/Itinerary';
 import Todos from './screens/Todos';
 import Profile from './screens/Profile';
 import Howl from './screens/Howl';
+import Flights from './screens/Flights'
 import TripCard from './screens/TripCard';
 import Places from './screens/Places';
 import HowlChat from './screens/HowlChat';
@@ -64,6 +65,9 @@ const AppStackNavigator = createStackNavigator(
       navigationOptions: {
         headerLeft: null,
       },
+    },
+    Flights : {
+      screen: Flights
     },
     Places: {
       screen: Places,
