@@ -5,6 +5,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase from '../server/config';
 
 export default class Profile extends Component {
+  static navigationOptions = {
+    title: 'Profile'
+  }
+
   constructor(props) {
     super(props);
     this.handleLogOut = this.handleLogOut.bind(this);

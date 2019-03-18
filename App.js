@@ -15,6 +15,7 @@ import Profile from './screens/Profile';
 import Howl from './screens/Howl';
 import TripCard from './screens/TripCard';
 import Places from './screens/Places';
+import HowlChat from './screens/HowlChat';
 
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
@@ -54,6 +55,9 @@ const AppStackNavigator = createStackNavigator(
     },
     Howl: {
       screen: Howl,
+      navigationOptions: {
+        headerLeft: null,
+      },
     },
     TripCard: {
       screen: TripCard,
@@ -66,6 +70,9 @@ const AppStackNavigator = createStackNavigator(
     },
     Places: {
       screen: Places,
+    },
+    HowlChat: {
+      screen: HowlChat
     }
   },
   {
