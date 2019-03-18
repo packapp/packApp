@@ -14,6 +14,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import TripCard from './TripCard';
 
 class Dashboard extends React.Component {
+  static navigationOptions = {
+    title: 'Dashboard',
+  };
   constructor(props) {
     super(props);
   }

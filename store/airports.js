@@ -1,0 +1,32 @@
+import firebase from '../server/config'; // ACTION TYPES
+
+// ACTION CREATORS
+export const SET_AIRPORT = 'SET_AIRPORT';
+
+export const gotAirport = airport => ({
+  type: SET_AIRPORT,
+  airport,
+});
+
+// THUNK CREATORS
+export const fetchAirport = cityName => async dispatch => {
+  try {
+    const db = firebase.firestore();
+    const airportsRef = db.collection('airports');
+    const query = await airportsRef.where('city', '==', cityName).get();
+    const airport = query.docs.map(doc => doc.data().code);
+    dispatch(gotAirport(airport));
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// REDUCER
+export default (state = [], action) => {
+  switch (action.type) {
+    case SET_AIRPORT:
+      return action.airport;
+    default:
+      return state;
+  }
+};

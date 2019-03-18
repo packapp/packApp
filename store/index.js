@@ -7,6 +7,7 @@ import todos from './todos';
 import itinerary from './itinerary';
 import flight from './flight';
 import users from './usersPerTrips';
+import airports from './airports';
 
 const reducer = combineReducers({
   user,
@@ -15,6 +16,7 @@ const reducer = combineReducers({
   itinerary,
   flight,
   users,
+  airports,
 });
 const middleWare = applyMiddleware(
   thunkMiddleware,
@@ -29,3 +31,4 @@ export * from './todos';
 export * from './itinerary';
 export * from './flight';
 export * from './usersPerTrips';
+export * from './airports';
