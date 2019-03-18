@@ -1,10 +1,10 @@
 {
-  "expoServerPort": 19000,
-  "expoServerNgrokUrl": "https://6s-twg.toricpope.packapp.exp.direct",
-  "packagerNgrokUrl": "https://packager.6s-twg.toricpope.packapp.exp.direct",
-  "ngrokPid": 96992,
   "devToolsPort": 19002,
-  "packagerPort": 19001,
-  "packagerPid": 96971
-
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
+  "webpackServerPort": null
 }
