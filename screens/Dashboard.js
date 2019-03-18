@@ -1,16 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Platform,
-  Image,
-  Text,
-  ScrollView,
-  FlatList,
-  View,
-  // Button,
-} from 'react-native';
+import { StyleSheet, ScrollView, View } from 'react-native';
 import firebase from '../server/config';
-import { Icon, Card, PricingCard, Button } from 'react-native-elements';
+import { Icon, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchUser } from '../store/user';
 import {
@@ -20,6 +11,7 @@ import {
 } from '../store/trip';
 import { fetchUsers } from '../store/usersPerTrips';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import TripCard from './TripCard';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -34,78 +26,29 @@ class Dashboard extends React.Component {
     this.props.fetchUser(userId);
     this.props.fetchAlphaTrips(userId);
     this.props.fetchPackTrips(userId);
-    //testing if fetch single trip works:
-    // this.props.fetchSingleTrip('Antarctica');
-    // this.props.fetchUsers([
-    //   'H4hILMW5zgQSWHq2pGbrcAAsvbE3',
-    //   'Zoap5Oj0UlXbQuNKQYawbpo1aP13',
-    //   'xSnhikuzZMZBAkzC7hhOrlik5j62',
-    // ]);
   }
 
   render() {
     const { currentUser } = this.state;
     const { navigate } = this.props.navigation;
-    // if (this.props.user.places) {
-    //   //debugger;
-    //   console.log('USER', this.props.user.places.Singapore);
-    // } else {
-    //   console.log('USER');
-    // }
-    //for use in singleTrips:
-    let userIds = [];
-    if (this.props.selectedTrip.attendees) {
-      userIds = [...this.props.selectedTrip.attendees];
-      userIds.push(this.props.selectedTrip.host);
-    }
-
-    console.log(userIds);
     return (
       <View style={{ flex: 1 }}>
         <ScrollView>
           <View style={styles.buttonContainer}>
-            <Icon reverse name="add" type="material" color="#ff9933" />
+            <Icon
+              reverse
+              name="add"
+              type="material"
+              color="#ff9933"
+              onPress={() => navigate('NewTrip')}
+            />
           </View>
-          <View style={styles.container}>
-            {/* {this.props.user.places ? (
-              <Text>{this.props.user.places.Singapore.location}</Text>
-            ) : null} */}
-            {this.props.alphaTrips.length > 0 ? (
-              this.props.alphaTrips.map((trip, idx) => {
-                return (
-                  <View style={styles.cardContainer} key={idx}>
-                    <Button
-                      title={trip.location}
-                      style={styles.tripBtns}
-                      onPress={() =>
-                        navigate('SingleTrip', { location: trip.location })
-                      }
-                    />
-                  </View>
-                );
-              })
-            ) : (
-              <Text>You are not the Alpha for any trips yet!</Text>
-            )}
-            {this.props.packTrips.length > 0 ? (
-              this.props.packTrips.map((trip, idx) => {
-                return (
-                  <View style={styles.cardContainer} key={idx}>
-                    <Button
-                      style={styles.tripBtns}
-                      title={trip.location}
-                      onPress={() =>
-                        navigate('SingleTrip', { location: trip.location })
-                      }
-                    />
-                  </View>
-                );
-              })
-            ) : (
-              <Text>You have not joined any packs yet!</Text>
-            )}
+          <View>
+            <TripCard trips={this.props.alphaTrips} navigate={navigate} />
+            <TripCard trips={this.props.packTrips} navigate={navigate} />
           </View>
         </ScrollView>
+        <View style={{ height: 50 }} />
         <View style={styles.footer}>
           <Button
             style={styles.navBtns}
@@ -131,20 +74,10 @@ class Dashboard extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
   buttonContainer: {
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'flex-end',
-  },
-  cardContainer: {
-    flex: 1,
-    width: 300,
-    backgroundColor: '#aaaaaa',
   },
   footer: {
     position: 'absolute',
@@ -156,9 +89,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'white'
-  },
-  tripBtns: {
-    padding: 10,
   },
   navBtns: {
     paddingLeft: 30,
