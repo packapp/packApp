@@ -41,25 +41,25 @@ export default class Howl extends Component {
     };
   }
 
-  async componentDidMount() {
-    const db = firebase.firestore();
-    const usersRef = db.collection('users');
-    const query = await usersRef.get();
-    let users = [];
-    query.forEach(doc => {
-      users.push(doc.data());
-    });
-    this.setState = ({
-      users
-    });
-  }
+  // async componentDidMount() {
+  //   const db = firebase.firestore();
+  //   const usersRef = db.collection('users');
+  //   const query = await usersRef.get();
+  //   let users = [];
+  //   query.forEach(doc => {
+  //     users.push(doc.data());
+  //   });
+  //   this.setState = ({
+  //     users
+  //   });
+  // }
 
   renderRow = ({item}) => {
     const user = this.props.navigation.state.params.user;
     return(
       item.email !== user.email ?
-        <TouchableOpacity style={styles.divider} onPress={() => this.props.navigation.navigate('HowlChat', { person: item.firstName })}>
-          <Text style={styles.name}>{item.firstName}</Text>
+        <TouchableOpacity style={styles.divider} onPress={() => this.props.navigation.navigate('HowlChat', {item, user})}>
+          <Text style={styles.name}>{item.firstName} {item.lastName}</Text>
         </TouchableOpacity>
       : null
     );
