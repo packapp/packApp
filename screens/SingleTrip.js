@@ -40,7 +40,7 @@ export class SingleTrip extends Component {
           <ScrollView horizontal={true} contentContainerStyle={styles.contentContainer}>
             {this.props.users ? this.props.users.map(user => (
               <Avatar
-                size="medium"
+                size="small"
                 key={user.firstName}
                 rounded
                 source={{uri:`${user.imgUrl}`}}
@@ -65,7 +65,7 @@ export class SingleTrip extends Component {
                 icon={{name: 'plane', color: 'white', type: 'font-awesome'}}
                 onPress={() => navigate('Flights', { flights: this.props.flights})}
                 activeOpacity={0.7}
-                containerStyle={{marginLeft: 20, marginTop: 5}}
+                containerStyle={{marginLeft: 15, marginTop: 5}}
                 avatarStyle={{backgroundColor:'#66cc66' }}
               />
               <Avatar
@@ -74,7 +74,7 @@ export class SingleTrip extends Component {
                 icon={{name: 'calendar', color: 'white', type: 'font-awesome'}}
                 onPress={() => navigate('Itinerary')}
                 activeOpacity={0.7}
-                containerStyle={{marginLeft: 20, marginTop: 5, marginRight: 20}}
+                containerStyle={{marginLeft: 15, marginTop: 5, marginRight: 20}}
               />
             </View>
         </View>
@@ -93,7 +93,7 @@ export class SingleTrip extends Component {
 
 const styles = StyleSheet.create({
   contentContainer: {
-    paddingVertical: 20,
+    paddingVertical: 15,
   },
   footer: {
     position: 'absolute',
