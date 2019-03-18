@@ -1,6 +1,10 @@
 import { StyleSheet, Platform, Image, Text, View } from 'react-native';
 import React, { Component } from 'react';
-import { createStackNavigator, createAppContainer, createBottomTabNavigator } from 'react-navigation';
+import {
+  createStackNavigator,
+  createAppContainer,
+  createBottomTabNavigator,
+} from 'react-navigation';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import store from './store/index';
@@ -15,6 +19,7 @@ import Itinerary from './screens/Itinerary';
 import Todos from './screens/Todos';
 import Profile from './screens/Profile';
 import Howl from './screens/Howl';
+import TripCard from './screens/TripCard';
 
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
@@ -41,26 +46,29 @@ const AppStackNavigator = createStackNavigator(
       },
     },
     SingleTrip: {
-      screen: SingleTrip
+      screen: SingleTrip,
     },
     NewTrip: {
-      screen: NewTrip
+      screen: NewTrip,
     },
     Itinerary: {
-      screen: Itinerary
+      screen: Itinerary,
     },
     Todos: {
-      screen: Todos
+      screen: Todos,
     },
     Howl: {
       screen: Howl,
+    },
+    TripCard: {
+      screen: TripCard,
     },
     Profile: {
       screen: Profile,
       navigationOptions: {
         headerLeft: null,
       },
-    }
+    },
   },
   {
     initialRouteName: 'Loading',

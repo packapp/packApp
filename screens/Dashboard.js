@@ -21,6 +21,7 @@ import {
 import { fetchUsers } from '../store/usersPerTrips';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProgressCircle from 'react-native-progress-circle';
+import TripCard from './TripCard';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -35,25 +36,11 @@ class Dashboard extends React.Component {
     this.props.fetchUser(userId);
     this.props.fetchAlphaTrips(userId);
     this.props.fetchPackTrips(userId);
-    //testing if fetch single trip works:
-    // this.props.fetchSingleTrip('Antarctica');
-    // this.props.fetchUsers([
-    //   'H4hILMW5zgQSWHq2pGbrcAAsvbE3',
-    //   'Zoap5Oj0UlXbQuNKQYawbpo1aP13',
-    //   'xSnhikuzZMZBAkzC7hhOrlik5j62',
-    // ]);
   }
 
   render() {
     const { currentUser } = this.state;
     const { navigate } = this.props.navigation;
-    // const alphaTodos = this.props.alphaTrips.map(trip => {
-    //   return trip.todos;
-    // });
-    // const packTodos = this.props.packTrips.map(trip => {
-    //   return trip.todos;
-    // });
-    // console.log(alphaTodos, packTodos);
     return (
       <View style={{ flex: 1 }}>
         <ScrollView>
@@ -61,7 +48,9 @@ class Dashboard extends React.Component {
             <Icon reverse name="add" type="material" color="#ff9933" />
           </View>
           <View>
-            {this.props.alphaTrips.length > 0 ? (
+            <TripCard trips={this.props.alphaTrips} navigate={navigate} />
+            <TripCard trips={this.props.packTrips} navigate={navigate} />
+            {/* {this.props.alphaTrips.length > 0 ? (
               this.props.alphaTrips.map((trip, idx) => {
                 const todosTotal = Object.keys(trip.todos)
                   .reduce((acc, key) => {
@@ -114,8 +103,8 @@ class Dashboard extends React.Component {
               })
             ) : (
               <Text>You are not the Alpha for any trips yet!</Text>
-            )}
-            {this.props.packTrips.length > 0 ? (
+            )} */}
+            {/* {this.props.packTrips.length > 0 ? (
               this.props.packTrips.map((trip, idx) => {
                 const todosTotal = Object.keys(trip.todos)
                   .reduce((acc, key) => {
@@ -168,7 +157,7 @@ class Dashboard extends React.Component {
               })
             ) : (
               <Text>You have not joined any packs yet!</Text>
-            )}
+            )} */}
           </View>
         </ScrollView>
         <View style={styles.footer}>
