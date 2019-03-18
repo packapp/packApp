@@ -21,7 +21,7 @@ export class SingleTrip extends Component {
   }
   render() {
     const { navigate } = this.props.navigation
-    const user = this.props.navigation.state.params.user;
+    const user = this.props.user;
     // console.log('USERS', userIds)
     if (this.props.users) {
       console.log('TRIP', this.props.trip)
@@ -84,7 +84,7 @@ export class SingleTrip extends Component {
       <View style={styles.footer}>
         <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user })}/>
         <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
-        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="#aaaaaa"/>} />
+        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user })}/>
         </View>
       </View>
     );
@@ -116,7 +116,8 @@ const mapState = state => {
   return {
     flights: state.flight,
     trip: state.trip.selectedTrip,
-    users: state.users
+    users: state.users,
+    user: state.user.user,
   };
 };
 

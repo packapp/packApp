@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
 import { ListItem, Button } from 'react-native-elements'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { connect } from 'react-redux';
 
-export default class Todos extends Component {
+export class Todos extends Component {
   render(){
     const {todos} = this.props.navigation.state.params
-    const user = this.props.navigation.state.params.user
+    const user = this.props.user
     console.log('TODOS', todos)
     const keys = todos ? Object.keys(todos) : ''
     return(
@@ -51,3 +52,14 @@ const styles = StyleSheet.create({
     paddingRight: 30,
   },
 });
+
+const mapState = state => {
+  return {
+    user: state.user.user,
+  };
+};
+
+export default connect(
+  mapState,
+  null
+)(Todos);
