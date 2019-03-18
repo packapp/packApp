@@ -1,23 +1,8 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Platform,
-  Image,
-  Text,
-  ScrollView,
-  FlatList,
-  View,
-  TouchableHighlight,
-} from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import firebase from '../server/config';
-import { Icon, Card, PricingCard, Button, Avatar } from 'react-native-elements';
-import { connect } from 'react-redux';
-import { fetchUser } from '../store/user';
-import {
-  fetchAlphaTrips,
-  fetchPackTrips,
-  fetchSingleTrip,
-} from '../store/trip';
+import { Avatar, Image } from 'react-native-elements';
+
 import ProgressCircle from 'react-native-progress-circle';
 
 export class TripCard extends React.Component {
@@ -40,36 +25,56 @@ export class TripCard extends React.Component {
               );
             const percentage =
               (todosTotal.true / (todosTotal.true + todosTotal.false)) * 100;
-            console.log('TODOS TOTAL', todosTotal);
+            const daysLeft = Math.floor(
+              (Date.parse(trip.startDate.toDate()) - Date.parse(new Date())) /
+                86400000
+            );
             return (
-              <View key={idx} style={styles.tripBtns}>
-                <TouchableHighlight
-                  onPress={() =>
-                    navigate('SingleTrip', { location: trip.location })
-                  }
-                >
-                  <Text style={styles.card}>{trip.location}</Text>
-                </TouchableHighlight>
-                <ProgressCircle
-                  percent={percentage}
-                  radius={30}
-                  borderWidth={8}
-                  color="#66cc66"
-                  shadowColor="#999"
-                  bgColor="#aaaaaa"
-                >
-                  <Avatar
-                    size="medium"
-                    key={trip.location}
-                    rounded
-                    source={{ uri: `${trip.imageUrl}` }}
-                    containerStyle={{
-                      flex: 2,
-                      // marginLeft: 15,
-                      // marginTop: 5,
-                    }}
-                  />
-                </ProgressCircle>
+              <View style={styles.tripCard} key={idx}>
+                <Image
+                  source={{ uri: trip.imageUrl }}
+                  style={{
+                    width: 300,
+                    height: 100,
+                    borderRadius: 10,
+                    marginTop: 10,
+                  }}
+                />
+                <View style={styles.tripBtns}>
+                  <TouchableHighlight
+                    onPress={() =>
+                      navigate('SingleTrip', { location: trip.location })
+                    }
+                  >
+                    <Text style={styles.card}>{trip.location}</Text>
+                  </TouchableHighlight>
+                  <View style={styles.circle}>
+                    <ProgressCircle
+                      percent={percentage}
+                      radius={30}
+                      borderWidth={8}
+                      color="#66cc66"
+                      shadowColor="#999"
+                      bgColor="#aaaaaa"
+                    >
+                      {/* <Avatar
+                        size="medium"
+                        key={trip.location}
+                        rounded
+                        source={{ uri: `${trip.imageUrl}` }}
+                        containerStyle={{
+                          flex: 2,
+                          // marginLeft: 15,
+                          // marginTop: 5,
+                        }}
+                      /> */}
+                      <Text style={{ fontSize: 18, color: 'white' }}>
+                        {Math.floor(percentage)}%
+                      </Text>
+                    </ProgressCircle>
+                  </View>
+                </View>
+                <Text style={styles.card}>{daysLeft} days left!</Text>
               </View>
             );
           })
@@ -82,47 +87,36 @@ export class TripCard extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  tripCard: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  buttonContainer: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-end',
-  },
-  cardContainer: {
-    flex: 1,
-    width: 300,
-    backgroundColor: '#aaaaaa',
-  },
-  card: {
-    color: 'white',
-    fontFamily: 'Verdana',
-    fontSize: 30,
-  },
-  footer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: 70,
-    backgroundColor: '#f8f8f8',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  tripBtns: {
+    flexDirection: 'column',
     padding: 10,
     backgroundColor: '#aaaaaa',
     margin: 20,
     alignItems: 'center',
     borderRadius: 10,
   },
-  navBtns: {
-    paddingLeft: 30,
-    paddingRight: 30,
+  card: {
+    color: 'white',
+    fontFamily: 'Verdana',
+    fontSize: 30,
+    //marginLeft: 30,
+    padding: 10,
+  },
+  tripBtns: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 5,
+    //backgroundColor: '#aaaaaa',
+    marginLeft: 20,
+    marginRight: 20,
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  circle: {
+    flex: 1,
+    alignItems: 'flex-end',
+    marginRight: 20,
   },
 });
 
