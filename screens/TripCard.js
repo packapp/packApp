@@ -74,7 +74,9 @@ export class TripCard extends React.Component {
                     </ProgressCircle>
                   </View>
                 </View>
-                <Text style={styles.card}>{daysLeft} days left!</Text>
+                <Text style={styles.countdown}>
+                  <Text style={styles.countdownNum}>{daysLeft}</Text> days left!
+                </Text>
               </View>
             );
           })
@@ -101,7 +103,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Verdana',
     fontSize: 30,
     //marginLeft: 30,
-    padding: 10,
+    padding: 5,
+    fontWeight: 'bold',
   },
   tripBtns: {
     flex: 1,
@@ -117,6 +120,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-end',
     marginRight: 20,
+  },
+  countdown: {
+    color: 'white',
+    fontFamily: 'Verdana',
+    fontSize: 25,
+    // fontWeight: 'bold',
+    padding: 10,
+  },
+  countdownNum: {
+    color: '#ff9933',
+    fontFamily: 'Verdana',
+    fontSize: 25,
+    fontWeight: 'bold',
+    padding: 10,
   },
 });
 
