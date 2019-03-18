@@ -35,7 +35,13 @@ class Dashboard extends React.Component {
       <View style={{ flex: 1 }}>
         <ScrollView>
           <View style={styles.buttonContainer}>
-            <Icon reverse name="add" type="material" color="#ff9933" />
+            <Icon
+              reverse
+              name="add"
+              type="material"
+              color="#ff9933"
+              onPress={() => navigate('NewTrip')}
+            />
           </View>
           <View>
             <TripCard trips={this.props.alphaTrips} navigate={navigate} />
