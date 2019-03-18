@@ -2,8 +2,15 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://6s-twg.toricpope.packapp.exp.direct",
   "packagerNgrokUrl": "https://packager.6s-twg.toricpope.packapp.exp.direct",
+<<<<<<< HEAD
   "ngrokPid": 3394,
   "devToolsPort": 19002,
   "packagerPort": 19001,
   "packagerPid": 3366
+=======
+  "ngrokPid": 76467,
+  "devToolsPort": 19002,
+  "packagerPort": 19003,
+  "packagerPid": 76431
+>>>>>>> 29bacb3b3009d21a4dfbcdbdd6f22ec591c0d9ee
 }

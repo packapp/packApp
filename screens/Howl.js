@@ -1,8 +1,15 @@
 import React, {Component} from 'react';
+<<<<<<< HEAD
 import { View, FlatList, StyleSheet, TouchableOpacity, Text, SafeAreaView} from 'react-native';
 import { Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase from '../server/config';
+=======
+import { View, Text, StyleSheet, KeyboardAvoidingView} from 'react-native';
+import { Button } from 'react-native-elements';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { GiftedChat } from 'react-native-gifted-chat';
+>>>>>>> 29bacb3b3009d21a4dfbcdbdd6f22ec591c0d9ee
 
 export default class Howl extends Component {
   static navigationOptions = {

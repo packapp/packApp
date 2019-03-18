@@ -5,6 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase from '../server/config';
 
 export default class Profile extends Component {
+<<<<<<< HEAD
   static navigationOptions = {
     title: 'Profile'
   }
@@ -13,6 +14,11 @@ export default class Profile extends Component {
     super(props);
     this.handleLogOut = this.handleLogOut.bind(this);
     this.expertNumCount = this.expertNumCount.bind(this);
+=======
+  constructor(props) {
+    super(props);
+    this.handleLogOut = this.handleLogOut.bind(this);
+>>>>>>> 29bacb3b3009d21a4dfbcdbdd6f22ec591c0d9ee
   }
 
   handleLogOut() {
@@ -27,6 +33,7 @@ export default class Profile extends Component {
       });
   }
 
+<<<<<<< HEAD
   expertNumCount(places) {
     let num = 0;
     places.map(place => {
@@ -35,6 +42,8 @@ export default class Profile extends Component {
     return num;
   }
 
+=======
+>>>>>>> 29bacb3b3009d21a4dfbcdbdd6f22ec591c0d9ee
   render(){
     const user = this.props.navigation.state.params.user;
     const firstName = this.props.navigation.state.params.user.firstName;
@@ -46,6 +55,7 @@ export default class Profile extends Component {
     return(
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
+<<<<<<< HEAD
           {
             user ?
             <View style={styles.profile}>
@@ -68,6 +78,10 @@ export default class Profile extends Component {
             </View>
           </View>
           <Button title="Log Out" style={styles.logOut} onPress={this.handleLogOut} />
+=======
+          <Text>Profile</Text>
+          <Button title="Log Out" onPress={this.handleLogOut} />
+>>>>>>> 29bacb3b3009d21a4dfbcdbdd6f22ec591c0d9ee
         </View>
         <View style={styles.footer}>
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user })}/>

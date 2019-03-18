@@ -16,7 +16,10 @@
     "react-native-cardview": "^2.0.2",
     "react-native-elements": "^1.1.0",
     "react-native-gifted-chat": "^0.7.2",
+<<<<<<< HEAD
     "react-native-progress-circle": "^2.0.1",
+=======
+>>>>>>> 29bacb3b3009d21a4dfbcdbdd6f22ec591c0d9ee
     "react-native-vector-icons": "^6.4.1",
     "react-navigation": "^3.3.2",
     "react-redux": "^6.0.1",
