@@ -1,4 +1,3 @@
-import { StyleSheet, Platform, Image, Text, View } from 'react-native';
 import React, { Component } from 'react';
 import {
   createStackNavigator,
@@ -19,7 +18,10 @@ import Itinerary from './screens/Itinerary';
 import Todos from './screens/Todos';
 import Profile from './screens/Profile';
 import Howl from './screens/Howl';
+import Flights from './screens/Flights';
 import TripCard from './screens/TripCard';
+import Places from './screens/Places';
+import HowlChat from './screens/HowlChat';
 
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
@@ -68,6 +70,15 @@ const AppStackNavigator = createStackNavigator(
       navigationOptions: {
         headerLeft: null,
       },
+    },
+    Flights: {
+      screen: Flights,
+    },
+    Places: {
+      screen: Places,
+    },
+    HowlChat: {
+      screen: HowlChat,
     },
   },
   {

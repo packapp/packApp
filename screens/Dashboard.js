@@ -35,7 +35,13 @@ class Dashboard extends React.Component {
       <View style={{ flex: 1 }}>
         <ScrollView>
           <View style={styles.buttonContainer}>
-            <Icon reverse name="add" type="material" color="#ff9933" />
+            <Icon
+              reverse
+              name="add"
+              type="material"
+              color="#ff9933"
+              onPress={() => navigate('NewTrip')}
+            />
           </View>
           <View>
             <TripCard trips={this.props.alphaTrips} navigate={navigate} />
@@ -48,18 +54,20 @@ class Dashboard extends React.Component {
             style={styles.navBtns}
             type="clear"
             icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa" />}
-            onPress={() => this.props.navigation.navigate('Howl')}
+            onPress={() =>
+              this.props.navigation.navigate('Howl', { user: this.props.user })
+            }
           />
           <Button
             style={styles.navBtns}
             type="clear"
-            icon={<Ionicons name="ios-home" size={30} color="#ff9933" />}
+            icon={<Ionicons name="ios-home" size={30} color="black" />}
           />
           <Button
             style={styles.navBtns}
             type="clear"
             icon={<Ionicons name="ios-person" size={30} color="#aaaaaa" />}
-            onPress={() => this.props.navigation.navigate('Profile')}
+            onPress={() => navigate('Profile', { user: this.props.user })}
           />
         </View>
       </View>
@@ -79,10 +87,10 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     height: 70,
-    backgroundColor: '#f8f8f8',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    backgroundColor: 'white',
   },
   navBtns: {
     paddingLeft: 30,
