@@ -82,16 +82,11 @@ const AppStackNavigator = createStackNavigator(
       screen: Places,
     },
     HowlChat: {
-<<<<<<< HEAD
       screen: HowlChat,
     },
-=======
-      screen: HowlChat
-    },
     HowlGroup: {
-      screen: HowlGroup
-    }
->>>>>>> master
+      screen: HowlGroup,
+    },
   },
   {
     initialRouteName: 'Loading',
