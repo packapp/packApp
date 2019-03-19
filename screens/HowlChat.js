@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { SafeAreaView, TextInput, StyleSheet, TouchableOpacity, Text, View, FlatList, Dimensions, KeyboardAvoidingView } from 'react-native';
+import { SafeAreaView, TextInput, StyleSheet, TouchableOpacity, Text, View, FlatList, Dimensions, KeyboardAvoidingView, Keyboard,  } from 'react-native';
 import firebase from '../server/config';
 import { fetchMessages } from '../store/messages';
 import { connect } from 'react-redux';
@@ -117,7 +117,7 @@ class HowlChat extends Component {
           />
           : null
         }
-          <View style={{flexDirection: 'row', alignItems: 'center', marginHorizonal: 5, justifySelf: 'flex-end'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginHorizonal: 5, justifySelf: 'flex-end', marginLeft: 10, marginRight: 10}}>
             <TextInput
               style={styles.input}
               value={this.state.message}
@@ -150,7 +150,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(HowlChat);
 
 const styles = StyleSheet.create({
   container: {
-   marginLeft: 10,
    flex: 1
   },
   keyboardContainer: {
@@ -163,7 +162,7 @@ const styles = StyleSheet.create({
     borderColor: '#aaaaaa',
     width: '80%',
     padding: 10,
-    marginBottom: 10,
+    marginBottom: 15,
   },
   button: {
     fontWeight: 'bold',

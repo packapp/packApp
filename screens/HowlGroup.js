@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { SafeAreaView, TextInput, StyleSheet, TouchableOpacity, Text, View, FlatList, Dimensions, KeyboardAvoidingView } from 'react-native';
+import { SafeAreaView, ScrollView, TextInput, StyleSheet, TouchableOpacity, Text, View, FlatList, Dimensions, KeyboardAvoidingView } from 'react-native';
 import firebase from '../server/config';
 import { fetchMessages } from '../store/messages';
 import { fetchUsers } from '../store/usersPerTrips';
@@ -138,31 +138,33 @@ class HowlGroup extends Component {
     const userEmail = this.props.navigation.state.params.user.email;
     const trip = this.props.navigation.state.params.item.location;
     return(
-      <SafeAreaView style={styles.container}>
-        <KeyboardAvoidingView style={styles.keyboardContainer} behavior="padding">
-        {
-          this.props.messages ?
-          <FlatList
-            style={{padding: 10, height: height * .8, marginBottom: 10, flex: 1}}
-            data={this.state.messages}
-            renderItem={this.renderRow}
-            keyExtractor={(item, index) => index.toString()}
-          />
-          : null
-        }
-          <View style={{flexDirection: 'row', alignItems: 'center', marginHorizonal: 5, justifySelf: 'flex-end'}}>
-            <TextInput
-              style={styles.input}
-              value={this.state.message}
-              placeholder="Type message..."
-              onChangeText={this.handleChange('message')}
-            />
-            <TouchableOpacity onPress={() => this.sendMessage(userEmail, trip)} style={{paddingBottom: 10, marginLeft: 5}}>
-              <Text style={styles.button}>Send</Text>
-            </TouchableOpacity>
-          </View>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
+      <KeyboardAvoidingView style={styles.keyboardContainer} behavior="padding" enabled>
+        <SafeAreaView style={styles.container}>
+            <View style={{flex: 1, justifyContent: 'flex-end'}}>
+            {
+              this.props.messages ?
+              <FlatList
+                style={{padding: 10, height: height * .8, marginBottom: 10, flex: 1}}
+                data={this.state.messages}
+                renderItem={this.renderRow}
+                keyExtractor={(item, index) => index.toString()}
+              />
+              : null
+            }
+              <View style={{flexDirection: 'row', alignItems: 'center', marginHorizonal: 5, marginLeft: 10, marginRight: 10}}>
+                <TextInput
+                  style={styles.input}
+                  value={this.state.message}
+                  placeholder="Type message..."
+                  onChangeText={this.handleChange('message')}
+                />
+                <TouchableOpacity onPress={() => this.sendMessage(userEmail, trip)} style={{paddingBottom: 10, marginLeft: 5}}>
+                  <Text style={styles.button}>Send</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+        </SafeAreaView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -185,7 +187,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(HowlGroup);
 
 const styles = StyleSheet.create({
   container: {
-   marginLeft: 10,
    flex: 1
   },
   keyboardContainer: {
@@ -198,7 +199,7 @@ const styles = StyleSheet.create({
     borderColor: '#aaaaaa',
     width: '80%',
     padding: 10,
-    marginBottom: 10,
+    marginBottom: 5,
   },
   button: {
     fontWeight: 'bold',

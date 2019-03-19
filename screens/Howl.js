@@ -61,10 +61,6 @@ class Howl extends Component {
 
   render(){
     const user = this.props.navigation.state.params.user;
-    const userId = this.props.navigation.state.params.userId;
-    console.log('USERID', userId);
-    console.log('ALPHA TRIPS', this.props.alpha);
-    console.log('PACK TRIPS', this.props.pack);
     return(
       <SafeAreaView style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
         {
@@ -84,9 +80,9 @@ class Howl extends Component {
           : null
         }
         <View style={styles.footer}>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="black"/>} />
+          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={25} color="black"/>} />
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user })}/>
+          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user })}/>
         </View>
       </SafeAreaView>
     );
@@ -126,7 +122,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 70,
+    height: 60,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
