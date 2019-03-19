@@ -14,10 +14,23 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import TripCard from './TripCard';
 
 class Dashboard extends React.Component {
+  static navigationOptions = {
+    title: 'Dashboard',
+  };
   constructor(props) {
     super(props);
+    this.tripsRef = firebase.firestore().collection('trips');
+
+    this.state = { currentUser: null, trips: [] };
   }
-  state = { currentUser: null };
+
+  onCollectionUpdate = querySnapshot => {
+    const trips = [];
+    querySnapshot.forEach(doc => {
+      trips.push(doc.data());
+    });
+    this.setState({ trips });
+  };
 
   async componentDidMount() {
     const { currentUser } = await firebase.auth();
@@ -26,6 +39,10 @@ class Dashboard extends React.Component {
     this.props.fetchUser(userId);
     this.props.fetchAlphaTrips(userId);
     this.props.fetchPackTrips(userId);
+    this.unsubcribeTrips = this.tripsRef.onSnapshot(this.onCollectionUpdate);
+  }
+  componentWillUnmount() {
+    this.unsubcribeTrips();
   }
 
   render() {
@@ -40,7 +57,9 @@ class Dashboard extends React.Component {
               name="add"
               type="material"
               color="#ff9933"
-              onPress={() => navigate('NewTrip')}
+              onPress={() =>
+                navigate('NewTrip', { userId: this.state.currentUser.uid })
+              }
             />
           </View>
           <View>
@@ -54,7 +73,12 @@ class Dashboard extends React.Component {
             style={styles.navBtns}
             type="clear"
             icon={<Ionicons name="ios-chatbubbles" size={25} color="#aaaaaa" />}
-            onPress={() => this.props.navigation.navigate('Howl', { user: this.props.user, userId: this.state.currentUser.uid })}
+            onPress={() =>
+              this.props.navigation.navigate('Howl', {
+                user: this.props.user,
+                userId: this.state.currentUser.uid,
+              })
+            }
           />
           <Button
             style={styles.navBtns}
@@ -65,7 +89,12 @@ class Dashboard extends React.Component {
             style={styles.navBtns}
             type="clear"
             icon={<Ionicons name="ios-person" size={25} color="#aaaaaa" />}
-            onPress={() => navigate('Profile', { user: this.props.user, userId: this.state.currentUser.uid })}
+            onPress={() =>
+              navigate('Profile', {
+                user: this.props.user,
+                userId: this.state.currentUser.uid,
+              })
+            }
           />
         </View>
       </View>
@@ -88,7 +117,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   navBtns: {
     paddingLeft: 30,
