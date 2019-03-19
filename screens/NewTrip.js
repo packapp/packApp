@@ -153,7 +153,6 @@ class NewTrip extends Component {
           style={styles.textInput}
           onChangeText={startAirCity => {
             this.setState({ startAirCity });
-            this.props.fetchAirport(startAirCity);
           }}
           value={this.state.startAirCity}
         />
@@ -162,13 +161,14 @@ class NewTrip extends Component {
           type="outline"
           color="#ff9933"
           style={styles.button}
-          onPress={() =>
+          onPress={async () => {
+            await this.props.fetchAirport(this.state.startAirCity);
             this.setState({
               data: this.props.airports.map(airport => {
                 return { value: airport };
               }),
-            })
-          }
+            });
+          }}
         />
         <View style={{ width: 100 }}>
           <Dropdown
@@ -185,7 +185,6 @@ class NewTrip extends Component {
           style={styles.textInput}
           onChangeText={endAirCity => {
             this.setState({ endAirCity });
-            this.props.fetchAirport(endAirCity);
           }}
           value={this.state.endAirCity}
         />
@@ -194,13 +193,14 @@ class NewTrip extends Component {
           type="outline"
           color="#ff9933"
           style={styles.button}
-          onPress={() =>
+          onPress={async () => {
+            await this.props.fetchAirport(this.state.endAirCity);
             this.setState({
               data: this.props.airports.map(airport => {
                 return { value: airport };
               }),
-            })
-          }
+            });
+          }}
         />
         <View style={{ width: 100 }}>
           <Dropdown
