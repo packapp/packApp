@@ -42,7 +42,6 @@ export default class Profile extends Component {
     const email = this.props.navigation.state.params.user.email;
     const places = this.props.navigation.state.params.user.places;
     const imgUrl = this.props.navigation.state.params.user.imgUrl;
-    const numExpert = this.expertNumCount(places);
     return(
       <View style={{ flex: 1 }}>
         <View style={styles.container}>

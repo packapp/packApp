@@ -11,45 +11,26 @@ export default class Howl extends Component {
 
   constructor(props) {
     super(props);
+    this.ref = firebase.firestore().collection('users');
     this.state = {
-      users: [
-        {
-          email: "grant.sweiss@gmail.com",
-          firstName: "Grant",
-          imgUrl: "https://www.pngarts.com/files/3/Avatar-Transparent-Image.png",
-          lastName: "Wiess",
-        },
-        {
-          email: "toricpope@gmail.com",
-          firstName: "Tori",
-          imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNngF0RFPjyGl4ybo78-XYxxeap88Nvsyj1_txm6L4eheH8ZBu",
-          lastName: "Pope"
-        },
-        {
-          email: "derekveren@gmail.com",
-          firstName: "Derek",
-          imageUrl: "",
-          lastName: "Veren",
-        },
-        {
-          email: "steffveren@gmail.com",
-          firstName: "Steffeni",
-          imgUrl: "https://cdn.iconscout.com/icon/free/png-256/avatar-369-456321.png",
-          lastName: "Veren",
-        },
-      ]
+      users: []
     };
   }
 
-  async componentDidMount() {
-    const db = firebase.firestore();
-    const usersRef = db.collection('users');
-    const query = await usersRef.get();
-    let users = [];
-    query.forEach(doc => {
+  componentDidMount() {
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onCollectionUpdate = (querySnapshot) => {
+    const users = [];
+    querySnapshot.forEach(doc => {
       users.push(doc.data());
     });
-    this.setState = ({
+    this.setState({
       users
     });
   }
@@ -58,8 +39,8 @@ export default class Howl extends Component {
     const user = this.props.navigation.state.params.user;
     return(
       item.email !== user.email ?
-        <TouchableOpacity style={styles.divider} onPress={() => this.props.navigation.navigate('HowlChat', { person: item.firstName })}>
-          <Text style={styles.name}>{item.firstName}</Text>
+        <TouchableOpacity style={styles.divider} onPress={() => this.props.navigation.navigate('HowlChat', {item, user})}>
+          <Text style={styles.name}>{item.firstName} {item.lastName}</Text>
         </TouchableOpacity>
       : null
     );

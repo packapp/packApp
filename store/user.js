@@ -3,7 +3,7 @@ import firebase from '../server/config';
 
 // INITIAL STATE
 const initialState = {
-  user: {},
+  user: {}
 };
 
 // ACTION CREATORS
@@ -14,7 +14,6 @@ export const gotUser = user => ({
   user,
 });
 
-// THUNK CREATORS
 export const fetchUser = userId => dispatch => {
   try {
     const db = firebase.firestore();
