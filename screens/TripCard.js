@@ -44,7 +44,7 @@ export class TripCard extends React.Component {
                 <View style={styles.tripBtns}>
                   <TouchableHighlight
                     onPress={() =>
-                      navigate('SingleTrip', { location: trip.location })
+                      navigate('SingleTrip', { location: trip.location, userId: this.props.userId })
                     }
                   >
                     <Text style={styles.card}>{trip.location}</Text>

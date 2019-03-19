@@ -22,41 +22,48 @@ export class SingleTrip extends Component {
   render() {
     const { navigate } = this.props.navigation
     const user = this.props.user;
-    // console.log('USERS', userIds)
-    if (this.props.users) {
-      console.log('TRIP', this.props.trip)
+    const userId = this.props.navigation.state.params.userId
+
+    const onvertTime = (time) => {
+      let date = new Date(null);
+      date.setSeconds(time);
+      return date.toString().slice(0, 16);
     }
+    const date = this.props.trip.startDate ? this.props.trip.startDate.seconds : ''
+    const date2 = this.props.trip.endDate ? this.props.trip.endDate.seconds : ''
+    console.log(date)
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
       <ScrollView>
         <View style={{ flex: 1, justifyContent: 'top'}}>
           <Tile
-            imageSrc={{ uri: 'https://placeimg.com/150/200/nature' }}
+            imageSrc={{ uri: 'https://placeimg.com/320/150/nature' }}
             title={this.props.navigation.state.params.location}
             featured
-            caption={`Start date: ${this.props.trip.startDate} - Endate: something`}
+            caption={`${onvertTime(date)} - ${onvertTime(date2)}`}
+            captionStyle={{fontSize: 16}}
             height={150}
           />
           <ScrollView horizontal={true} contentContainerStyle={styles.contentContainer}>
             {this.props.users ? this.props.users.map(user => (
               <Avatar
-                size="medium"
+                size="small"
                 key={user.firstName}
                 rounded
                 source={{uri:`${user.imgUrl}`}}
-                containerStyle={{flex: 1, marginLeft: 15}}
+                containerStyle={{flex: 1, marginLeft: 5}}
                 />
             )) : (<Text>No users</Text>)}
             </ScrollView>
-            <Divider style={{ backgroundColor: 'gray', marginBottom: 5}} />
+            <Divider style={{ backgroundColor: 'gray', marginBottom: 10}} />
             <View style={{flexDirection: 'row'}}>
               <Avatar
                 size="large"
                 rounded
                 icon={{name: 'check', color: 'white', type: 'font-awesome'}}
-                onPress={() => navigate('Todos', { todos: this.props.trip.todos })}
+                onPress={() => navigate('Todos', { todos: this.props.trip.todos, userId: userId, location: this.props.trip.location })}
                 activeOpacity={0.7}
-                containerStyle={{marginLeft: 15, marginTop: 5}}
+                containerStyle={{marginLeft: 20, marginTop: 5}}
                 avatarStyle={{backgroundColor:'#ff9933' }}
               />
               <Avatar
@@ -77,15 +84,15 @@ export class SingleTrip extends Component {
                 containerStyle={{marginLeft: 20, marginTop: 5, marginRight: 20}}
               />
             </View>
+            <View style={{flex: 1, flexDirection: 'row', marginLeft: 32, marginTop: 10, styles: styles.text}}>
+              <Text style={{flex: 1, fontSize: 16, fontWeight: 'bold', marginLeft: 2}}>Todos</Text>
+              <Text style={{flex: 1, fontSize: 16, fontWeight: 'bold', marginLeft: 27}}>Flights</Text>
+              <Text style={{flex: 3, fontSize: 16, fontWeight: 'bold', marginLeft: 23}}>Itinerary</Text>
+            </View>
         </View>
-        <Divider style={{ backgroundColor: 'gray', marginTop: 15}} />
+        <Divider style={{ backgroundColor: 'gray', marginTop: 20}} />
         <Text style={{marginTop: 30, marginLeft: 20, fontSize: 20}}>Recent activity</Text>
       </ScrollView>
-      <View style={styles.footer}>
-        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user })}/>
-        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
-        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user })}/>
-        </View>
       </View>
     );
   }
@@ -93,7 +100,8 @@ export class SingleTrip extends Component {
 
 const styles = StyleSheet.create({
   contentContainer: {
-    paddingVertical: 20,
+    paddingVertical: 15,
+    paddingLeft: 10
   },
   footer: {
     position: 'absolute',
@@ -109,6 +117,10 @@ const styles = StyleSheet.create({
   navBtns: {
     paddingLeft: 30,
     paddingRight: 30
+  },
+  text: {
+    justifyContent: 'space-between',
+    alignItems: 'flex-start'
   }
 });
 
