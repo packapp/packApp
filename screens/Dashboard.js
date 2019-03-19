@@ -53,19 +53,19 @@ class Dashboard extends React.Component {
           <Button
             style={styles.navBtns}
             type="clear"
-            icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa" />}
-            onPress={() => this.props.navigation.navigate('Howl', { user: this.props.user })}
+            icon={<Ionicons name="ios-chatbubbles" size={25} color="#aaaaaa" />}
+            onPress={() => this.props.navigation.navigate('Howl', { user: this.props.user, userId: this.state.currentUser.uid })}
           />
           <Button
             style={styles.navBtns}
             type="clear"
-            icon={<Ionicons name="ios-home" size={30} color="black" />}
+            icon={<Ionicons name="ios-home" size={25} color="black" />}
           />
           <Button
             style={styles.navBtns}
             type="clear"
-            icon={<Ionicons name="ios-person" size={30} color="#aaaaaa" />}
-            onPress={() => navigate('Profile', { user: this.props.user })}
+            icon={<Ionicons name="ios-person" size={25} color="#aaaaaa" />}
+            onPress={() => navigate('Profile', { user: this.props.user, userId: this.state.currentUser.uid })}
           />
         </View>
       </View>
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 70,
+    height: 60,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
