@@ -67,18 +67,18 @@ export class Todos extends Component {
           />
           ))}
           <View style={{marginLeft: 135, backgroundColor: '#66cc66', borderRadius: 50, width: 150, marginTop: 10}}>
-            <Input
-              placeholder=' Add Todo'
-              containerStyle={{justifyContent: 'center', height: 35, borderWidth: 0}}
-              inputContainerStyle={{borderBottomWidth: 0}}
-              leftIcon={
-                <Icon
-                  name='plus'
-                  size={18}
-                  color='white'
-                />
-              }
-            />
+          <Button
+            buttonStyle={{backgroundColor:'#66cc66', borderRadius: 50}}
+            onPress={() => this.props.navigation.navigate('NewTodo')}
+            icon={
+              <Icon
+                name="check"
+                size={15}
+                color="white"
+              />
+            }
+            title="Add Todo"
+          />
           </View>
         </ScrollView>
         <View style={styles.footer}>

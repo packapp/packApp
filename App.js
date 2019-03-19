@@ -17,7 +17,7 @@ import Flights from './screens/Flights'
 import TripCard from './screens/TripCard';
 import Places from './screens/Places';
 import HowlChat from './screens/HowlChat';
-
+import NewTodo from './screens/NewTodo';
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
   {
@@ -77,6 +77,9 @@ const AppStackNavigator = createStackNavigator(
     },
     HowlChat: {
       screen: HowlChat
+    },
+    NewTodo: {
+      screen: NewTodo
     }
   },
   {
