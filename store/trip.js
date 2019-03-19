@@ -101,6 +101,7 @@ export const createNewTrip = tripData => async dispatch => {
     // const newTripQuery = await tripRef.get();
     // const newTrip = newTripQuery.data();
     // dispatch(gotNewTrip(newTrip));
+    dispatch(fetchAlphaTrips(tripData.host));
   } catch (err) {
     console.error(err);
   }
