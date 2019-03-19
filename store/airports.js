@@ -13,7 +13,7 @@ export const fetchAirport = cityName => async dispatch => {
   try {
     const db = firebase.firestore();
     const airportsRef = db.collection('airports');
-    const query = await airportsRef.where('city', '==', cityName).get();
+    const query = await airportsRef.where('city', '==', cityName.trim()).get();
     const airport = query.docs.map(doc => doc.data().code);
     dispatch(gotAirport(airport));
   } catch (err) {

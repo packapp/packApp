@@ -19,8 +19,18 @@ class Dashboard extends React.Component {
   };
   constructor(props) {
     super(props);
+    this.tripsRef = firebase.firestore().collection('trips');
+
+    this.state = { currentUser: null, trips: [] };
   }
-  state = { currentUser: null };
+
+  onCollectionUpdate = querySnapshot => {
+    const trips = [];
+    querySnapshot.forEach(doc => {
+      trips.push(doc.data());
+    });
+    this.setState({ trips });
+  };
 
   async componentDidMount() {
     const { currentUser } = await firebase.auth();
@@ -29,6 +39,10 @@ class Dashboard extends React.Component {
     this.props.fetchUser(userId);
     this.props.fetchAlphaTrips(userId);
     this.props.fetchPackTrips(userId);
+    this.unsubcribeTrips = this.tripsRef.onSnapshot(this.onCollectionUpdate);
+  }
+  componentWillUnmount() {
+    this.unsubcribeTrips();
   }
 
   render() {
@@ -43,7 +57,9 @@ class Dashboard extends React.Component {
               name="add"
               type="material"
               color="#ff9933"
-              onPress={() => navigate('NewTrip')}
+              onPress={() =>
+                navigate('NewTrip', { userId: this.state.currentUser.uid })
+              }
             />
           </View>
           <View>
