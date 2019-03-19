@@ -81,7 +81,7 @@ class Howl extends Component {
         }
         <View style={styles.footer}>
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={25} color="black"/>} />
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
+          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user })}/>
         </View>
       </SafeAreaView>
