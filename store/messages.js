@@ -15,10 +15,10 @@ const getMessages = messages => ({
 });
 
 // THUNK CREATORS
-export const fetchMessages = (userEmail, personEmail) => async dispatch => {
+export const fetchMessages = (userEmail, messageDoc) => async dispatch => {
   try {
     const db = firebase.firestore();
-    const messagesRef = db.collection('messages').doc(userEmail).collection('messagesWith').doc(personEmail).collection('allMessages');
+    const messagesRef = db.collection('messages').doc(userEmail).collection('messagesWith').doc(messageDoc).collection('allMessages');
     const query = await messagesRef.orderBy('time').get();
     let messages = [];
     query.forEach(doc => {

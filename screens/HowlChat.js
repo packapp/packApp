@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { SafeAreaView, TextInput, StyleSheet, TouchableOpacity, Text, View, FlatList, Dimensions, KeyboardAvoidingView } from 'react-native';
+import { SafeAreaView, TextInput, StyleSheet, TouchableOpacity, Text, View, FlatList, Dimensions, KeyboardAvoidingView, Keyboard,  } from 'react-native';
 import firebase from '../server/config';
 import { fetchMessages } from '../store/messages';
 import { connect } from 'react-redux';
@@ -81,15 +81,15 @@ class HowlChat extends Component {
         flexDirection: 'column',
         width: '60%',
         alignSelf: item.from === user.email ? 'flex-end' : 'flex-start',
-        backgroundColor: item.from === user.email ? '#66cc66' : '#ff9933',
-        borderRadius: 5,
-        marginBottom: 10
+        backgroundColor: item.from === user.email ? '#66cc66' : '#E8E8E8',
+        borderRadius: 7,
+        marginBottom: 10,
       }}>
         <View style={{flexDirection: 'row', paddingLeft: 7, paddingRight: 7, paddingTop: 7, alignItems: 'center'}}>
-          <Text style={{color: '#eee', fontSize: 16, fontWeight: 'bold', paddingRight: 5}}>{fromName}</Text>
-          <Text style={{color: '#eee', fontSize: 12}}>{this.convertTime(item.time.seconds)}</Text>
+          <Text style={{color: item.from === user.email ? '#eee' : 'black', fontSize: 16, fontWeight: 'bold', paddingRight: 5}}>{fromName}</Text>
+          <Text style={{color: item.from === user.email ? '#eee' : 'black', fontSize: 12}}>{this.convertTime(item.time.seconds)}</Text>
         </View>
-        <Text style={{color: '#fff', padding: 7, fontSize: 16}}>{item.message}</Text>
+        <Text style={{color: item.from === user.email ? '#fff' : 'black', padding: 7, fontSize: 16}}>{item.message}</Text>
       </View>
     );
   }
@@ -117,7 +117,7 @@ class HowlChat extends Component {
           />
           : null
         }
-          <View style={{flexDirection: 'row', alignItems: 'center', marginHorizonal: 5, justifySelf: 'flex-end'}}>
+          <View style={{flexDirection: 'row', alignItems: 'center', marginHorizonal: 5, justifySelf: 'flex-end', marginLeft: 10, marginRight: 10}}>
             <TextInput
               style={styles.input}
               value={this.state.message}
@@ -150,7 +150,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(HowlChat);
 
 const styles = StyleSheet.create({
   container: {
-   marginLeft: 10,
    flex: 1
   },
   keyboardContainer: {
@@ -163,12 +162,13 @@ const styles = StyleSheet.create({
     borderColor: '#aaaaaa',
     width: '80%',
     padding: 10,
-    marginBottom: 10,
+    marginBottom: 15,
   },
   button: {
     fontWeight: 'bold',
     fontSize: 20,
     paddingRight: 10,
-    paddingLeft: 5
+    paddingLeft: 5,
+    color: '#ff9933'
   }
 });
