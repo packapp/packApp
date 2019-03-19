@@ -1,10 +1,10 @@
 {
-  "expoServerPort": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerPort": 19000,
+  "expoServerNgrokUrl": "https://6s-twg.anonymous.packapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.6s-twg.anonymous.packapp.exp.direct",
+  "ngrokPid": 12779,
   "devToolsPort": 19002,
-  "packagerPort": null,
-  "packagerPid": null,
+  "packagerPort": 19001,
+  "packagerPid": 12762,
   "webpackServerPort": null
 }
