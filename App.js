@@ -61,6 +61,9 @@ const AppStackNavigator = createStackNavigator(
     },
     Howl: {
       screen: Howl,
+      navigationOptions: {
+        headerLeft: null,
+      },
     },
     TripCard: {
       screen: TripCard,
