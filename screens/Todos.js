@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { ListItem, Button, CheckBox } from 'react-native-elements'
+import { ListItem, Button, CheckBox, Input } from 'react-native-elements'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import {fetchTodos} from '../store/todos'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export class Todos extends Component {
   constructor() {
@@ -56,7 +57,6 @@ export class Todos extends Component {
             )) : <Text>No todos</Text>}
           </View>
           <Text style={{marginTop: 30, marginLeft: 20, marginBottom: 2, fontSize: 24, fontWeight: 'bold'}}>Your Todos</Text>
-
           {todoFilter(todos, userId).map((elem, idx) => (
             <CheckBox
               key={idx}
@@ -66,6 +66,20 @@ export class Todos extends Component {
               containerStyle={{backgroundColor: '#fefcf5'}}
           />
           ))}
+          <View style={{marginLeft: 135, backgroundColor: '#66cc66', borderRadius: 50, width: 150, marginTop: 10}}>
+            <Input
+              placeholder=' Add Todo'
+              containerStyle={{justifyContent: 'center', height: 35, borderWidth: 0}}
+              inputContainerStyle={{borderBottomWidth: 0}}
+              leftIcon={
+                <Icon
+                  name='plus'
+                  size={18}
+                  color='white'
+                />
+              }
+            />
+          </View>
         </ScrollView>
         <View style={styles.footer}>
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user })}/>
