@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import {
+  createStackNavigator,
+  createAppContainer,
+  createBottomTabNavigator,
+} from 'react-navigation';
+import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import store from './store/index';
 // import the different screens
@@ -71,21 +76,21 @@ const AppStackNavigator = createStackNavigator(
         headerLeft: null,
       },
     },
-    Flights : {
-      screen: Flights
+    Flights: {
+      screen: Flights,
     },
     Places: {
       screen: Places,
     },
     HowlChat: {
-      screen: HowlChat
+      screen: HowlChat,
     },
     NewTodo: {
       screen: NewTodo
     },
     HowlGroup: {
-      screen: HowlGroup
-    }
+      screen: HowlGroup,
+    },
   },
   {
     initialRouteName: 'Loading',

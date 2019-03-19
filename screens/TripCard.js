@@ -23,8 +23,9 @@ export class TripCard extends React.Component {
                 },
                 { true: 0, false: 0 }
               );
-            const percentage =
-              (todosTotal.true / (todosTotal.true + todosTotal.false)) * 100;
+            const percentage = todosTotal.true
+              ? (todosTotal.true / (todosTotal.true + todosTotal.false)) * 100
+              : 0;
             const daysLeft = Math.floor(
               (Date.parse(trip.startDate.toDate()) - Date.parse(new Date())) /
                 86400000

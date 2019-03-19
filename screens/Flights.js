@@ -41,11 +41,6 @@ export class Flights extends Component {
               )}
           </View>
         </ScrollView>
-        <View style={styles.footer}>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user })}/>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user })}/>
-        </View>
       </View>
     );
   }
@@ -55,21 +50,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingVertical: 20,
     alignItems: 'center'
-  },
-  footer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: 70,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'white'
-  },
-  navBtns: {
-    paddingLeft: 30,
-    paddingRight: 30,
   },
 });
 

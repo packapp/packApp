@@ -38,7 +38,7 @@ export class Todos extends Component {
         })
         return todosPerPerson;
     };
-    console.log(this.state)
+    console.log(this.props)
     const keys = todos ? Object.keys(todos) : ''
     return(
       <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
@@ -69,7 +69,7 @@ export class Todos extends Component {
           <View style={{marginLeft: 135, backgroundColor: '#66cc66', borderRadius: 50, width: 150, marginTop: 10}}>
           <Button
             buttonStyle={{backgroundColor:'#66cc66', borderRadius: 50}}
-            onPress={() => this.props.navigation.navigate('NewTodo')}
+            onPress={() => this.props.navigation.navigate('NewTodo', {userId: userId, location: this.props.navigation.state.params.location, todos: this.props.navigation.state.params.todos})}
             icon={
               <Icon
                 name="check"
@@ -81,33 +81,10 @@ export class Todos extends Component {
           />
           </View>
         </ScrollView>
-        <View style={styles.footer}>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user })}/>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user })}/>
-        </View>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  footer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    height: 70,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    backgroundColor: 'white'
-  },
-  navBtns: {
-    paddingLeft: 30,
-    paddingRight: 30,
-  },
-});
 
 const mapState = state => {
   return {

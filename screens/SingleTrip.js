@@ -61,7 +61,7 @@ export class SingleTrip extends Component {
                 size="large"
                 rounded
                 icon={{name: 'check', color: 'white', type: 'font-awesome'}}
-                onPress={() => navigate('Todos', { todos: this.props.trip.todos, userId: userId })}
+                onPress={() => navigate('Todos', { todos: this.props.trip.todos, userId: userId, location: this.props.trip.location })}
                 activeOpacity={0.7}
                 containerStyle={{marginLeft: 20, marginTop: 5}}
                 avatarStyle={{backgroundColor:'#ff9933' }}
@@ -93,11 +93,6 @@ export class SingleTrip extends Component {
         <Divider style={{ backgroundColor: 'gray', marginTop: 20}} />
         <Text style={{marginTop: 30, marginLeft: 20, fontSize: 20}}>Recent activity</Text>
       </ScrollView>
-      <View style={styles.footer}>
-        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user })}/>
-        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
-        <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={30} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user })}/>
-        </View>
       </View>
     );
   }
