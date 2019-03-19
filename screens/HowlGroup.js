@@ -2,37 +2,50 @@ import React, {Component} from 'react';
 import { SafeAreaView, TextInput, StyleSheet, TouchableOpacity, Text, View, FlatList, Dimensions, KeyboardAvoidingView } from 'react-native';
 import firebase from '../server/config';
 import { fetchMessages } from '../store/messages';
+import { fetchUsers } from '../store/usersPerTrips';
 import { connect } from 'react-redux';
 
-class HowlChat extends Component {
+class HowlGroup extends Component {
   static navigationOptions = ({navigation}) => {
     return {
-      title: navigation.state.params.item.firstName
+      title: navigation.state.params.item.location
     };
   }
 
   constructor(props) {
     super(props);
-    this.ref = firebase.firestore().collection('messages').doc(this.props.navigation.state.params.user.email).collection('messagesWith').doc(this.props.navigation.state.params.item.email).collection('allMessages').orderBy('time');
+    this.ref = firebase.firestore().collection('messages').doc(this.props.navigation.state.params.user.email).collection('messagesWith').doc(this.props.navigation.state.params.item.location).collection('allMessages').orderBy('time');
     this.unsubscribe = null;
+    this.usersRef = firebase.firestore().collection('users');
     this.state = {
       message: '',
-      messages: []
+      messages: [],
+      users: []
     };
   }
 
   async componentDidMount() {
     const userEmail = this.props.navigation.state.params.user.email;
-    const personEmail = this.props.navigation.state.params.item.email;
-    const messages = await this.props.fetchMessages(userEmail, personEmail);
+    const trip = this.props.navigation.state.params.item.location;
+    const messages = await this.props.fetchMessages(userEmail, trip);
     this.setState({
       messages
     });
+
+    let userIds = [];
+    if (this.props.navigation.state.params.item.attendees) {
+      userIds = [...this.props.navigation.state.params.item.attendees];
+      userIds.push(this.props.navigation.state.params.item.host);
+    }
+    this.props.fetchUsers(userIds);
+
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+    this.unsubscribeUsers = this.usersRef.onSnapshot(this.onUsersCollectionUpdate);
   }
 
   componentWillUnmount() {
     this.unsubscribe();
+    this.unsubscribeUsers();
   }
 
   onCollectionUpdate = (querySnapshot) => {
@@ -45,13 +58,23 @@ class HowlChat extends Component {
     });
   }
 
+  onUsersCollectionUpdate = (querySnapshot) => {
+    const users = [];
+    querySnapshot.forEach(doc => {
+      users.push(doc.data());
+    });
+    this.setState({
+      users
+    });
+  }
+
   handleChange = key => val => {
     this.setState({
       [key]: val
     });
   }
 
-  async sendMessage(userEmail, personEmail) {
+  async sendMessage(userEmail, trip) {
     let message = {
       message: this.state.message,
       time: new Date(),
@@ -60,22 +83,32 @@ class HowlChat extends Component {
     const db = firebase.firestore();
     const messagesRef = db.collection('messages');
     if (this.state.message.length > 0) {
-      await messagesRef.doc(userEmail).collection('messagesWith').doc(personEmail).collection('allMessages').add(message);
-
-      await messagesRef.doc(personEmail).collection('messagesWith').doc(userEmail).collection('allMessages').add(message);
+      this.props.usersPerTrip.forEach((user) =>
+        (
+          messagesRef.doc(user.email).collection('messagesWith').doc(trip).collection('allMessages').add(message)
+        )
+      );
 
       this.setState({
         message: ''
       });
 
-      await this.props.fetchMessages(userEmail, personEmail);
+      await this.props.fetchMessages(userEmail, trip);
     }
+  }
+
+  getName = (email) => {
+    let userName;
+    this.state.users.map(user => {
+      if (email === user.email)
+      userName = user.firstName;
+    });
+    return userName;
   }
 
   renderRow = ({item}) => {
     const user = this.props.navigation.state.params.user;
-    const person = this.props.navigation.state.params.item;
-    const fromName = item.from === user.email ? user.firstName : person.firstName;
+    const fromName = this.getName(item.from);
     return(
       <View style={{
         flexDirection: 'column',
@@ -103,7 +136,7 @@ class HowlChat extends Component {
   render(){
     let { height, width } = Dimensions.get('window');
     const userEmail = this.props.navigation.state.params.user.email;
-    const personEmail = this.props.navigation.state.params.item.email;
+    const trip = this.props.navigation.state.params.item.location;
     return(
       <SafeAreaView style={styles.container}>
         <KeyboardAvoidingView style={styles.keyboardContainer} behavior="padding">
@@ -124,7 +157,7 @@ class HowlChat extends Component {
               placeholder="Type message..."
               onChangeText={this.handleChange('message')}
             />
-            <TouchableOpacity onPress={() => this.sendMessage(userEmail, personEmail)} style={{paddingBottom: 10, marginLeft: 5}}>
+            <TouchableOpacity onPress={() => this.sendMessage(userEmail, trip)} style={{paddingBottom: 10, marginLeft: 5}}>
               <Text style={styles.button}>Send</Text>
             </TouchableOpacity>
           </View>
@@ -136,17 +169,19 @@ class HowlChat extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    messages: state.messages.messages
+    messages: state.messages.messages,
+    usersPerTrip: state.users
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchMessages: (userEmail, personEmail) => dispatch(fetchMessages(userEmail, personEmail))
+    fetchMessages: (userEmail, trip) => dispatch(fetchMessages(userEmail, trip)),
+    fetchUsers: (userIds) => dispatch(fetchUsers(userIds))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HowlChat);
+export default connect(mapStateToProps, mapDispatchToProps)(HowlGroup);
 
 const styles = StyleSheet.create({
   container: {

@@ -54,7 +54,7 @@ class Dashboard extends React.Component {
             style={styles.navBtns}
             type="clear"
             icon={<Ionicons name="ios-chatbubbles" size={30} color="#aaaaaa" />}
-            onPress={() => this.props.navigation.navigate('Howl', { user: this.props.user })}
+            onPress={() => this.props.navigation.navigate('Howl', { user: this.props.user, userId: this.state.currentUser.uid })}
           />
           <Button
             style={styles.navBtns}
@@ -65,7 +65,7 @@ class Dashboard extends React.Component {
             style={styles.navBtns}
             type="clear"
             icon={<Ionicons name="ios-person" size={30} color="#aaaaaa" />}
-            onPress={() => navigate('Profile', { user: this.props.user })}
+            onPress={() => navigate('Profile', { user: this.props.user, userId: this.state.currentUser.uid })}
           />
         </View>
       </View>
