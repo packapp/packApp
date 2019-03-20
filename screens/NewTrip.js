@@ -64,7 +64,7 @@ class NewTrip extends Component {
         })
       : [];
     const userId = this.props.navigation.state.params.userId;
-    console.log('USERID', userId);
+
     return (
       <ScrollView>
         <Text style={styles.header}>create a new pack</Text>
@@ -215,7 +215,6 @@ class NewTrip extends Component {
               value={this.state.startAirport}
               onChangeText={value => {
                 this.setState({ startAirport: value });
-                console.log(this.state);
               }}
             />
           </View>
@@ -264,7 +263,6 @@ class NewTrip extends Component {
               value={this.state.endAirport}
               onChangeText={value => {
                 this.setState({ endAirport: value });
-                console.log(this.state);
               }}
             />
           </View>
@@ -294,7 +292,6 @@ class NewTrip extends Component {
           submitButtonColor="#CCC"
           submitButtonText="Submit"
         />
-        {/* {console.log('statePACK', this.state.selectedItems)} */}
         <View style={{ height: 100 }} />
         <View style={{ backgroundColor: '#ff9933', borderRadius: 10 }}>
           <Button

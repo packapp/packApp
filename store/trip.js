@@ -83,7 +83,7 @@ export const fetchSingleTrip = tripName => async dispatch => {
 
 export const createNewTrip = tripData => async dispatch => {
   try {
-    console.log(tripData);
+
     const itineraryArray = [
       {
         time: new Date(tripData.startDate),

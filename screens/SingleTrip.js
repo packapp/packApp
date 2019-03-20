@@ -79,7 +79,6 @@ export class SingleTrip extends Component {
             },
             { true: 0, false: 0 }
           );
-          console.log('usertotal', userTodoTotal);
 
           usersTodoTotal.push(userTodoTotal);
         }, [])
@@ -112,9 +111,6 @@ export class SingleTrip extends Component {
         });
       });
     }
-    usersTodoTotal
-      ? console.log('percentages', percentages, 'USERS', this.props.users)
-      : console.log('notReady');
     return (
       <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
         <ScrollView>
@@ -166,6 +162,9 @@ export class SingleTrip extends Component {
                     todos: this.props.trip.todos,
                     userId: userId,
                     location: this.props.trip.location,
+
+                    users: this.props.users,
+
                   })
                 }
                 activeOpacity={0.7}
@@ -186,6 +185,7 @@ export class SingleTrip extends Component {
               <Avatar
                 size="large"
                 rounded
+
                 icon={{name: 'calendar', color: 'white', type: 'font-awesome'}}
                 onPress={() => navigate('Itinerary', {trip: this.props.trip})}
                 activeOpacity={0.7}
