@@ -162,6 +162,7 @@ export class SingleTrip extends Component {
                     todos: this.props.trip.todos,
                     userId: userId,
                     location: this.props.trip.location,
+
                     users: this.props.users,
                   })
                 }
@@ -188,7 +189,7 @@ export class SingleTrip extends Component {
                   color: 'white',
                   type: 'font-awesome',
                 }}
-                onPress={() => navigate('Itinerary')}
+                onPress={() => navigate('Itinerary', { trip: this.props.trip })}
                 activeOpacity={0.7}
                 containerStyle={{
                   marginLeft: 20,
