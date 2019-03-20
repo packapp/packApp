@@ -20,7 +20,7 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.tripsRef = firebase.firestore().collection('trips');
-
+    this.unsubcribeTrips = null;
     this.state = { currentUser: null, trips: [] };
   }
 
@@ -48,7 +48,7 @@ class Dashboard extends React.Component {
   render() {
     const { currentUser } = this.state;
     const { navigate } = this.props.navigation;
-    const userId = currentUser ? currentUser.uid : 'test'
+    const userId = currentUser ? currentUser.uid : 'test';
     return (
       <View style={{ flex: 1 }}>
         <ScrollView>
@@ -64,8 +64,16 @@ class Dashboard extends React.Component {
             />
           </View>
           <View>
-            <TripCard trips={this.props.alphaTrips} navigate={navigate} userId={userId}/>
-            <TripCard trips={this.props.packTrips} navigate={navigate} userId={userId}/>
+            <TripCard
+              trips={this.props.alphaTrips}
+              navigate={navigate}
+              userId={userId}
+            />
+            <TripCard
+              trips={this.props.packTrips}
+              navigate={navigate}
+              userId={userId}
+            />
           </View>
         </ScrollView>
         <View style={{ height: 50 }} />

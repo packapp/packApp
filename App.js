@@ -86,7 +86,7 @@ const AppStackNavigator = createStackNavigator(
       screen: HowlChat,
     },
     NewTodo: {
-      screen: NewTodo
+      screen: NewTodo,
     },
     HowlGroup: {
       screen: HowlGroup,
