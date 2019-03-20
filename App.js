@@ -93,15 +93,12 @@ const AppStackNavigator = createStackNavigator(
     HowlGroup: {
       screen: HowlGroup,
     },
-<<<<<<< HEAD
     NewItin: {
       screen: NewItin,
     },
-=======
     PendingItinerary: {
-      screen: PendingItinerary
-    }
->>>>>>> master
+      screen: PendingItinerary,
+    },
   },
   {
     initialRouteName: 'Loading',
