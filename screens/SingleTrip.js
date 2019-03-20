@@ -6,6 +6,7 @@ import { PricingCard, Tile, Avatar, Divider, Button} from 'react-native-elements
 import {fetchSingleTrip} from '../store/trip'
 import {fetchUsers} from '../store/usersPerTrips'
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import RecentActivity from './RecentActivity';
 
 export class SingleTrip extends Component {
  async componentDidMount() {
@@ -96,6 +97,9 @@ export class SingleTrip extends Component {
         </View>
         <Divider style={{ backgroundColor: 'gray', marginTop: 20}} />
         <Text style={{marginTop: 30, marginLeft: 20, fontSize: 20}}>Recent activity</Text>
+        <View>
+          <RecentActivity trip={this.props.navigation.state.params.location} />
+        </View>
       </ScrollView>
       </View>
     );

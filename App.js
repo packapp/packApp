@@ -24,7 +24,7 @@ import Places from './screens/Places';
 import HowlChat from './screens/HowlChat';
 import NewTodo from './screens/NewTodo';
 import HowlGroup from './screens/HowlGroup';
-
+import RecentActivity from './screens/RecentActivity'
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
   {
@@ -91,6 +91,9 @@ const AppStackNavigator = createStackNavigator(
     HowlGroup: {
       screen: HowlGroup,
     },
+    RecentActivity: {
+      screen: RecentActivity
+    }
   },
   {
     initialRouteName: 'Loading',
