@@ -63,7 +63,7 @@ export default class Profile extends Component {
           }
           <View style={styles.cards}>
             <View style={styles.card}>
-              <Badge value={places.length} status="warning" onPress={() => this.props.navigation.navigate('Places', places)} />
+              <Badge value={places.length} status="warning" onPress={() => this.props.navigation.navigate('Places', { places, email, userId })} />
               <Text>Places Visited</Text>
             </View>
           </View>
