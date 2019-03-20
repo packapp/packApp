@@ -2,9 +2,9 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://wa-tpn.toricpope.packapp.exp.direct",
   "packagerNgrokUrl": "https://packager.wa-tpn.toricpope.packapp.exp.direct",
-  "ngrokPid": 73863,
+  "ngrokPid": 85831,
   "devToolsPort": 19002,
   "packagerPort": 19006,
-  "packagerPid": 73833,
+  "packagerPid": 85795,
   "webpackServerPort": null
 }

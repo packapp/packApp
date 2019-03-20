@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Button, Avatar, Badge } from 'react-native-elements';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Button, Avatar } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase from '../server/config';
 
@@ -63,11 +63,13 @@ export default class Profile extends Component {
           }
           <View style={styles.cards}>
             <View style={styles.card}>
-              <Badge value={places.length} status="warning" onPress={() => this.props.navigation.navigate('Places', { places, email, userId })} />
+              <TouchableOpacity style={styles.numPlacesBtn} onPress={() => this.props.navigation.navigate('Places', { places, email, userId })}>
+                <Text style={styles.numPlaces}>{places.length}</Text>
+              </TouchableOpacity>
               <Text>Places Visited</Text>
             </View>
           </View>
-          <Button title="Log Out" style={styles.logOut} onPress={this.handleLogOut} />
+          <Button title="Log Out" type='outline' style={styles.logOut} onPress={this.handleLogOut} />
         </View>
         <View style={styles.footer}>
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user, userId })}/>
@@ -112,6 +114,22 @@ const styles = StyleSheet.create({
     padding: 20,
     alignSelf: 'center',
     fontFamily: 'Verdana'
+  },
+  numPlacesBtn: {
+    borderWidth:1,
+    borderColor:'#ff9933',
+    alignItems:'center',
+    justifyContent:'center',
+    alignSelf: 'center',
+    width:30,
+    height:30,
+    backgroundColor:'#ff9933',
+    borderRadius:50,
+    marginBottom: 10
+  },
+  numPlaces: {
+    fontWeight: 'bold',
+    color: '#f8f8f8'
   },
   logOut: {
     paddingTop: 10,

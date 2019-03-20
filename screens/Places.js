@@ -15,7 +15,10 @@ class Places extends Component {
     this.state = {
       alert: false,
       place: '',
-      places: []
+      places: [],
+      expertPlace: '',
+      expertAddAlert: false,
+      expertRemoveAlert: false
     };
   }
 
@@ -53,7 +56,7 @@ class Places extends Component {
     });
   }
 
-  handleAdd = async () => {
+  handleAddPlace = async () => {
     const place = this.state.place;
     const places = this.props.navigation.state.params.places;
     const userId = this.props.navigation.state.params.userId;
@@ -65,6 +68,41 @@ class Places extends Component {
     this.setState({
       place: '',
       alert: false
+    });
+  }
+
+  handleAddExpert = (location) => {
+    this.setState({
+      expertPlace: location,
+      expertAddAlert: true
+    });
+  }
+
+  handleRemoveExpert = (location) => {
+    this.setState({
+      expertPlace: location,
+      expertRemoveAlert: true
+    });
+  }
+
+  handleUpdate = async (addOrRemove) => {
+    let boolean = false;
+    if (addOrRemove === 'add') boolean = true;
+    const userId = this.props.navigation.state.params.userId;
+    const db = firebase.firestore();
+    const userRef = await db.collection('users').doc(userId);
+    const userRefData = await userRef.get();
+    const placesData = userRefData.data().places;
+    const updatedPlaces = placesData.map(place => {
+      if (place.location !== this.state.expertPlace) return place;
+      return {...place, expert: boolean};
+    });
+    await userRef.update({
+      places: updatedPlaces
+    });
+    this.setState({
+      expertAddAlert: false,
+      expertRemoveAlert: false
     });
   }
 
@@ -89,7 +127,7 @@ class Places extends Component {
               key={i}
               title={item.location}
               style={styles.place}
-              rightIcon={item.expert ? <Icon name="ios-ribbon" color="#ff9933" size={30} /> : null}
+              rightIcon={<Icon name="ios-ribbon" color={item.expert ? '#ff9933' : '#f8f8f8'} size={30} onPress={item.expert ? () => this.handleRemoveExpert(item.location) : () => this.handleAddExpert(item.location)}/>}
               />
               );
             })
@@ -100,7 +138,21 @@ class Places extends Component {
             <Dialog.Title>Add new place</Dialog.Title>
             <Dialog.Input onChangeText={(place) => this.setState({place})}/>
             <Dialog.Button label="Cancel" onPress={() => this.setState({alert: false})}/>
-            <Dialog.Button label="OK" onPress={() => this.handleAdd()}/>
+            <Dialog.Button label="OK" onPress={() => this.handleAddPlace()}/>
+          </Dialog.Container>
+        </View>
+        <View>
+          <Dialog.Container visible={this.state.expertAddAlert}>
+            <Dialog.Title>Add expert badge for {this.state.expertPlace}?</Dialog.Title>
+            <Dialog.Button label="Cancel" onPress={() => this.setState({expertAddAlert: false})}/>
+            <Dialog.Button label="OK" onPress={() => this.handleUpdate('add')}/>
+          </Dialog.Container>
+        </View>
+        <View>
+          <Dialog.Container visible={this.state.expertRemoveAlert}>
+            <Dialog.Title>Remove expert badge for {this.state.expertPlace}?</Dialog.Title>
+            <Dialog.Button label="Cancel" onPress={() => this.setState({expertRemoveAlert: false})}/>
+            <Dialog.Button label="OK" onPress={() => this.handleUpdate('remove')}/>
           </Dialog.Container>
         </View>
       </ScrollView>
