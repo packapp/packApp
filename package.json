@@ -24,6 +24,7 @@
     "react-native-multiple-select": "^0.4.4",
     "react-native-progress-circle": "^2.0.1",
     "react-native-sectioned-multi-select": "^0.6.5",
+    "react-native-timeline-listview": "^0.2.3",
     "react-native-vector-icons": "^6.4.1",
     "react-navigation": "^3.3.2",
     "react-redux": "^6.0.1",

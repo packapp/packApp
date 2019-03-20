@@ -79,7 +79,7 @@ export class SingleTrip extends Component {
                 size="large"
                 rounded
                 icon={{name: 'calendar', color: 'white', type: 'font-awesome'}}
-                onPress={() => navigate('Itinerary')}
+                onPress={() => navigate('Itinerary', {trip: this.props.trip})}
                 activeOpacity={0.7}
                 containerStyle={{marginLeft: 20, marginTop: 5, marginRight: 20}}
               />
