@@ -21,7 +21,7 @@ export const fetchUsers = userIdArr => async dispatch => {
       let userRef = usersRef.doc(userId);
       const query = await userRef.get();
       const user = query.data();
-      return user;
+      return { userId, ...user };
     });
     const usersArr = await Promise.all(users);
     dispatch(gotUsers(usersArr));
