@@ -1,84 +1,126 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { ListItem, Button, CheckBox, Input } from 'react-native-elements'
+import { ListItem, Button, CheckBox, Input } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
-import {fetchTodos} from '../store/todos'
+import { fetchTodos, markAsComplete } from '../store/todos';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export class Todos extends Component {
   constructor() {
-    super()
+    super();
     this.state = {
-      checked: false
-    }
+      checked: false,
+    };
   }
   componentDidMount() {
     // this.props.getTodos(userId, 'Bora Bora')
   }
-  render(){
-    const userId = this.props.navigation.state.params.userId
-    const {todos} = this.props.navigation.state.params
-    const user = this.props.user
+  render() {
+    const userId = this.props.navigation.state.params.userId;
+    const { todos } = this.props.navigation.state.params;
+    const user = this.props.user;
+    const location = this.props.navigation.state.params.location;
 
     const todoFilter = (todosObj, userId) => {
       const todosPerPerson = [];
       const todoKeys = Object.keys(todosObj);
       todoKeys.forEach(key => {
-          todosObj[key].forEach(obj => {
-            if(obj.userId === userId) {
-              todosPerPerson.push(key)
-              if (obj.completed === true && !this.state[key]) {
-                this.state[key] = true
-              } else if (!this.state[key]) {
-                this.state[key] = false
-              }
-            }
-          })
-        })
-        return todosPerPerson;
+        todosObj[key].forEach(obj => {
+          if (obj.userId === userId) {
+            todosPerPerson.push({ task: key, completed: obj.completed });
+          }
+        });
+      });
+      return todosPerPerson;
     };
-    console.log(this.props)
-    const keys = todos ? Object.keys(todos) : ''
-    return(
+    if (todos) console.log(todos);
+    const keys = todos ? Object.keys(todos) : '';
+    return (
       <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
         <ScrollView>
           <View>
-          <Text style={{marginTop: 30, marginLeft: 20, marginBottom: 5, fontSize: 24, fontWeight: 'bold'}}>Pack Todos</Text>
-            {keys ? keys.map((elem, idx) => (
-              <ListItem key={idx}
-                leftIcon={{name: 'check', color: 'orange', type: 'font-awesome'}}
-                title={elem}
-                containerStyle={{backgroundColor: '#fefcf5'}}
-                subtitle={ todos ? todos[elem].filter((elem) => (
-                  elem.completed === false
-                )).length + ' people need to complete this task' : <Text>All done</Text>}
+            <Text
+              style={{
+                marginTop: 30,
+                marginLeft: 20,
+                marginBottom: 5,
+                fontSize: 24,
+                fontWeight: 'bold',
+              }}
+            >
+              Pack Todos
+            </Text>
+            {keys ? (
+              keys.map((elem, idx) => (
+                <ListItem
+                  key={idx}
+                  leftIcon={{
+                    name: 'check',
+                    color: 'orange',
+                    type: 'font-awesome',
+                  }}
+                  title={elem}
+                  containerStyle={{ backgroundColor: '#fefcf5' }}
+                  subtitle={
+                    todos ? (
+                      todos[elem].filter(elem => elem.completed === false)
+                        .length + ' people need to complete this task'
+                    ) : (
+                      <Text>All done</Text>
+                    )
+                  }
                 />
-            )) : <Text>No todos</Text>}
+              ))
+            ) : (
+              <Text>No todos</Text>
+            )}
           </View>
-          <Text style={{marginTop: 30, marginLeft: 20, marginBottom: 2, fontSize: 24, fontWeight: 'bold'}}>Your Todos</Text>
+          <Text
+            style={{
+              marginTop: 30,
+              marginLeft: 20,
+              marginBottom: 2,
+              fontSize: 24,
+              fontWeight: 'bold',
+            }}
+          >
+            Your Todos
+          </Text>
           {todoFilter(todos, userId).map((elem, idx) => (
             <CheckBox
               key={idx}
-              title={elem}
-              checked={this.state[elem]}
+              title={elem.task}
+              checked={elem.completed}
               checkedColor="#66cc66"
-              containerStyle={{backgroundColor: '#fefcf5'}}
-          />
+              containerStyle={{ backgroundColor: '#fefcf5' }}
+              onPress={() =>
+                this.props.markAsComplete(location, userId, elem.task, todos)
+              }
+            />
           ))}
-          <View style={{marginLeft: 135, backgroundColor: '#66cc66', borderRadius: 50, width: 150, marginTop: 10}}>
-          <Button
-            buttonStyle={{backgroundColor:'#66cc66', borderRadius: 50}}
-            onPress={() => this.props.navigation.navigate('NewTodo', {userId: userId, location: this.props.navigation.state.params.location, todos: this.props.navigation.state.params.todos})}
-            icon={
-              <Icon
-                name="check"
-                size={15}
-                color="white"
-              />
-            }
-            title="Add Todo"
-          />
+          <View
+            style={{
+              marginLeft: 135,
+              backgroundColor: '#66cc66',
+              borderRadius: 50,
+              width: 150,
+              marginTop: 10,
+            }}
+          >
+            <Button
+              buttonStyle={{ backgroundColor: '#66cc66', borderRadius: 50 }}
+              onPress={() =>
+                this.props.navigation.navigate('NewTodo', {
+                  userId: userId,
+                  location: this.props.navigation.state.params.location,
+                  todos: this.props.navigation.state.params.todos,
+                  users: this.props.navigation.state.params.users,
+                })
+              }
+              icon={<Icon name="check" size={15} color="white" />}
+              title="Add Todo"
+            />
           </View>
         </ScrollView>
       </View>
@@ -89,15 +131,17 @@ export class Todos extends Component {
 const mapState = state => {
   return {
     user: state.user.user,
-    todos: state.todos.todos
+    todos: state.todos.todos,
   };
 };
 
 const mapDispatch = dispatch => {
   return {
-    getTodos: (userId, tripName) => dispatch(fetchTodos(userId, tripName))
-  }
-}
+    getTodos: (userId, tripName) => dispatch(fetchTodos(userId, tripName)),
+    markAsComplete: (location, userId, task, todos) =>
+      dispatch(markAsComplete(location, userId, task, todos)),
+  };
+};
 export default connect(
   mapState,
   mapDispatch

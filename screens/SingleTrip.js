@@ -166,6 +166,7 @@ export class SingleTrip extends Component {
                     todos: this.props.trip.todos,
                     userId: userId,
                     location: this.props.trip.location,
+                    users: this.props.users,
                   })
                 }
                 activeOpacity={0.7}
