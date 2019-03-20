@@ -79,7 +79,6 @@ export class SingleTrip extends Component {
             },
             { true: 0, false: 0 }
           );
-          console.log('usertotal', userTodoTotal);
 
           usersTodoTotal.push(userTodoTotal);
         }, [])
@@ -112,9 +111,6 @@ export class SingleTrip extends Component {
         });
       });
     }
-    usersTodoTotal
-      ? console.log('percentages', percentages, 'USERS', this.props.users)
-      : console.log('notReady');
     return (
       <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
         <ScrollView>

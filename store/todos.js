@@ -41,7 +41,6 @@ export const fetchTodos = (userId, tripName) => async dispatch => {
 
 export const createNewTodo = todo => async dispatch => {
   try {
-    console.log('TODO', todo);
     const todoArr = todo.selectedItems.map(userId => {
       return { completed: todo.completed, userId: userId };
     });
@@ -61,15 +60,12 @@ export const markAsComplete = (
   task,
   todos
 ) => async dispatch => {
-  console.log(location, userId, task, todos);
   const db = firebase.firestore();
   const tripRef = db.collection('trips').doc(location);
   const todoKeys = Object.keys(todos);
-  console.log('TODOKEYS', todoKeys);
   const newTodos = {};
   todoKeys.forEach(key => {
     if (String(key) === String(task)) {
-      console.log('GOTIN', todos[key]);
       const newTodoo = todos[key].map(item => {
         if (item.userId === userId) {
           return { completed: true, userId: userId };
@@ -83,7 +79,6 @@ export const markAsComplete = (
     }
   });
 
-  console.log('TODOSCHANGED', newTodos);
   const query = await tripRef.update({
     todos: newTodos,
   });

@@ -83,7 +83,6 @@ export const fetchSingleTrip = tripName => async dispatch => {
 
 export const createNewTrip = tripData => async dispatch => {
   try {
-    console.log(tripData);
     const db = firebase.firestore();
     const tripRef = db.collection('trips').doc(tripData.destination);
     const query = await tripRef.set({

@@ -5,20 +5,44 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { fetchTodos, markAsComplete } from '../store/todos';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import firebase from '../server/config';
 
 export class Todos extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.ref = firebase.firestore().collection('trips');
+    this.unsubscribe = null;
     this.state = {
       checked: false,
+      todos: [],
     };
   }
   componentDidMount() {
-    // this.props.getTodos(userId, 'Bora Bora')
+    const newTodos = this.props.navigation.state.params.todos;
+    this.setState({ todos: newTodos });
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onCollectionUpdate = async querySnapshot => {
+    let todos = {};
+    const location = this.props.navigation.state.params.location;
+    await querySnapshot.forEach(doc => {
+      if (doc.id === location) {
+        todos = doc.data().todos;
+      }
+    });
+    this.setState({
+      todos: todos,
+    });
+  };
+
   render() {
     const userId = this.props.navigation.state.params.userId;
-    const { todos } = this.props.navigation.state.params;
+    const todos = this.state.todos;
     const user = this.props.user;
     const location = this.props.navigation.state.params.location;
 
@@ -34,7 +58,6 @@ export class Todos extends Component {
       });
       return todosPerPerson;
     };
-    if (todos) console.log(todos);
     const keys = todos ? Object.keys(todos) : '';
     return (
       <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>

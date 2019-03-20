@@ -42,7 +42,6 @@ class NewTodo extends Component {
         return { name: `${user.firstName} ${user.lastName}`, id: user.userId };
       }
     });
-    console.log(users);
     const { selectedItems } = this.state;
     return (
       <View>
