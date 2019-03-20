@@ -66,7 +66,8 @@ export const markAsComplete = (
   const tripRef = db.collection('trips').doc(location);
   const todoKeys = Object.keys(todos);
   console.log('TODOKEYS', todoKeys);
-  const newTodos = todoKeys.map(key => {
+  const newTodos = {};
+  todoKeys.forEach(key => {
     if (String(key) === String(task)) {
       console.log('GOTIN', todos[key]);
       const newTodoo = todos[key].map(item => {
@@ -76,9 +77,9 @@ export const markAsComplete = (
           return item;
         }
       });
-      return { [key]: newTodoo };
+      newTodos[key] = newTodoo;
     } else {
-      return { [key]: todos[key] };
+      newTodos[key] = todos[key];
     }
   });
 
