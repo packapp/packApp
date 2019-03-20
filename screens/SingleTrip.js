@@ -9,8 +9,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export class SingleTrip extends Component {
  async componentDidMount() {
-    this.props.getFlights();
-    await this.props.getTrip(this.props.navigation.state.params.location)
+    const location = this.props.navigation.state.params.location
+    const endAirport = this.props.trip.endAirport
+    const startAirport = this.props.trip.startAirport
+
+    await this.props.getTrip(location)
+    this.props.getFlights(endAirport, startAirport);
 
     let userIds = [];
     if (this.props.trip.attendees) {
@@ -135,7 +139,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getFlights: () => dispatch(fetchFlights()),
+    getFlights: (endAirport, startAirport) => dispatch(fetchFlights(endAirport, startAirport)),
     getTrip: (tripName) => dispatch(fetchSingleTrip(tripName)),
     getUsers: (userIds) => dispatch(fetchUsers(userIds))
   };

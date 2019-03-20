@@ -28,6 +28,11 @@ export class Todos extends Component {
           todosObj[key].forEach(obj => {
             if(obj.userId === userId) {
               todosPerPerson.push(key)
+              if (obj.completed === true && !this.state[key]) {
+                this.state[key] = true
+              } else if (!this.state[key]) {
+                this.state[key] = false
+              }
             }
           })
         })
