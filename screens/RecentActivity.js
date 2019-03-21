@@ -8,25 +8,44 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import firebase from '../server/config';
 
 export default class RecentActivity extends Component {
+  constructor(props) {
+    super(props)
+      this.ref = firebase.firestore().collection('trips').where(this.props.trip, "==", this.props.trip)
+      this.unsubscribe = null;
+      this.state = {
+        updatedDoc: []
+      }
+  }
+  async componentDidMount() {
+    this.unsubscribe = this.ref.onSnapshot(function(snapshot) {
+      snapshot.docChanges().forEach(function(change) {
+          if (change.type === "added") {
+            console.log("added: ", change.doc.data());
+          }
+          if (change.type === "modified") {
+              console.log("Modified city: ", change.doc.data());
+          }
+          if (change.type === "removed") {
+              console.log("Removed city: ", change.doc.data());
+          }
+      });
+  });
+  }
+  componentWillUnmount() {
+    this.unsubscribe(this.onCollectionUpdate);
+  }
+  onCollectionUpdate = (querySnapshot) => {
+    const updatedDoc = [];
+    querySnapshot.forEach(doc => {
+      updatedDoc.push(doc.data());
+    });
+    this.setState({
+      updatedDoc
+    });
+  }
 
   render() {
-    this.ref = firebase.firestore().collection('trips').doc(this.props.trip)
-  .onSnapshot(querySnapshot => {
-    querySnapshot.docChanges().forEach(change => {
-      if (change.type === 'added') {
-        console.log('New todo: ', change.doc.data());
-        <View>
-          <Text>{change.doc.data()}</Text>
-        </View>
-      }
-      if (change.type === 'modified') {
-        console.log('Modified todo: ', change.doc.data());
-      }
-      if (change.type === 'removed') {
-        console.log('Removed todo: ', change.doc.data());
-      }
-    });
-  });
+    console.log(this.state)
     return (
       <View>
         <Text>test</Text>

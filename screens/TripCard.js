@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   card: {
     color: 'white',
     fontFamily: 'Verdana',
-    fontSize: 30,
+    fontSize: 25,
     //marginLeft: 30,
     padding: 5,
     fontWeight: 'bold',

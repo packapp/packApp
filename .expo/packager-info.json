@@ -1,10 +1,10 @@
 {
-  "expoServerPort": null,
-  "expoServerNgrokUrl": "https://wa-tpn.anonymous.packapp.exp.direct",
-  "packagerNgrokUrl": "https://packager.wa-tpn.anonymous.packapp.exp.direct",
-  "ngrokPid": 8098,
   "devToolsPort": 19002,
+  "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
+  "expoServerNgrokUrl": "https://8f-man.anonymous.packapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.8f-man.anonymous.packapp.exp.direct",
+  "ngrokPid": 732,
   "webpackServerPort": null
 }
