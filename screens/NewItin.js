@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import firebase from '../server/config';
+//import firebase from '../server/config';
+import * as firebase from 'firebase';
 
 import { StyleSheet, Text, Button, View, ScrollView } from 'react-native';
 import { Input } from 'react-native-elements';
@@ -42,7 +43,7 @@ class NewItin extends Component {
     );
   }
 
-  createNewItinerary = async (itinInfo, trip, oldItin) => {
+  createNewItinerary = async (itinInfo, trip) => {
     try {
       const newItin = {
         title: itinInfo.title,
@@ -56,13 +57,9 @@ class NewItin extends Component {
       };
       const db = firebase.firestore();
       const tripRef = db.collection('trips').doc(trip);
-      const updatedOldItin = oldItin.map(itinItem => {
-        return { ...itinItem, time: Date(itinItem.time) };
-      });
       await tripRef.update({
-        itinerary: [...updatedOldItin, newItin],
+        itinerary: firebase.firestore.FieldValue.arrayUnion(newItin),
       });
-      //const query = tripRef.get();
     } catch (err) {
       console.error(err);
     }

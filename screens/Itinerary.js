@@ -15,6 +15,7 @@ export default class Itinerary extends Component {
     this.unsubscribe = null;
     this.state = {
       itinerary: [],
+      allItin: [],
     };
   }
 
@@ -30,6 +31,7 @@ export default class Itinerary extends Component {
     });
     this.setState({
       itinerary: approvedItems,
+      allItin: trip.itinerary,
     });
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
@@ -38,7 +40,7 @@ export default class Itinerary extends Component {
     this.unsubscribe();
   }
 
-  onCollectionUpdate = async (querySnapshot) => {
+  onCollectionUpdate = async querySnapshot => {
     let trips = [];
     await querySnapshot.forEach(doc => {
       trips.push(doc.data());
@@ -46,7 +48,8 @@ export default class Itinerary extends Component {
 
     let trip = [];
     trips.map(item => {
-      if (item.location === this.props.navigation.state.params.trip.location) trip = item;
+      if (item.location === this.props.navigation.state.params.trip.location)
+        trip = item;
     });
 
     let updatedItin = [];
@@ -54,14 +57,15 @@ export default class Itinerary extends Component {
       if (item.approved) {
         let date = new Date(null);
         date.setSeconds(item.time.seconds);
-        updatedItin.push({...item, time: `${date}`.slice(0, 24)});
+        updatedItin.push({ ...item, time: `${date}`.slice(0, 24) });
       }
     });
 
     this.setState({
-      itinerary: updatedItin
+      itinerary: updatedItin,
+      allItin: trip.itinerary,
     });
-  }
+  };
 
   render() {
     const trip = this.props.navigation.state.params.trip;
@@ -102,7 +106,7 @@ export default class Itinerary extends Component {
               this.props.navigation.navigate('NewItin', {
                 users: this.props.navigation.state.params.users,
                 trip: this.props.navigation.state.params.location,
-                itin: this.state.itinerary,
+                itin: this.state.allItin,
               })
             }
             title="Add an Item"
