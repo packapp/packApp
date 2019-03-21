@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import { SafeAreaView, TextInput, StyleSheet, TouchableOpacity, Text, View, FlatList, Dimensions, KeyboardAvoidingView, Keyboard,  } from 'react-native';
+import { SafeAreaView, TextInput, StyleSheet, TouchableOpacity, Text, View, FlatList, Dimensions } from 'react-native';
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Ionicons'
 import firebase from '../server/config';
 import { fetchMessages } from '../store/messages';
 import { connect } from 'react-redux';
@@ -8,7 +10,15 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 class HowlChat extends Component {
   static navigationOptions = ({navigation}) => {
     return {
-      title: navigation.state.params.item.firstName
+      title: navigation.state.params.item.firstName,
+      headerRight: (
+        <Button
+          onPress={() => navigation.navigate('FriendProfile', navigation.state.params.item)}
+          type="clear"
+          icon={<Icon name="ios-person" size={20} color="#ff9933"/>}
+          style={styles.profileBtn}
+        />
+      )
     };
   }
 
@@ -171,5 +181,8 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     paddingLeft: 5,
     color: '#ff9933'
+  },
+  profileBtn: {
+    marginRight: 10
   }
 });
