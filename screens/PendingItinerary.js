@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProgressCircle from 'react-native-progress-circle';
@@ -111,7 +111,7 @@ export default class PendingItinerary extends Component {
 
   render() {
     return (
-      <View style={{flex: 1, flexDirection: 'column'}}>
+      <ScrollView style={{flex: 1, flexDirection: 'column'}}>
         {
         this.state.pending && this.state.pending.length ?
           this.state.pending.map(item => {
@@ -145,7 +145,7 @@ export default class PendingItinerary extends Component {
             <Text style={styles.title}>No pending items</Text>
           </View>
         }
-      </View>
+      </ScrollView>
     );
   }
 }

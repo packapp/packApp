@@ -4,6 +4,7 @@ import firebase from '../server/config';
 import { fetchMessages } from '../store/messages';
 import { fetchUsers } from '../store/usersPerTrips';
 import { connect } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class HowlGroup extends Component {
   static navigationOptions = ({navigation}) => {
@@ -138,8 +139,8 @@ class HowlGroup extends Component {
     const userEmail = this.props.navigation.state.params.user.email;
     const trip = this.props.navigation.state.params.item.location;
     return(
-      <KeyboardAvoidingView style={styles.keyboardContainer} behavior="padding" enabled>
-        <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container}>
+        <KeyboardAwareScrollView style={styles.keyboardContainer}>
             <View style={{flex: 1, justifyContent: 'flex-end'}}>
             {
               this.props.messages ?
@@ -163,8 +164,8 @@ class HowlGroup extends Component {
                 </TouchableOpacity>
               </View>
             </View>
-        </SafeAreaView>
-      </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
     );
   }
 }
