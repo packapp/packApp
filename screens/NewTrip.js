@@ -15,10 +15,12 @@ import { fetchUsers } from '../store/allUsers';
 
 import { createNewTrip } from '../store/trip';
 
+import DateTimePicker from 'react-native-modal-datetime-picker';
+
 class NewTrip extends Component {
   static navigationOptions = {
-    title: 'Create a new pack'
-  }
+    title: 'Create a new pack',
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -32,10 +34,13 @@ class NewTrip extends Component {
       data: [],
       startAirport: '',
       endAirport: '',
+      isEndDateTimePickerVisible: false,
+      isStartDateTimePickerVisible: false,
     };
     this.pickerValueChange = this.pickerValueChange.bind(this);
     this.onSelectedItemsChange = this.onSelectedItemsChange.bind(this);
     this.handleOnPress = this.handleOnPress.bind(this);
+    this.setDate = this.setDate.bind(this);
   }
   componentDidMount() {
     this.props.fetchUsers();
@@ -61,6 +66,40 @@ class NewTrip extends Component {
       imageUrl: selectedImage,
     });
   }
+
+  showEndDateTimePicker = () =>
+    this.setState({ isEndDateTimePickerVisible: true });
+
+  hideEndDateTimePicker = () =>
+    this.setState({ isEndDateTimePickerVisible: false });
+
+  handleEndDatePicked = endDate => {
+    console.log('A end date has been picked: ', endDate);
+    this.setState({
+      endDate,
+    });
+    this.hideEndDateTimePicker();
+  };
+
+  showStartDateTimePicker = () =>
+    this.setState({ isStartDateTimePickerVisible: true });
+
+  hideStartDateTimePicker = () =>
+    this.setState({ isStartDateTimePickerVisible: false });
+
+  handleStartDatePicked = startDate => {
+    console.log('A end date has been picked: ', startDate);
+
+    this.hideStartDateTimePicker();
+    this.setState({
+      startDate,
+    });
+  };
+  setDate(newDate) {
+    this.setState({ startDate: newDate });
+    console.log(this.state.startDate);
+  }
+
   render() {
     const users = this.props.allUsers
       ? this.props.allUsers.map(user => {
@@ -92,38 +131,20 @@ class NewTrip extends Component {
             width: '100%',
           }}
         >
-          <Text style={styles.label}>Start Date</Text>
-
-          <DatePicker
-            style={{ width: 200, height: 40, marginLeft: 3, marginTop: 7}}
-            date={this.state.startDate}
+          <Button title="Start Date" onPress={this.showStartDateTimePicker} />
+          <DateTimePicker
+            isVisible={this.state.isStartDateTimePickerVisible}
+            onConfirm={this.handleStartDatePicked}
+            onCancel={this.hideStartDateTimePicker}
             mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate={new Date()}
-            maxDate="2025-04-01"
-            confirmBtnText="Select"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                marginLeft: 36,
-                borderRadius: 50,
-                height: 30
-              },
-              dateTouchBody: {
-                width: 150
-              }
-            }}
-            onDateChange={date => {
-              this.setState({ startDate: date });
-            }}
+            date={this.state.startDate}
+            onDateChange={this.setDate}
           />
+          {/* {this.state.startDate > new Date() ? (
+            <Text>{Date(this.state.startDate).slice(4, 16)}</Text>
+          ) : (
+            <Text>Pick a date!</Text>
+          )} */}
         </View>
         <View
           style={{
@@ -143,37 +164,12 @@ class NewTrip extends Component {
             width: '100%',
           }}
         >
-          <Text style={styles.label}>End Date</Text>
-
-          <DatePicker
-            style={{ width: 200, height: 40, marginLeft: 11, marginTop: 7 }}
-            date={this.state.endDate}
+          <Button title="End Date" onPress={this.showEndDateTimePicker} />
+          <DateTimePicker
+            isVisible={this.state.isEndDateTimePickerVisible}
+            onConfirm={this.handleEndDatePicked}
+            onCancel={this.hideEndDateTimePicker}
             mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate={new Date()}
-            maxDate="2025-04-01"
-            confirmBtnText="Select"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                marginLeft: 36,
-                borderRadius: 50,
-                height: 30
-              },
-              dateTouchBody: {
-                width: 150
-              }
-            }}
-            onDateChange={date => {
-              this.setState({ endDate: date });
-            }}
           />
         </View>
         <View
@@ -187,7 +183,7 @@ class NewTrip extends Component {
           }}
         />
         <View style={{ flex: 1, marginTop: 20 }}>
-          <View style={{flex: 1}}>
+          <View style={{ flex: 1 }}>
             <Input
               placeholder="Choose city"
               style={styles.textInput}
@@ -197,7 +193,17 @@ class NewTrip extends Component {
               value={this.state.startAirCity}
             />
           </View>
-          <View style={{flex: 1, backgroundColor: '#aaaaaa', borderRadius: 50, marginTop: 20, alignContent: "flex-start", marginLeft: 10, marginRight: 10}}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#aaaaaa',
+              borderRadius: 50,
+              marginTop: 20,
+              alignContent: 'flex-start',
+              marginLeft: 10,
+              marginRight: 10,
+            }}
+          >
             <Button
               title="search airports"
               type="outline"
@@ -223,11 +229,11 @@ class NewTrip extends Component {
             marginTop: 5,
           }}
         >
-          <View style={{ flex: 1, marginLeft: 10}}>
+          <View style={{ flex: 1, marginLeft: 10 }}>
             <Dropdown
-              dropdownOffset={{top: 15, bottom: 0}}
-              containerStyle={{width: 390}}
-              label='select a departure airport'
+              dropdownOffset={{ top: 15, bottom: 0 }}
+              containerStyle={{ width: 390 }}
+              label="select a departure airport"
               data={this.state.data}
               value={this.state.startAirport}
               onChangeText={value => {
@@ -236,8 +242,8 @@ class NewTrip extends Component {
             />
           </View>
         </View>
-        <View style={{ flex: 1}}>
-          <View style={{ flex: 1}}>
+        <View style={{ flex: 1 }}>
+          <View style={{ flex: 1 }}>
             <Input
               placeholder="Choose city"
               style={styles.textInput}
@@ -247,7 +253,17 @@ class NewTrip extends Component {
               value={this.state.endAirCity}
             />
           </View>
-          <View style={{ flex: 1, backgroundColor: '#aaaaaa', borderRadius: 50, marginTop: 20, alignContent: "flex-start", marginLeft: 10, marginRight: 10 }}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#aaaaaa',
+              borderRadius: 50,
+              marginTop: 20,
+              alignContent: 'flex-start',
+              marginLeft: 10,
+              marginRight: 10,
+            }}
+          >
             <Button
               title="search airports"
               type="outline"
@@ -275,8 +291,8 @@ class NewTrip extends Component {
         >
           <View style={{ width: 150, marginLeft: 10 }}>
             <Dropdown
-              dropdownOffset={{top: 15, bottom: 0}}
-              containerStyle={{width: 390}}
+              dropdownOffset={{ top: 15, bottom: 0 }}
+              containerStyle={{ width: 390 }}
               label="select an arrival airport"
               data={this.state.data}
               value={this.state.endAirport}
@@ -286,7 +302,14 @@ class NewTrip extends Component {
             />
           </View>
         </View>
-        <View style={{flex: 1, justifyContent: 'center', marginLeft: 10, marginRight: 10}}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            marginLeft: 10,
+            marginRight: 10,
+          }}
+        >
           <MultiSelect
             hidTags
             hideTags
@@ -314,7 +337,17 @@ class NewTrip extends Component {
           />
         </View>
         <View style={{ height: 10 }} />
-        <View style={{ backgroundColor: '#ff9933', borderRadius: 50, flex: 1, alignContent: 'center', justifyContent: 'center', alignSelf: 'center', width: 250}}>
+        <View
+          style={{
+            backgroundColor: '#ff9933',
+            borderRadius: 50,
+            flex: 1,
+            alignContent: 'center',
+            justifyContent: 'center',
+            alignSelf: 'center',
+            width: 250,
+          }}
+        >
           <Button
             title="Pack!"
             type="outline"
@@ -371,8 +404,8 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   contentContainer: {
-    paddingVertical: 20
-  }
+    paddingVertical: 20,
+  },
 });
 
 const mapStateToProps = state => {

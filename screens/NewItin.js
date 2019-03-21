@@ -190,7 +190,7 @@ class NewItin extends Component {
                 rounded
                 avatarStyle={{ backgroundColor: '#66cc66' }}
                 icon={{
-                  name: 'clock',
+                  name: 'clock-o',
                   color: 'white',
                   type: 'font-awesome',
                 }}
