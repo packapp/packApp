@@ -32,16 +32,6 @@ class Dashboard extends React.Component {
         trips.push(doc.data());
       }
     });
-    // const newTrips = trips.filter(trip => {
-    //   return trip.endDate < new Date();
-    // });
-    // newTrips.concat(
-    //   this.props.packTrips
-    //     ? this.props.packTrips.filter(trip => {
-    //         return trip.endDate < new Date();
-    //       })
-    //     : null
-    // );
     this.setState({ trips });
   };
 
