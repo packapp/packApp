@@ -164,7 +164,6 @@ export class SingleTrip extends Component {
                     location: this.props.trip.location,
 
                     users: this.props.users,
-
                   })
                 }
                 activeOpacity={0.7}
@@ -185,9 +184,18 @@ export class SingleTrip extends Component {
               <Avatar
                 size="large"
                 rounded
-
-                icon={{name: 'calendar', color: 'white', type: 'font-awesome'}}
-                onPress={() => navigate('Itinerary', {trip: this.props.trip})}
+                icon={{
+                  name: 'calendar',
+                  color: 'white',
+                  type: 'font-awesome',
+                }}
+                onPress={() =>
+                  navigate('Itinerary', {
+                    trip: this.props.trip,
+                    users: this.userIds,
+                    location: this.props.navigation.state.params.location,
+                  })
+                }
                 activeOpacity={0.7}
                 containerStyle={{
                   marginLeft: 20,
