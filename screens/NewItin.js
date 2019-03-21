@@ -35,6 +35,7 @@ class NewItin extends Component {
     this.setState({ selectedItems });
   };
 
+
   showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
   hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
@@ -262,6 +263,7 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: '#aaaaaa',
   },
+
   label: {
     alignSelf: 'center',
     marginLeft: 10,
