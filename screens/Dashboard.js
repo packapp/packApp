@@ -53,16 +53,6 @@ class Dashboard extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView>
-          <View style={styles.buttonContainer}>
-            <Icon
-              name="ios-add-circle"
-              size={40}
-              color="#66cc66"
-              onPress={() =>
-                navigate('NewTrip', { userId: this.state.currentUser.uid })
-              }
-            />
-          </View>
           <View>
             <TripCard
               trips={this.props.alphaTrips}
@@ -73,6 +63,16 @@ class Dashboard extends React.Component {
               trips={this.props.packTrips}
               navigate={navigate}
               userId={userId}
+            />
+          </View>
+          <View style={styles.buttonContainer}>
+            <Icon
+              name="ios-add-circle"
+              size={40}
+              color="#66cc66"
+              onPress={() =>
+                navigate('NewTrip', { userId: this.state.currentUser.uid })
+              }
             />
           </View>
         </ScrollView>
@@ -114,8 +114,8 @@ class Dashboard extends React.Component {
 const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
-    alignItems: 'flex-end',
-    marginRight: 10
+    alignItems: 'center',
+    margin: 10
   },
   footer: {
     position: 'absolute',

@@ -132,14 +132,14 @@ export class SingleTrip extends Component {
                   <ProgressCircle
                     percent={Math.floor(user.percentage)}
                     key={user.firstName}
-                    radius={30}
-                    borderWidth={8}
+                    radius={20}
+                    borderWidth={3}
                     color={user.color}
                     shadowColor="#999"
                     bgColor="#aaaaaa"
                   >
                     <Avatar
-                      size="medium"
+                      size="small"
                       key={user.firstName}
                       rounded
                       source={{ uri: `${user.imgUrl}` }}
@@ -153,34 +153,41 @@ export class SingleTrip extends Component {
             </ScrollView>
             <Divider style={{ backgroundColor: 'gray', marginBottom: 10 }} />
             <View style={{ flexDirection: 'row' }}>
-              <Avatar
-                size="large"
-                rounded
-                icon={{ name: 'check', color: 'white', type: 'font-awesome' }}
-                onPress={() =>
-                  navigate('Todos', {
-                    todos: this.props.trip.todos,
-                    userId: userId,
-                    location: this.props.trip.location,
+              <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                <Avatar
+                  size="large"
+                  rounded
+                  icon={{ name: 'check', color: 'white', type: 'font-awesome' }}
+                  onPress={() =>
+                    navigate('Todos', {
+                      todos: this.props.trip.todos,
+                      userId: userId,
+                      location: this.props.trip.location,
 
-                    users: this.props.users,
-                  })
-                }
-                activeOpacity={0.7}
-                containerStyle={{ marginLeft: 20, marginTop: 5 }}
-                avatarStyle={{ backgroundColor: '#ff9933' }}
-              />
-              <Avatar
-                size="large"
-                rounded
-                icon={{ name: 'plane', color: 'white', type: 'font-awesome' }}
-                onPress={() =>
-                  navigate('Flights', { flights: this.props.flights })
-                }
-                activeOpacity={0.7}
-                containerStyle={{ marginLeft: 20, marginTop: 5 }}
-                avatarStyle={{ backgroundColor: '#66cc66' }}
-              />
+                      users: this.props.users,
+                    })
+                  }
+                  activeOpacity={0.7}
+                  containerStyle={{ marginLeft: 15, marginTop: 5 }}
+                  avatarStyle={{ backgroundColor: '#ff9933' }}
+                />
+                <Text style={styles.text}>Todos</Text>
+              </View>
+              <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                <Avatar
+                  size="large"
+                  rounded
+                  icon={{ name: 'plane', color: 'white', type: 'font-awesome' }}
+                  onPress={() =>
+                    navigate('Flights', { flights: this.props.flights })
+                  }
+                  activeOpacity={0.7}
+                  containerStyle={{ marginLeft: 15, marginTop: 5 }}
+                  avatarStyle={{ backgroundColor: '#66cc66' }}
+                />
+                <Text style={styles.text}>Flights</Text>
+              </View>
+              <View style={{flexDirection: 'column', alignItems: 'center'}}>
               <Avatar
                 size="large"
                 rounded
@@ -198,58 +205,25 @@ export class SingleTrip extends Component {
                 }
                 activeOpacity={0.7}
                 containerStyle={{
-                  marginLeft: 20,
+                  marginLeft: 15,
                   marginTop: 5,
-                  marginRight: 20,
+
                 }}
               />
-            </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                marginLeft: 32,
-                marginTop: 10,
-                styles: styles.text,
-              }}
-            >
-              <Text
-                style={{
-                  flex: 1,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  marginLeft: 2,
-                }}
-              >
-                Todos
-              </Text>
-              <Text
-                style={{
-                  flex: 1,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  marginLeft: 27,
-                }}
-              >
-                Flights
-              </Text>
-              <Text
-                style={{
-                  flex: 3,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  marginLeft: 23,
-                }}
-              >
-                Itinerary
-              </Text>
+              <Text style={styles.text}>Itinerary</Text>
+              </View>
             </View>
           </View>
           <Divider style={{ backgroundColor: 'gray', marginTop: 20 }} />
-          <Text style={{ marginTop: 30, marginLeft: 20, fontSize: 20 }}>
+          <Text style={{ marginTop: 30, marginLeft: 15, fontSize: 20 }}>
             Recent activity
           </Text>
         </ScrollView>
+        <View style={styles.footer}>
+          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user, userId })}/>
+          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
+          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user })}/>
+        </View>
       </View>
     );
   }
@@ -276,8 +250,12 @@ const styles = StyleSheet.create({
     paddingRight: 30,
   },
   text: {
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
+    fontWeight: 'bold',
+    marginTop: 5,
+    paddingLeft: 5
   },
 });
 

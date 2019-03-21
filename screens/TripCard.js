@@ -31,15 +31,15 @@ export class TripCard extends React.Component {
                 86400000
             );
             return (
-              <View key={idx}>
+              <View key={idx} style={styles.test}>
                 <View style={{flex: 1}}>
                   <Tile
                     imageSrc={{uri: trip.imageUrl}}
                     title={trip.location}
-                    titleStyle={{ fontSize: 12 }}
+                    titleStyle={{ fontSize: 12, marginBottom: 5 }}
                     caption={`${daysLeft} days left!`}
                     featured
-                    captionStyle={{ fontSize: 16 }}
+                    captionStyle={{ fontSize: 16, marginTop: 0 }}
                     height={200}
                     onPress={() =>
                       navigate('SingleTrip', { location: trip.location, userId: this.props.userId })
@@ -51,10 +51,10 @@ export class TripCard extends React.Component {
                     <ProgressCircle
                       percent={percentage}
                       radius={20}
-                      borderWidth={4}
+                      borderWidth={3}
                       color="#66cc66"
                       shadowColor="#999"
-                      bgColor='#f8f8f8'
+                      bgColor='white'
                     >
                       <Text style={{ fontSize: 10, color: 'black' }}>
                         {Math.floor(percentage)}%
@@ -75,11 +75,8 @@ export class TripCard extends React.Component {
 
 const styles = StyleSheet.create({
   tripCard: {
-    flex: 1,
-    flexDirection: 'column',
-    marginBottom: 40,
     paddingTop: 10,
-    marginLeft: 10
+    width: '50%'
   },
   card: {
     color: 'white',
@@ -99,10 +96,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
   },
-  circle: {
-    flex: 1,
-    alignItems: 'flex-start',
-  },
   countdown: {
     color: 'white',
     fontFamily: 'Verdana',
@@ -117,6 +110,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     padding: 10,
   },
+  test: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    marginBottom: 10
+  },
+  circle: {
+    alignItems: 'flex-end',
+    marginRight: 10
+  }
 });
 
 export default TripCard;
