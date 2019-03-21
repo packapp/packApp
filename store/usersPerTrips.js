@@ -13,6 +13,7 @@ export const gotUsers = users => ({
 
 // THUNK CREATORS
 export const fetchUsers = userIdArr => async dispatch => {
+  dispatch(gotUsers([]));
   try {
     const db = firebase.firestore();
     const usersRef = db.collection('users');

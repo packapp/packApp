@@ -3,11 +3,9 @@ import React, { Component } from 'react';
 import * as firebase from 'firebase';
 
 import { StyleSheet, Text, Button, View, ScrollView } from 'react-native';
-import { Input } from 'react-native-elements';
+import { Input, Avatar } from 'react-native-elements';
 
-import DatePicker from 'react-native-datepicker';
-
-import moment from 'moment';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 class NewItin extends Component {
   constructor(props) {
@@ -19,12 +17,14 @@ class NewItin extends Component {
       numForApproval: 0,
       approved: false,
       numApproved: 1,
+      isDateTimePickerVisible: false,
+      isTimePickerVisible: false,
+      date: '',
+      time2: '',
     };
     this.onSelectedItemsChange = this.onSelectedItemsChange.bind(this);
     this.handleOnPress = this.handleOnPress.bind(this);
   }
-
-  //numOfUsers = this.props.navigation.state.params.users.length;
 
   calcNumForApproval(numOfUsers) {
     return Math.ceil(numOfUsers.length / 2);
@@ -35,16 +35,62 @@ class NewItin extends Component {
     this.setState({ selectedItems });
   };
 
+
+  showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  handleDatePicked = date => {
+    console.log('A date has been picked: ', date);
+    this.setState({
+      date: date,
+    });
+    this.hideDateTimePicker();
+
+    console.log('state', this.state.date);
+  };
+
+  showTimePicker = () => this.setState({ isTimePickerVisible: true });
+
+  hideTimePicker = () => this.setState({ isTimePickerVisible: false });
+
+  handleTimePicked = time => {
+    console.log('A time has been picked: ', time);
+    this.hideTimePicker();
+    this.setState({
+      time2: time,
+    });
+    console.log('state', this.state.time2);
+  };
+
   handleOnPress() {
+    this.setState({
+      time:
+        String(this.state.date).slice(0, 10) +
+        String(this.state.time2).slice(10),
+    });
     this.createNewItinerary(
       this.state,
       this.props.navigation.state.params.trip,
       this.props.navigation.state.params.itin
     );
+    this.props.navigation.navigate('SingleTrip');
   }
 
   createNewItinerary = async (itinInfo, trip) => {
+    itinInfo.time =
+      String(itinInfo.date).slice(0, 10) + String(itinInfo.time2).slice(10);
+
     try {
+      const numForApproval = this.calcNumForApproval(
+        this.props.navigation.state.params.users
+      );
+
+      let approved = false;
+
+      if (numForApproval === 1) {
+        approved = true;
+      }
       const newItin = {
         title: itinInfo.title,
         description: itinInfo.description,
@@ -52,7 +98,7 @@ class NewItin extends Component {
         numForApproval: this.calcNumForApproval(
           this.props.navigation.state.params.users
         ),
-        approved: false,
+        approved: approved,
         numApproved: 1,
       };
       const db = firebase.firestore();
@@ -66,13 +112,6 @@ class NewItin extends Component {
   };
 
   render() {
-    const users = this.props.allUsers
-      ? this.props.allUsers.map(user => {
-          return { name: `${user.firstName} ${user.lastName}`, id: user.id };
-        })
-      : [];
-    const userId = this.props.navigation.state.params.userId;
-
     return (
       <ScrollView>
         <Text style={styles.header}>create a itinerary item</Text>
@@ -92,61 +131,90 @@ class NewItin extends Component {
         <View
           style={{
             flex: 1,
+            paddingLeft: 30,
+            paddingRight: 30,
+            paddingTop: 5,
+            paddingBotton: 10,
+            alignItems: 'flex-end',
+            justifyContent: 'center',
             flexDirection: 'row',
-            maxHeight: 50,
-            width: '100%',
+            alignSelf: 'center',
+            marginLeft: 20,
           }}
         >
-          <Text style={styles.label}>date/time</Text>
-
-          <DatePicker
-            style={{ width: 200, height: 40, marginLeft: 3, marginTop: 7 }}
-            date={this.state.time}
-            mode="date"
-            placeholder="Select Date"
-            format="YYYY-MM-DD"
-            minDate={new Date()}
-            maxDate="2025-04-01"
-            confirmBtnText="Select"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                marginLeft: 36,
-              },
-            }}
-            onDateChange={date => {
-              this.setState({ time: date });
-            }}
-          />
+          <View style={{ flex: 1 }}>
+            <View
+              style={{
+                margin: 10,
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <Avatar
+                size="medium"
+                rounded
+                avatarStyle={{ backgroundColor: '#66cc66' }}
+                icon={{
+                  name: 'calendar',
+                  color: 'white',
+                  type: 'font-awesome',
+                }}
+                onPress={this.showDateTimePicker}
+                activeOpacity={0.7}
+                containerStyle={{
+                  marginLeft: 20,
+                  marginTop: 5,
+                  marginRight: 20,
+                }}
+              />
+            </View>
+            <DateTimePicker
+              isVisible={this.state.isDateTimePickerVisible}
+              onConfirm={this.handleDatePicked}
+              onCancel={this.hideDateTimePicker}
+              mode="date"
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <View
+              style={{
+                margin: 5,
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginRight: 20,
+              }}
+            >
+              <Avatar
+                size="medium"
+                rounded
+                avatarStyle={{ backgroundColor: '#66cc66' }}
+                icon={{
+                  name: 'clock',
+                  color: 'white',
+                  type: 'font-awesome',
+                }}
+                onPress={this.showTimePicker}
+                activeOpacity={0.7}
+                containerStyle={{
+                  marginLeft: 20,
+                  marginTop: 5,
+                  marginRight: 20,
+                }}
+              />
+            </View>
+            <DateTimePicker
+              isVisible={this.state.isTimePickerVisible}
+              onConfirm={this.handleTimePicked}
+              onCancel={this.hideTimePicker}
+              mode="time"
+            />
+          </View>
         </View>
-        <View
-          style={{
-            borderColor: 'white',
-            borderBottomColor: 'grey',
-
-            borderWidth: 1,
-            width: '95%',
-          }}
-        />
-        <View
-          style={{
-            marginTop: 7,
-            borderColor: 'white',
-            borderBottomColor: 'grey',
-            borderWidth: 1,
-            width: '95%',
-          }}
-        />
-
         <View style={{ backgroundColor: '#ff9933', borderRadius: 10 }}>
           <Button
-            title="Add to Pending Itinerary!"
+            title="Add item!"
             type="outline"
             color="white"
             style={styles.button}
@@ -187,6 +255,15 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: '#aaaaaa',
   },
+  dateButton: {
+    padding: 10,
+    flex: 3,
+
+    margin: 10,
+    color: 'white',
+    backgroundColor: '#aaaaaa',
+  },
+
   label: {
     alignSelf: 'center',
     marginLeft: 10,

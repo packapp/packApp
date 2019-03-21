@@ -53,6 +53,7 @@ class NewTrip extends Component {
       ...this.state,
       host: this.props.navigation.state.params.userId,
     });
+    this.props.navigation.navigate('Dashboard');
   }
 
   getSelectedImages(selectedImage) {
