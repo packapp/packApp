@@ -3,6 +3,7 @@ import { SafeAreaView, TextInput, StyleSheet, TouchableOpacity, Text, View, Flat
 import firebase from '../server/config';
 import { fetchMessages } from '../store/messages';
 import { connect } from 'react-redux';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 class HowlChat extends Component {
   static navigationOptions = ({navigation}) => {
@@ -106,7 +107,7 @@ class HowlChat extends Component {
     const personEmail = this.props.navigation.state.params.item.email;
     return(
       <SafeAreaView style={styles.container}>
-        <KeyboardAvoidingView style={styles.keyboardContainer} behavior="padding">
+        <KeyboardAwareScrollView style={styles.keyboardContainer} behavior="padding">
         {
           this.props.messages ?
           <FlatList
@@ -128,7 +129,7 @@ class HowlChat extends Component {
               <Text style={styles.button}>Send</Text>
             </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
+        </KeyboardAwareScrollView>
       </SafeAreaView>
     );
   }
