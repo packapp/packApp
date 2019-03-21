@@ -16,6 +16,9 @@ import { fetchUsers } from '../store/allUsers';
 import { createNewTrip } from '../store/trip';
 
 class NewTrip extends Component {
+  static navigationOptions = {
+    title: 'Create a new pack'
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -50,6 +53,7 @@ class NewTrip extends Component {
       ...this.state,
       host: this.props.navigation.state.params.userId,
     });
+    this.props.navigation.navigate('Dashboard');
   }
 
   getSelectedImages(selectedImage) {
@@ -66,8 +70,7 @@ class NewTrip extends Component {
     const userId = this.props.navigation.state.params.userId;
 
     return (
-      <ScrollView>
-        <Text style={styles.header}>create a new pack</Text>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         <Input
           placeholder="destination"
           style={styles.textInput}
@@ -92,7 +95,7 @@ class NewTrip extends Component {
           <Text style={styles.label}>Start Date</Text>
 
           <DatePicker
-            style={{ width: 200, height: 40, marginLeft: 3, marginTop: 7 }}
+            style={{ width: 200, height: 40, marginLeft: 3, marginTop: 7}}
             date={this.state.startDate}
             mode="date"
             placeholder="select date"
@@ -110,7 +113,12 @@ class NewTrip extends Component {
               },
               dateInput: {
                 marginLeft: 36,
+                borderRadius: 50,
+                height: 30
               },
+              dateTouchBody: {
+                width: 150
+              }
             }}
             onDateChange={date => {
               this.setState({ startDate: date });
@@ -119,9 +127,10 @@ class NewTrip extends Component {
         </View>
         <View
           style={{
+            flex: 1,
             borderColor: 'white',
             borderBottomColor: 'grey',
-
+            alignSelf: 'center',
             borderWidth: 1,
             width: '95%',
           }}
@@ -155,7 +164,12 @@ class NewTrip extends Component {
               },
               dateInput: {
                 marginLeft: 36,
+                borderRadius: 50,
+                height: 30
               },
+              dateTouchBody: {
+                width: 150
+              }
             }}
             onDateChange={date => {
               this.setState({ endDate: date });
@@ -167,14 +181,15 @@ class NewTrip extends Component {
             marginTop: 7,
             borderColor: 'white',
             borderBottomColor: 'grey',
+            alignSelf: 'center',
             borderWidth: 1,
             width: '95%',
           }}
         />
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{ width: 150 }}>
+        <View style={{ flex: 1, marginTop: 20 }}>
+          <View style={{flex: 1}}>
             <Input
-              placeholder="starting airport"
+              placeholder="Choose city"
               style={styles.textInput}
               onChangeText={startAirCity => {
                 this.setState({ startAirCity });
@@ -182,9 +197,9 @@ class NewTrip extends Component {
               value={this.state.startAirCity}
             />
           </View>
-          <View style={{ backgroundColor: '#aaaaaa', borderRadius: 10 }}>
+          <View style={{flex: 1, backgroundColor: '#aaaaaa', borderRadius: 50, marginTop: 20, alignContent: "flex-start", marginLeft: 10, marginRight: 10}}>
             <Button
-              title="search airports by city"
+              title="search airports"
               type="outline"
               color="white"
               style={styles.button}
@@ -208,9 +223,11 @@ class NewTrip extends Component {
             marginTop: 5,
           }}
         >
-          <Text style={styles.airportLabel}> select a departure airport</Text>
-          <View style={{ width: 150, marginLeft: 10 }}>
+          <View style={{ flex: 1, marginLeft: 10}}>
             <Dropdown
+              dropdownOffset={{top: 15, bottom: 0}}
+              containerStyle={{width: 390}}
+              label='select a departure airport'
               data={this.state.data}
               value={this.state.startAirport}
               onChangeText={value => {
@@ -219,10 +236,10 @@ class NewTrip extends Component {
             />
           </View>
         </View>
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{ width: 150 }}>
+        <View style={{ flex: 1}}>
+          <View style={{ flex: 1}}>
             <Input
-              placeholder="destination airport"
+              placeholder="Choose city"
               style={styles.textInput}
               onChangeText={endAirCity => {
                 this.setState({ endAirCity });
@@ -230,9 +247,9 @@ class NewTrip extends Component {
               value={this.state.endAirCity}
             />
           </View>
-          <View style={{ backgroundColor: '#aaaaaa', borderRadius: 10 }}>
+          <View style={{ flex: 1, backgroundColor: '#aaaaaa', borderRadius: 50, marginTop: 20, alignContent: "flex-start", marginLeft: 10, marginRight: 10 }}>
             <Button
-              title="search airports by city"
+              title="search airports"
               type="outline"
               color="white"
               style={styles.button}
@@ -256,9 +273,11 @@ class NewTrip extends Component {
             marginTop: 5,
           }}
         >
-          <Text style={styles.airportLabel}> select an arrival airport</Text>
           <View style={{ width: 150, marginLeft: 10 }}>
             <Dropdown
+              dropdownOffset={{top: 15, bottom: 0}}
+              containerStyle={{width: 390}}
+              label="select an arrival airport"
               data={this.state.data}
               value={this.state.endAirport}
               onChangeText={value => {
@@ -267,35 +286,37 @@ class NewTrip extends Component {
             />
           </View>
         </View>
-        <MultiSelect
-          hidTags
-          hideTags
-          items={users}
-          uniqueKey="id"
-          ref={component => {
-            this.multiSelect = component;
-          }}
-          onSelectedItemsChange={this.onSelectedItemsChange}
-          selectedItems={this.state.selectedItems}
-          selectText="pick your pack"
-          searchInputPlaceholderText="search packmates..."
-          onChangeInput={text => console.log(text)}
-          altFontFamily="Verdana"
-          tagRemoveIconColor="#CCC"
-          tagBorderColor="#CCC"
-          tagTextColor="#CCC"
-          selectedItemTextColor="#CCC"
-          selectedItemIconColor="#CCC"
-          itemTextColor="#000"
-          displayKey="name"
-          searchInputStyle={{ color: '#CCC' }}
-          submitButtonColor="#CCC"
-          submitButtonText="Submit"
-        />
-        <View style={{ height: 100 }} />
-        <View style={{ backgroundColor: '#ff9933', borderRadius: 10 }}>
+        <View style={{flex: 1, justifyContent: 'center', marginLeft: 10, marginRight: 10}}>
+          <MultiSelect
+            hidTags
+            hideTags
+            items={users}
+            uniqueKey="id"
+            ref={component => {
+              this.multiSelect = component;
+            }}
+            onSelectedItemsChange={this.onSelectedItemsChange}
+            selectedItems={this.state.selectedItems}
+            selectText="pick your pack"
+            searchInputPlaceholderText="search packmates..."
+            onChangeInput={text => console.log(text)}
+            altFontFamily="Verdana"
+            tagRemoveIconColor="#CCC"
+            tagBorderColor="#CCC"
+            tagTextColor="#CCC"
+            selectedItemTextColor="#CCC"
+            selectedItemIconColor="#CCC"
+            itemTextColor="#000"
+            displayKey="name"
+            searchInputStyle={{ color: '#CCC' }}
+            submitButtonColor="#CCC"
+            submitButtonText="Submit"
+          />
+        </View>
+        <View style={{ height: 10 }} />
+        <View style={{ backgroundColor: '#ff9933', borderRadius: 50, flex: 1, alignContent: 'center', justifyContent: 'center', alignSelf: 'center', width: 250}}>
           <Button
-            title="start the pack!"
+            title="Pack!"
             type="outline"
             color="white"
             style={styles.button}
@@ -332,7 +353,6 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 10,
-    flex: 3,
     color: 'white',
     backgroundColor: '#aaaaaa',
   },
@@ -350,6 +370,9 @@ const styles = StyleSheet.create({
     width: 150,
     textAlign: 'left',
   },
+  contentContainer: {
+    paddingVertical: 20
+  }
 });
 
 const mapStateToProps = state => {

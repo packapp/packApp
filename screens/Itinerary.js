@@ -61,6 +61,12 @@ export default class Itinerary extends Component {
       }
     });
 
+    updatedItin.sort((a, b) => {
+      let dateA = new Date(a.time);
+      let dateB = new Date(b.time);
+      return dateA - dateB;
+    });
+
     this.setState({
       itinerary: updatedItin,
       allItin: trip.itinerary,
