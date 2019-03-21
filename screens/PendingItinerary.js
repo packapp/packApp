@@ -3,10 +3,13 @@ import { Text, View, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProgressCircle from 'react-native-progress-circle';
+import firebase from '../server/config';
 
 export default class PendingItinerary extends Component {
   constructor(props) {
     super(props);
+    this.ref = firebase.firestore().collection('trips');
+    this.unsubscribe = null;
     this.state = {
       pending: []
     };
@@ -24,6 +27,57 @@ export default class PendingItinerary extends Component {
     this.setState({
       pending: pendingItems
     });
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onCollectionUpdate = async (querySnapshot) => {
+    let trips = [];
+    await querySnapshot.forEach(doc => {
+      trips.push(doc.data());
+    });
+
+    let trip = [];
+    trips.map(item => {
+      if (item.location === this.props.navigation.state.params.location) trip = item;
+    });
+
+    // setting all updated items to database
+    const db = firebase.firestore();
+    const tripRef = await db.collection('trips').doc(trip.location);
+    let items = trip.itinerary.map(item => {
+      if (item.numApproved < item.numForApproval) {
+        return item;
+      } else {
+        return {...item, approved: true};
+      }
+    });
+    await tripRef.update({
+      itinerary: items
+    });
+
+    // setting updated pending items to state
+    let pendingItems = [];
+    trip.itinerary.map(item => {
+      let date = new Date(null);
+      date.setSeconds(item.time.seconds);
+      if (!item.approved) pendingItems.push({...item, time: `${date}`.slice(0, 24)});
+    });
+
+    pendingItems.map(item => {
+      if (item.numApproved < item.numForApproval) {
+        return item;
+      } else {
+        return {...item, approved: true};
+      }
+    });
+
+    this.setState({
+      pending: pendingItems
+    });
   }
 
   calcPercentage = (item) => {
@@ -32,21 +86,41 @@ export default class PendingItinerary extends Component {
     return (num/denom) * 100;
   }
 
-  handleAddApproval = () => {
-    console.log('numApproved ++')
+  handleAddApproval = async (title) => {
+    const trip = this.props.navigation.state.params;
+    const itin = [];
+    trip.itinerary.map(item => {
+      if (item.title === title) itin.push(item);
+    });
+    const db = firebase.firestore();
+    const tripRef = await db.collection('trips').doc(trip.location);
+    const tripRefData = await tripRef.get();
+    const itineraryData = tripRefData.data().itinerary;
+    const updatedItinerary = itineraryData.map(item => {
+      if (item.title !== itin[0].title) {
+        return item;
+      } else {
+        const num = item.numApproved + 1;
+        return {...item, numApproved: num};
+      }
+    });
+    await tripRef.update({
+      itinerary: updatedItinerary
+    });
   }
 
   render() {
     return (
       <View style={{flex: 1, flexDirection: 'column'}}>
         {
-        this.state.pending && !this.state.pending.approved ?
+        this.state.pending && this.state.pending.length ?
           this.state.pending.map(item => {
+            if (!item.approved)
             return (
               <View key={item.title} style={styles.row}>
                 <View>
                   <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.text}>{item.description}</Text>
+                  <Text style={styles.description}>{item.description}</Text>
                   <Text style={styles.text}>{item.time}</Text>
                 </View>
                 <ProgressCircle
@@ -59,14 +133,17 @@ export default class PendingItinerary extends Component {
                 >
                   <Button
                     buttonStyle={{backgroundColor:'#ff9933', borderRadius: 50, height: 50, width: 50, alignSelf: 'center', padding: 10, marginLeft: 10, marginRight: 10}}
-                    onPress={() => this.handleAddApproval()}
+                    onPress={() => this.handleAddApproval(item.title)}
                     title={<Icon name='ios-checkmark' size={25}/>}
                   />
                 </ProgressCircle>
               </View>
             );
           })
-        : null
+        :
+          <View style={{flex: 1, padding: 20}}>
+            <Text style={styles.title}>No pending items</Text>
+          </View>
         }
       </View>
     );
@@ -79,8 +156,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 15
   },
+  description: {
+    fontFamily: 'Verdana',
+  },
   text: {
-    fontFamily: 'Verdana'
+    fontFamily: 'Verdana',
+    color: '#aaaaaa'
   },
   row: {
     flexDirection: 'row',

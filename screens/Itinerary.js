@@ -11,6 +11,8 @@ export default class Itinerary extends Component {
 
   constructor(props) {
     super(props);
+    this.ref = firebase.firestore().collection('trips');
+    this.unsubscribe = null;
     this.state = {
       itinerary: [],
     };
@@ -28,6 +30,36 @@ export default class Itinerary extends Component {
     });
     this.setState({
       itinerary: approvedItems,
+    });
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onCollectionUpdate = async (querySnapshot) => {
+    let trips = [];
+    await querySnapshot.forEach(doc => {
+      trips.push(doc.data());
+    });
+
+    let trip = [];
+    trips.map(item => {
+      if (item.location === this.props.navigation.state.params.trip.location) trip = item;
+    });
+
+    let updatedItin = [];
+    trip.itinerary.map(item => {
+      if (item.approved) {
+        let date = new Date(null);
+        date.setSeconds(item.time.seconds);
+        updatedItin.push({...item, time: `${date}`.slice(0, 24)});
+      }
+    });
+
+    this.setState({
+      itinerary: updatedItin
     });
   }
 
