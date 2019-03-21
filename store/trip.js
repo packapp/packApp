@@ -83,20 +83,19 @@ export const fetchSingleTrip = tripName => async dispatch => {
 
 export const createNewTrip = tripData => async dispatch => {
   try {
-
     const itineraryArray = [
       {
         time: new Date(tripData.startDate),
         title: tripData.destination,
         description: 'Start',
-        approved: true
+        approved: true,
       },
       {
         time: new Date(tripData.endDate),
         title: tripData.destination,
         description: 'End',
-        approved: true
-      }
+        approved: true,
+      },
     ];
     const db = firebase.firestore();
     const tripRef = db.collection('trips').doc(tripData.destination);
