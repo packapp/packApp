@@ -262,6 +262,7 @@ const styles = StyleSheet.create({
     color: 'white',
     backgroundColor: '#aaaaaa',
   },
+
   label: {
     alignSelf: 'center',
     marginLeft: 10,

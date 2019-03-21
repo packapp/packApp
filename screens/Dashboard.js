@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import firebase from '../server/config';
-import { Icon, Button } from 'react-native-elements';
+import {Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { fetchUser } from '../store/user';
 import {
@@ -70,10 +71,9 @@ class Dashboard extends React.Component {
         <ScrollView>
           <View style={styles.buttonContainer}>
             <Icon
-              reverse
-              name="add"
-              type="material"
-              color="#ff9933"
+              name="ios-add-circle"
+              size={40}
+              color="#66cc66"
               onPress={() =>
                 navigate('NewTrip', { userId: this.state.currentUser.uid })
               }
@@ -125,8 +125,8 @@ class Dashboard extends React.Component {
 const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
     alignItems: 'flex-end',
+    marginRight: 10
   },
   footer: {
     position: 'absolute',

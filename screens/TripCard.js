@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import firebase from '../server/config';
-import { Avatar, Image } from 'react-native-elements';
+import { Avatar, Image, Tile } from 'react-native-elements';
 
 import ProgressCircle from 'react-native-progress-circle';
 
@@ -31,53 +31,37 @@ export class TripCard extends React.Component {
                 86400000
             );
             return (
-              <View style={styles.tripCard} key={idx}>
-                <Image
-                  source={{ uri: trip.imageUrl }}
-                  style={{
-                    width: 300,
-                    height: 100,
-                    borderRadius: 10,
-                    marginTop: 10,
-                  }}
-                />
-                <View style={styles.tripBtns}>
-                  <TouchableHighlight
+              <View key={idx}>
+                <View style={{flex: 1}}>
+                  <Tile
+                    imageSrc={{uri: trip.imageUrl}}
+                    title={trip.location}
+                    titleStyle={{ fontSize: 12 }}
+                    caption={`${daysLeft} days left!`}
+                    featured
+                    captionStyle={{ fontSize: 16 }}
+                    height={200}
                     onPress={() =>
                       navigate('SingleTrip', { location: trip.location, userId: this.props.userId })
                     }
-                  >
-                    <Text style={styles.card}>{trip.location}</Text>
-                  </TouchableHighlight>
+                  />
+                </View>
+                <View style={styles.tripCard} >
                   <View style={styles.circle}>
                     <ProgressCircle
                       percent={percentage}
-                      radius={30}
-                      borderWidth={8}
+                      radius={20}
+                      borderWidth={4}
                       color="#66cc66"
                       shadowColor="#999"
-                      bgColor="#aaaaaa"
+                      bgColor='#f8f8f8'
                     >
-                      {/* <Avatar
-                        size="medium"
-                        key={trip.location}
-                        rounded
-                        source={{ uri: `${trip.imageUrl}` }}
-                        containerStyle={{
-                          flex: 2,
-                          // marginLeft: 15,
-                          // marginTop: 5,
-                        }}
-                      /> */}
-                      <Text style={{ fontSize: 18, color: 'white' }}>
+                      <Text style={{ fontSize: 10, color: 'black' }}>
                         {Math.floor(percentage)}%
                       </Text>
                     </ProgressCircle>
                   </View>
                 </View>
-                <Text style={styles.countdown}>
-                  <Text style={styles.countdownNum}>{daysLeft}</Text> days left!
-                </Text>
               </View>
             );
           })
@@ -93,11 +77,9 @@ const styles = StyleSheet.create({
   tripCard: {
     flex: 1,
     flexDirection: 'column',
-    padding: 10,
-    backgroundColor: '#aaaaaa',
-    margin: 20,
-    alignItems: 'center',
-    borderRadius: 10,
+    marginBottom: 40,
+    paddingTop: 10,
+    marginLeft: 10
   },
   card: {
     color: 'white',
@@ -119,8 +101,7 @@ const styles = StyleSheet.create({
   },
   circle: {
     flex: 1,
-    alignItems: 'flex-end',
-    marginRight: 20,
+    alignItems: 'flex-start',
   },
   countdown: {
     color: 'white',
