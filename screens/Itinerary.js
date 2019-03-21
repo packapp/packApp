@@ -71,7 +71,7 @@ export default class Itinerary extends Component {
     const trip = this.props.navigation.state.params.trip;
     return (
       <View style={styles.container}>
-        <View style={{ flex: 3 }}>
+        <View style={{ flex: 6 }}>
           <Timeline
             style={styles.list}
             data={this.state.itinerary}
