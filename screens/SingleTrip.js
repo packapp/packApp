@@ -189,7 +189,13 @@ export class SingleTrip extends Component {
                   color: 'white',
                   type: 'font-awesome',
                 }}
-                onPress={() => navigate('Itinerary', { trip: this.props.trip })}
+                onPress={() =>
+                  navigate('Itinerary', {
+                    trip: this.props.trip,
+                    users: this.userIds,
+                    location: this.props.navigation.state.params.location,
+                  })
+                }
                 activeOpacity={0.7}
                 containerStyle={{
                   marginLeft: 20,

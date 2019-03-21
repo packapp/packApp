@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import firebase from '../server/config';
 
 import { StyleSheet, Text, Button, View, ScrollView } from 'react-native';
 import { Input } from 'react-native-elements';
@@ -22,10 +23,10 @@ class NewItin extends Component {
     this.handleOnPress = this.handleOnPress.bind(this);
   }
 
-  numOfUsers = this.props.navigation.state.params.users.length;
+  //numOfUsers = this.props.navigation.state.params.users.length;
 
   calcNumForApproval(numOfUsers) {
-    return Math.ceil(numOfUsers / 2);
+    return Math.ceil(numOfUsers.length / 2);
   }
   componentDidMount() {}
 
@@ -34,11 +35,38 @@ class NewItin extends Component {
   };
 
   handleOnPress() {
-    this.props.createNewTrip({
-      ...this.state,
-      host: this.props.navigation.state.params.userId,
-    });
+    this.createNewItinerary(
+      this.state,
+      this.props.navigation.state.params.trip,
+      this.props.navigation.state.params.itin
+    );
   }
+
+  createNewItinerary = async (itinInfo, trip, oldItin) => {
+    try {
+      const newItin = {
+        title: itinInfo.title,
+        description: itinInfo.description,
+        time: new Date(itinInfo.time),
+        numForApproval: this.calcNumForApproval(
+          this.props.navigation.state.params.users
+        ),
+        approved: false,
+        numApproved: 1,
+      };
+      const db = firebase.firestore();
+      const tripRef = db.collection('trips').doc(trip);
+      const updatedOldItin = oldItin.map(itinItem => {
+        return { ...itinItem, time: Date(itinItem.time) };
+      });
+      await tripRef.update({
+        itinerary: [...updatedOldItin, newItin],
+      });
+      //const query = tripRef.get();
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   render() {
     const users = this.props.allUsers
@@ -52,13 +80,13 @@ class NewItin extends Component {
       <ScrollView>
         <Text style={styles.header}>create a itinerary item</Text>
         <Input
-          placeholder="title"
+          placeholder="Title"
           style={styles.textInput}
           onChangeText={title => this.setState({ title })}
           value={this.state.title}
         />
         <Input
-          placeholder="description"
+          placeholder="Description"
           style={styles.textInput}
           onChangeText={description => this.setState({ description })}
           value={this.state.description}
@@ -76,10 +104,10 @@ class NewItin extends Component {
 
           <DatePicker
             style={{ width: 200, height: 40, marginLeft: 3, marginTop: 7 }}
-            date={this.state.startDate}
+            date={this.state.time}
             mode="date"
-            placeholder="select date"
-            format={moment().format('MMMM Do YYYY, h:mm:ss a')}
+            placeholder="Select Date"
+            format="YYYY-MM-DD"
             minDate={new Date()}
             maxDate="2025-04-01"
             confirmBtnText="Select"
@@ -96,7 +124,7 @@ class NewItin extends Component {
               },
             }}
             onDateChange={date => {
-              this.setState({ startDate: date });
+              this.setState({ time: date });
             }}
           />
         </View>
@@ -121,7 +149,7 @@ class NewItin extends Component {
 
         <View style={{ backgroundColor: '#ff9933', borderRadius: 10 }}>
           <Button
-            title="start the pack!"
+            title="Add to Pending Itinerary!"
             type="outline"
             color="white"
             style={styles.button}
