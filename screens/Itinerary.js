@@ -3,12 +3,21 @@ import { StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import Timeline from 'react-native-timeline-listview';
 import firebase from '../server/config';
+import { Icon } from 'react-native-elements'
 
 export default class Itinerary extends Component {
-  static navigationOptions = {
-    title: 'Itinerary',
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Itinerary',
+      headerLeft:(
+        <Button
+        onPress={() => navigation.goBack()}
+        type="clear"
+        icon={<Icon name='chevron-left' size={30} />}
+        />
+    ),
+    };
   };
-
   constructor(props) {
     super(props);
     this.ref = firebase.firestore().collection('trips');

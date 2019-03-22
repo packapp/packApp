@@ -3,7 +3,7 @@ import MultiSelect from 'react-native-multiple-select';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { StyleSheet, Text, Button, View, ScrollView } from 'react-native';
-import { Input } from 'react-native-elements';
+import { Input, Button as Test, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import DatePicker from 'react-native-datepicker';
@@ -19,8 +19,17 @@ import { createNewTrip } from '../store/trip';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
 class NewTrip extends Component {
-  static navigationOptions = {
-    title: 'Create a new pack',
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Create a new pack',
+      headerLeft:(
+        <Test
+        onPress={() => navigation.goBack()}
+        type="clear"
+        icon={<Icon name='chevron-left' size={30} />}
+        />
+    ),
+    };
   };
   constructor(props) {
     super(props);
@@ -102,6 +111,8 @@ class NewTrip extends Component {
   }
 
   render() {
+    const {destination, imageUrl, startAirCity, endAirCity, selectedItems, data, startAirport, endAirport} = this.state
+
     const users = [];
     if (this.props.allUsers) {
       this.props.allUsers.forEach(user => {
@@ -113,17 +124,18 @@ class NewTrip extends Component {
         }
       });
     }
+
     const userId = this.props.navigation.state.params.userId;
     return (
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <Input
-          placeholder="destination"
+          placeholder="Destination"
           style={styles.textInput}
           onChangeText={destination => this.setState({ destination })}
           value={this.state.destination}
         />
         <Input
-          placeholder="image URL"
+          placeholder="Image URL"
           style={styles.textInput}
           onChangeText={imageUrl => this.setState({ imageUrl })}
           value={this.state.imageUrl}
@@ -137,7 +149,7 @@ class NewTrip extends Component {
             width: '100%',
           }}
         >
-          <Button title="Start Date" onPress={this.showStartDateTimePicker} />
+          <Button title="Start date" onPress={this.showStartDateTimePicker} />
           <DateTimePicker
             isVisible={this.state.isStartDateTimePickerVisible}
             onConfirm={this.handleStartDatePicked}
@@ -170,7 +182,7 @@ class NewTrip extends Component {
             width: '100%',
           }}
         >
-          <Button title="End Date" onPress={this.showEndDateTimePicker} />
+          <Button title="End date" onPress={this.showEndDateTimePicker} />
           <DateTimePicker
             isVisible={this.state.isEndDateTimePickerVisible}
             onConfirm={this.handleEndDatePicked}
@@ -211,7 +223,7 @@ class NewTrip extends Component {
             }}
           >
             <Button
-              title="search airports"
+              title="Search airports"
               type="outline"
               color="white"
               style={styles.button}
@@ -239,7 +251,7 @@ class NewTrip extends Component {
             <Dropdown
               dropdownOffset={{ top: 15, bottom: 0 }}
               containerStyle={{ width: 390 }}
-              label="select a departure airport"
+              label="Select a departure airport"
               data={this.state.data}
               value={this.state.startAirport}
               onChangeText={value => {
@@ -271,7 +283,7 @@ class NewTrip extends Component {
             }}
           >
             <Button
-              title="search airports"
+              title="Search airports"
               type="outline"
               color="white"
               style={styles.button}
@@ -299,7 +311,7 @@ class NewTrip extends Component {
             <Dropdown
               dropdownOffset={{ top: 15, bottom: 0 }}
               containerStyle={{ width: 390 }}
-              label="select an arrival airport"
+              label="Select an arrival airport"
               data={this.state.data}
               value={this.state.endAirport}
               onChangeText={value => {
@@ -321,13 +333,14 @@ class NewTrip extends Component {
             hideTags
             items={users}
             uniqueKey="id"
+            fontSize={16}
             ref={component => {
               this.multiSelect = component;
             }}
             onSelectedItemsChange={this.onSelectedItemsChange}
             selectedItems={this.state.selectedItems}
-            selectText="pick your pack"
-            searchInputPlaceholderText="search packmates..."
+            selectText="Pick your pack"
+            searchInputPlaceholderText="Search packmates..."
             onChangeInput={text => console.log(text)}
             altFontFamily="Verdana"
             tagRemoveIconColor="#CCC"
@@ -342,25 +355,34 @@ class NewTrip extends Component {
             submitButtonText="Submit"
           />
         </View>
-        <View style={{ height: 10 }} />
+        <View style={{ height: 0 }} />
         <View
           style={{
             backgroundColor: '#ff9933',
             borderRadius: 50,
             flex: 1,
-            alignContent: 'center',
             justifyContent: 'center',
-            alignSelf: 'center',
-            width: 250,
+            marginLeft: 10,
+            marginRight: 10,
           }}
         >
-          <Button
-            title="Pack!"
+          {destination && imageUrl && startAirCity && endAirCity && selectedItems.length && data.length && startAirport && endAirport ? (
+            <Button
+            title="Start your pack!"
             type="outline"
             color="white"
             style={styles.button}
             onPress={this.handleOnPress}
           />
+          ) : (
+            <Button
+            title="Start your pack!"
+            type="outline"
+            color="white"
+            style={styles.button}
+          />
+          )}
+
         </View>
       </KeyboardAwareScrollView>
     );
@@ -410,7 +432,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   contentContainer: {
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
 });
 

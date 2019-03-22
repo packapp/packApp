@@ -3,11 +3,21 @@ import { View, Text, ScrollView, StyleSheet, Linking } from 'react-native';
 import { PricingCard, Button} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
+import { Icon } from 'react-native-elements'
 
 export class Flights extends Component {
-  static navigationOptions = {
-    title: 'Flights'
-  }
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Flights',
+      headerLeft:(
+        <Button
+        onPress={() => navigation.goBack()}
+        type="clear"
+        icon={<Icon name='chevron-left' size={30} />}
+        />
+    ),
+    };
+  };
   render(){
     const {flights} = this.props.navigation.state.params
     const {Quotes, Carriers } = flights
