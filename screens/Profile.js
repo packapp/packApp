@@ -74,7 +74,7 @@ export default class Profile extends Component {
             title="Log out"
             type="outline"
             color="white"
-            style={styles.button}
+            titleStyle={styles.logOut}
             onPress={this.handleLogOut}
           />
           </View>
@@ -140,9 +140,8 @@ const styles = StyleSheet.create({
     color: '#f8f8f8'
   },
   logOut: {
-    paddingTop: 10,
-    justifyContent: 'flex-end',
     fontFamily: 'Verdana',
+    fontWeight: 'bold'
   },
   footer: {
     position: 'absolute',

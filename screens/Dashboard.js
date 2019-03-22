@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import firebase from '../server/config';
 import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { fetchUser } from '../store/user';
 import {
@@ -11,13 +11,25 @@ import {
   fetchSingleTrip,
 } from '../store/trip';
 import { fetchUsers } from '../store/usersPerTrips';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import TripCard from './TripCard';
 
+let userID = '';
+
 class Dashboard extends React.Component {
-  static navigationOptions = {
-    title: 'Dashboard',
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Dashboard',
+      headerRight: (
+        <Button
+          onPress={() => navigation.navigate('NewTrip', { userId: userID })}
+          type="clear"
+          icon={<Ionicons name="ios-add-circle" size={30} color="#66cc66"/>}
+          style={styles.addBtn}
+        />
+      )
+    };
   };
+
   constructor(props) {
     super(props);
     this.tripsRef = firebase.firestore().collection('trips');
@@ -37,6 +49,7 @@ class Dashboard extends React.Component {
 
   async componentDidMount() {
     const { currentUser } = await firebase.auth();
+    userID = currentUser.uid;
     this.setState({ currentUser });
     const userId = this.state.currentUser.uid;
     this.props.fetchUser(userId);
@@ -75,16 +88,6 @@ class Dashboard extends React.Component {
               trips={this.state.trips}
               navigate={navigate}
               userId={userId}
-            />
-          </View>
-          <View style={styles.buttonContainer}>
-            <Icon
-              name="ios-add-circle"
-              size={40}
-              color="#66cc66"
-              onPress={() =>
-                navigate('NewTrip', { userId: this.state.currentUser.uid })
-              }
             />
           </View>
         </ScrollView>
@@ -142,8 +145,11 @@ const styles = StyleSheet.create({
   },
   navBtns: {
     paddingLeft: 30,
-    paddingRight: 30,
+    paddingRight: 20,
   },
+  addBtn: {
+    marginRight: 8
+  }
 });
 
 const mapStateToProps = state => {
