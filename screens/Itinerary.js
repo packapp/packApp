@@ -116,13 +116,14 @@ export default class Itinerary extends Component {
               alignSelf: 'center',
               padding: 10,
               marginLeft: 10,
-              marginRight: 10
+              marginRight: 10,
             }}
             onPress={() =>
               this.props.navigation.navigate('NewItin', {
                 users: this.props.navigation.state.params.users,
                 trip: this.props.navigation.state.params.location,
                 itin: this.state.allItin,
+                userId: this.props.navigation.state.params.userId,
               })
             }
             title="Add an item"
@@ -134,10 +135,13 @@ export default class Itinerary extends Component {
               alignSelf: 'center',
               padding: 10,
               marginLeft: 10,
-              marginRight: 10
+              marginRight: 10,
             }}
             onPress={() =>
-              this.props.navigation.navigate('PendingItinerary', trip)
+              this.props.navigation.navigate('PendingItinerary', {
+                trip: trip,
+                userId: this.props.navigation.state.params.userId,
+              })
             }
             title="Pending items"
           />

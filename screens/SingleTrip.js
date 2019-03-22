@@ -155,10 +155,18 @@ export class SingleTrip extends Component {
                       key={user.firstName}
                       rounded
                       // source={{ uri: `${user.imgUrl}` }}
-                      source={user.imgUrl ? {uri: `${user.imgUrl}`} : ''}
-                      title={user.imgUrl ? '' : `${user.firstName[0] + user.lastName[0]}`}
+                      source={user.imgUrl ? { uri: `${user.imgUrl}` } : ''}
+                      title={
+                        user.imgUrl
+                          ? ''
+                          : `${user.firstName[0] + user.lastName[0]}`
+                      }
                       containerStyle={{ marginLeft: 0 }}
-                      avatarStyle={{borderColor: '#f8f8f8', borderWidth: 1, borderRadius: 17}}
+                      avatarStyle={{
+                        borderColor: '#f8f8f8',
+                        borderWidth: 1,
+                        borderRadius: 17,
+                      }}
                     />
                   </ProgressCircle>
                 ))
@@ -168,7 +176,13 @@ export class SingleTrip extends Component {
             </ScrollView>
             <Divider style={{ backgroundColor: 'gray', marginBottom: 10 }} />
             <View style={{ flexDirection: 'row' }}>
-              <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
                 <Avatar
                   size="large"
                   rounded
@@ -188,7 +202,13 @@ export class SingleTrip extends Component {
                 />
                 <Text style={styles.text}>Todos</Text>
               </View>
-              <View style={{flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
                 <Avatar
                   size="large"
                   rounded
@@ -202,30 +222,30 @@ export class SingleTrip extends Component {
                 />
                 <Text style={styles.text}>Flights</Text>
               </View>
-              <View style={{flexDirection: 'column', alignItems: 'center'}}>
-              <Avatar
-                size="large"
-                rounded
-                icon={{
-                  name: 'calendar',
-                  color: 'white',
-                  type: 'font-awesome',
-                }}
-                onPress={() =>
-                  navigate('Itinerary', {
-                    trip: this.props.trip,
-                    users: this.userIds,
-                    location: this.props.navigation.state.params.location,
-                  })
-                }
-                activeOpacity={0.7}
-                containerStyle={{
-                  marginLeft: 15,
-                  marginTop: 5,
-
-                }}
-              />
-              <Text style={styles.text}>Itinerary</Text>
+              <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                <Avatar
+                  size="large"
+                  rounded
+                  icon={{
+                    name: 'calendar',
+                    color: 'white',
+                    type: 'font-awesome',
+                  }}
+                  onPress={() =>
+                    navigate('Itinerary', {
+                      trip: this.props.trip,
+                      users: this.userIds,
+                      location: this.props.navigation.state.params.location,
+                      userId: userId,
+                    })
+                  }
+                  activeOpacity={0.7}
+                  containerStyle={{
+                    marginLeft: 15,
+                    marginTop: 5,
+                  }}
+                />
+                <Text style={styles.text}>Itinerary</Text>
               </View>
             </View>
           </View>
@@ -235,9 +255,28 @@ export class SingleTrip extends Component {
           </Text>
         </ScrollView>
         <View style={styles.footer}>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user, userId })}/>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user, userId })}/>
+          <Button
+            style={styles.navBtns}
+            type="clear"
+            icon={<Ionicons name="ios-chatbubbles" size={25} color="#aaaaaa" />}
+            onPress={() =>
+              this.props.navigation.navigate('Howl', { user, userId })
+            }
+          />
+          <Button
+            style={styles.navBtns}
+            type="clear"
+            icon={<Ionicons name="ios-home" size={25} color="#aaaaaa" />}
+            onPress={() => this.props.navigation.navigate('Dashboard')}
+          />
+          <Button
+            style={styles.navBtns}
+            type="clear"
+            icon={<Ionicons name="ios-person" size={25} color="#aaaaaa" />}
+            onPress={() =>
+              this.props.navigation.navigate('Profile', { user, userId })
+            }
+          />
         </View>
       </View>
     );
@@ -270,7 +309,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontWeight: 'bold',
     marginTop: 5,
-    paddingLeft: 5
+    paddingLeft: 5,
   },
 });
 
