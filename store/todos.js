@@ -68,7 +68,11 @@ export const markAsComplete = (
     if (String(key) === String(task)) {
       const newTodoo = todos[key].map(item => {
         if (item.userId === userId) {
-          return { completed: true, userId: userId };
+          if (!item.completed) {
+            return { completed: true, userId: userId };
+          } else {
+            return { completed: false, userId: userId };
+          }
         } else {
           return item;
         }
