@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchFlights } from '../store/flight';
+import { Icon } from 'react-native-elements'
 import {
   PricingCard,
   Tile,
@@ -15,6 +16,17 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProgressCircle from 'react-native-progress-circle';
 
 export class SingleTrip extends Component {
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerLeft:(
+        <Button
+        onPress={() => navigation.goBack()}
+        type="clear"
+        icon={<Icon name='chevron-left' size={30} />}
+        />
+    ),
+    };
+  };
   async componentDidMount() {
     this.props.getFlights();
     await this.props.getTrip(this.props.navigation.state.params.location);
