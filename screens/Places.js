@@ -1,17 +1,26 @@
 import React, {Component} from 'react';
 import { StyleSheet, ScrollView, Text, View } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { ListItem, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Dialog from 'react-native-dialog';
 import firebase from '../server/config';
 import { connect } from 'react-redux';
 import { fetchUsers } from '../store/allUsers';
+import { Icon as Test} from 'react-native-elements'
 
 class Places extends Component {
-  static navigationOptions = {
-    title: 'Places visited'
-  }
-
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Places visited',
+      headerLeft:(
+        <Button
+        onPress={() => navigation.goBack()}
+        type="clear"
+        icon={<Test name='chevron-left' size={30} />}
+        />
+    ),
+    };
+  };
   constructor(props){
     super(props);
     this.ref = firebase.firestore().collection('users');
