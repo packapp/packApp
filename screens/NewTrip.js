@@ -19,16 +19,16 @@ import { createNewTrip } from '../store/trip';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
 class NewTrip extends Component {
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({ navigation }) => {
     return {
       title: 'Create a new pack',
-      headerLeft:(
+      headerLeft: (
         <Test
-        onPress={() => navigation.goBack()}
-        type="clear"
-        icon={<Icon name='chevron-left' size={30} />}
+          onPress={() => navigation.goBack()}
+          type="clear"
+          icon={<Icon name="chevron-left" size={30} />}
         />
-    ),
+      ),
     };
   };
   constructor(props) {
@@ -110,8 +110,18 @@ class NewTrip extends Component {
     console.log(this.state.startDate);
   }
 
+  // eslint-disable-next-line complexity
   render() {
-    const {destination, imageUrl, startAirCity, endAirCity, selectedItems, data, startAirport, endAirport} = this.state
+    const {
+      destination,
+      imageUrl,
+      startAirCity,
+      endAirCity,
+      selectedItems,
+      data,
+      startAirport,
+      endAirport,
+    } = this.state;
 
     const users = [];
     if (this.props.allUsers) {
@@ -124,7 +134,6 @@ class NewTrip extends Component {
         }
       });
     }
-
     const userId = this.props.navigation.state.params.userId;
     return (
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
@@ -366,23 +375,29 @@ class NewTrip extends Component {
             marginRight: 10,
           }}
         >
-          {destination && imageUrl && startAirCity && endAirCity && selectedItems.length && data.length && startAirport && endAirport ? (
+          {destination &&
+          imageUrl &&
+          startAirCity &&
+          endAirCity &&
+          selectedItems.length &&
+          data.length &&
+          startAirport &&
+          endAirport ? (
             <Button
-            title="Start your pack!"
-            type="outline"
-            color="white"
-            style={styles.button}
-            onPress={this.handleOnPress}
-          />
+              title="Start your pack!"
+              type="outline"
+              color="white"
+              style={styles.button}
+              onPress={this.handleOnPress}
+            />
           ) : (
             <Button
-            title="Start your pack!"
-            type="outline"
-            color="white"
-            style={styles.button}
-          />
+              title="Start your pack!"
+              type="outline"
+              color="white"
+              style={styles.button}
+            />
           )}
-
         </View>
       </KeyboardAwareScrollView>
     );
