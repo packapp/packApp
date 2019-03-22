@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -15,21 +15,22 @@ export default class PendingItinerary extends Component {
     this.ref = firebase.firestore().collection('trips');
     this.unsubscribe = null;
     this.state = {
-      pending: []
+      pending: [],
     };
   }
 
   componentDidMount() {
-    const trip = this.props.navigation.state.params;
+    const trip = this.props.navigation.state.params.trip;
     const itinerary = trip.itinerary;
     let pendingItems = [];
     itinerary.map(item => {
       let date = new Date(null);
       date.setSeconds(item.time.seconds);
-      if (!item.approved) pendingItems.push({...item, time: `${date}`.slice(0, 24)});
+      if (!item.approved)
+        pendingItems.push({ ...item, time: `${date}`.slice(0, 24) });
     });
     this.setState({
-      pending: pendingItems
+      pending: pendingItems,
     });
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
@@ -38,7 +39,7 @@ export default class PendingItinerary extends Component {
     this.unsubscribe();
   }
 
-  onCollectionUpdate = async (querySnapshot) => {
+  onCollectionUpdate = async querySnapshot => {
     let trips = [];
     await querySnapshot.forEach(doc => {
       trips.push(doc.data());
@@ -46,7 +47,8 @@ export default class PendingItinerary extends Component {
 
     let trip = [];
     trips.map(item => {
-      if (item.location === this.props.navigation.state.params.location) trip = item;
+      if (item.location === this.props.navigation.state.params.trip.location)
+        trip = item;
     });
 
     // setting all updated items to database
@@ -56,11 +58,11 @@ export default class PendingItinerary extends Component {
       if (item.numApproved < item.numForApproval) {
         return item;
       } else {
-        return {...item, approved: true};
+        return { ...item, approved: true };
       }
     });
     await tripRef.update({
-      itinerary: items
+      itinerary: items,
     });
 
     // setting updated pending items to state
@@ -68,30 +70,31 @@ export default class PendingItinerary extends Component {
     trip.itinerary.map(item => {
       let date = new Date(null);
       date.setSeconds(item.time.seconds);
-      if (!item.approved) pendingItems.push({...item, time: `${date}`.slice(0, 24)});
+      if (!item.approved)
+        pendingItems.push({ ...item, time: `${date}`.slice(0, 24) });
     });
 
     pendingItems.map(item => {
       if (item.numApproved < item.numForApproval) {
         return item;
       } else {
-        return {...item, approved: true};
+        return { ...item, approved: true };
       }
     });
 
     this.setState({
-      pending: pendingItems
+      pending: pendingItems,
     });
-  }
+  };
 
-  calcPercentage = (item) => {
+  calcPercentage = item => {
     const denom = item.numForApproval;
     const num = item.numApproved;
-    return (num/denom) * 100;
-  }
+    return (num / denom) * 100;
+  };
 
-  handleAddApproval = async (title) => {
-    const trip = this.props.navigation.state.params;
+  handleAddApproval = async title => {
+    const trip = this.props.navigation.state.params.trip;
     const itin = [];
     trip.itinerary.map(item => {
       if (item.title === title) itin.push(item);
@@ -105,50 +108,84 @@ export default class PendingItinerary extends Component {
         return item;
       } else {
         const num = item.numApproved + 1;
-        return {...item, numApproved: num};
+        return {
+          ...item,
+          numApproved: num,
+          approvedBy: [
+            ...item.approvedBy,
+            this.props.navigation.state.params.userId,
+          ],
+        };
       }
     });
     await tripRef.update({
-      itinerary: updatedItinerary
+      itinerary: updatedItinerary,
     });
-  }
+  };
 
   render() {
     return (
-      <ScrollView style={{flex: 1, flexDirection: 'column'}}>
-        {
-        this.state.pending && this.state.pending.length ?
+      <ScrollView style={{ flex: 1, flexDirection: 'column' }}>
+        {this.state.pending && this.state.pending.length ? (
           this.state.pending.map(item => {
             if (!item.approved)
-            return (
-              <View key={item.title} style={styles.row}>
-                <View>
-                  <Text style={styles.title}>{item.title}</Text>
-                  <Text style={styles.description}>{item.description}</Text>
-                  <Text style={styles.text}>{item.time}</Text>
+              return (
+                <View key={item.title} style={styles.row}>
+                  <View>
+                    <Text style={styles.title}>{item.title}</Text>
+                    <Text style={styles.description}>{item.description}</Text>
+                    <Text style={styles.text}>{item.time}</Text>
+                  </View>
+                  <ProgressCircle
+                    percent={this.calcPercentage(item)}
+                    radius={35}
+                    borderWidth={10}
+                    color="#66cc66"
+                    shadowColor="#f8f8f8"
+                    bgColor="#f8f8f8"
+                  >
+                    {!item.approvedBy.includes(
+                      this.props.navigation.state.params.userId
+                    ) ? (
+                      <Button
+                        buttonStyle={{
+                          backgroundColor: '#ff9933',
+                          borderRadius: 50,
+                          height: 50,
+                          width: 50,
+                          alignSelf: 'center',
+                          padding: 10,
+                          marginLeft: 10,
+                          marginRight: 10,
+                        }}
+                        onPress={() => this.handleAddApproval(item.title)}
+                        title={<Icon name="ios-checkmark" size={25} />}
+                      />
+                    ) : (
+                      <Button
+                        buttonStyle={{
+                          backgroundColor: '#aaaaaa',
+                          borderRadius: 50,
+                          height: 50,
+                          width: 50,
+                          alignSelf: 'center',
+                          padding: 10,
+                          marginLeft: 10,
+                          marginRight: 10,
+                        }}
+                        // onPress={() => this.handleAddApproval(item.title)}
+                        title={<Icon name="ios-checkmark" size={25} />}
+                      />
+                    )}
+                  </ProgressCircle>
                 </View>
-                <ProgressCircle
-                  percent={this.calcPercentage(item)}
-                  radius={35}
-                  borderWidth={10}
-                  color="#66cc66"
-                  shadowColor="#f8f8f8"
-                  bgColor="#f8f8f8"
-                >
-                  <Button
-                    buttonStyle={{backgroundColor:'#ff9933', borderRadius: 50, height: 50, width: 50, alignSelf: 'center', padding: 10, marginLeft: 10, marginRight: 10}}
-                    onPress={() => this.handleAddApproval(item.title)}
-                    title={<Icon name='ios-checkmark' size={25}/>}
-                  />
-                </ProgressCircle>
-              </View>
-            );
+              );
           })
-        :
-          <View style={{flex: 1, padding: 20}}>
+        ) : (
+          <View style={{ flex: 1, padding: 20 }}>
             <Text style={styles.title}>No pending items</Text>
           </View>
-        }
+        )}
       </ScrollView>
     );
   }
@@ -158,7 +195,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'Verdana',
     fontWeight: 'bold',
-    fontSize: 15
+    fontSize: 15,
   },
   header: {
     fontSize: 20,
@@ -171,7 +208,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: 'Verdana',
-    color: '#aaaaaa'
+    color: '#aaaaaa',
   },
   row: {
     flexDirection: 'row',

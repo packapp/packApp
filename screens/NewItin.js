@@ -9,8 +9,8 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 
 class NewItin extends Component {
   static navigationOptions = {
-    title: 'Add an item'
-  }
+    title: 'Add an item',
+  };
 
   constructor(props) {
     super(props);
@@ -103,6 +103,7 @@ class NewItin extends Component {
         ),
         approved: approved,
         numApproved: 1,
+        approvedBy: [this.props.navigation.state.params.userId],
       };
       const db = firebase.firestore();
       const tripRef = db.collection('trips').doc(trip);
@@ -116,7 +117,7 @@ class NewItin extends Component {
 
   render() {
     return (
-      <ScrollView style={{marginTop: 40}}>
+      <ScrollView style={{ marginTop: 40 }}>
         <Input
           placeholder="Title"
           style={styles.textInput}
@@ -215,7 +216,9 @@ class NewItin extends Component {
             />
           </View>
         </View>
-        <View style={{ backgroundColor: '#ff9933', borderRadius: 50, margin: 20 }}>
+        <View
+          style={{ backgroundColor: '#ff9933', borderRadius: 50, margin: 20 }}
+        >
           <Button
             title="Add item"
             type="outline"
@@ -255,7 +258,7 @@ const styles = StyleSheet.create({
   dateInput: {
     paddingLeft: 10,
     color: '#C8C8C8',
-    fontSize: 18
+    fontSize: 18,
   },
   button: {
     padding: 10,
