@@ -41,7 +41,12 @@ class Dashboard extends React.Component {
     const trips = [];
     querySnapshot.forEach(doc => {
       if (doc.data().endDate.toDate() > new Date()) {
-        trips.push(doc.data());
+        if (
+          doc.data().attendees.includes(this.state.currentUser.uid) ||
+          doc.data().host === this.state.currentUser.uid
+        ) {
+          trips.push(doc.data());
+        }
       }
     });
     this.setState({ trips });

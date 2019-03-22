@@ -102,11 +102,17 @@ class NewTrip extends Component {
   }
 
   render() {
-    const users = this.props.allUsers
-      ? this.props.allUsers.map(user => {
-          return { name: `${user.firstName} ${user.lastName}`, id: user.id };
-        })
-      : [];
+    const users = [];
+    if (this.props.allUsers) {
+      this.props.allUsers.forEach(user => {
+        if (user.id !== this.props.navigation.state.params.userId) {
+          users.push({
+            name: `${user.firstName} ${user.lastName}`,
+            id: user.id,
+          });
+        }
+      });
+    }
     const userId = this.props.navigation.state.params.userId;
     return (
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
