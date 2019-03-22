@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import firebase from '../server/config';
-import {Button } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { fetchUser } from '../store/user';
@@ -28,7 +28,9 @@ class Dashboard extends React.Component {
   onCollectionUpdate = querySnapshot => {
     const trips = [];
     querySnapshot.forEach(doc => {
-      trips.push(doc.data());
+      if (doc.data().endDate.toDate() > new Date()) {
+        trips.push(doc.data());
+      }
     });
     this.setState({ trips });
   };
@@ -40,6 +42,21 @@ class Dashboard extends React.Component {
     this.props.fetchUser(userId);
     this.props.fetchAlphaTrips(userId);
     this.props.fetchPackTrips(userId);
+    const newTrips = this.props.alphaTrips
+      ? this.props.alphaTrips.filter(trip => {
+          return trip.endDate < new Date();
+        })
+      : null;
+    newTrips.concat(
+      this.props.packTrips
+        ? this.props.packTrips.filter(trip => {
+            return trip.endDate < new Date();
+          })
+        : null
+    );
+    this.setState({
+      trips: newTrips,
+    });
     this.unsubcribeTrips = this.tripsRef.onSnapshot(this.onCollectionUpdate);
   }
   componentWillUnmount() {
@@ -55,12 +72,7 @@ class Dashboard extends React.Component {
         <ScrollView>
           <View>
             <TripCard
-              trips={this.props.alphaTrips}
-              navigate={navigate}
-              userId={userId}
-            />
-            <TripCard
-              trips={this.props.packTrips}
+              trips={this.state.trips}
               navigate={navigate}
               userId={userId}
             />

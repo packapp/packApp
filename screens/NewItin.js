@@ -35,7 +35,6 @@ class NewItin extends Component {
     this.setState({ selectedItems });
   };
 
-
   showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
   hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
@@ -191,7 +190,7 @@ class NewItin extends Component {
                 rounded
                 avatarStyle={{ backgroundColor: '#66cc66' }}
                 icon={{
-                  name: 'clock',
+                  name: 'clock-o',
                   color: 'white',
                   type: 'font-awesome',
                 }}

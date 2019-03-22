@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { ListItem, Button, CheckBox, Input } from 'react-native-elements';
 import { createNewTodo } from '../store/todos';
 import { connect } from 'react-redux';
@@ -44,23 +44,25 @@ class NewTodo extends Component {
     });
     const { selectedItems } = this.state;
     return (
-      <View>
-        <View style={{ marginTop: 50 }}>
-          <Input
-            placeholder="todo"
+      <View style={{flex: 1, alignContent: 'center'}}>
+        <View style={{ marginTop: 40 }}>
+          <TextInput
+            placeholder="New Todo..."
+            style={{fontSize: 24, marginLeft: 10}}
             onChangeText={todo => this.setState({ todo })}
             value={this.state.todo}
-            leftIcon={<Icon name="check" size={24} color="#66cc66" />}
           />
         </View>
+        <View style={{marginLeft: 10, marginRight: 10, marginTop: 15}}>
         <MultiSelect
           hideTags
           items={users}
           uniqueKey="id"
+          fontSize={16}
           onSelectedItemsChange={this.onSelectedItemsChange}
           selectedItems={selectedItems}
-          selectText="Pick Items"
-          searchInputPlaceholderText="Search Items..."
+          selectText="Assigned to"
+          searchInputPlaceholderText="Search your pack..."
           onChangeInput={text => console.log(text)}
           altFontFamily="ProximaNova-Light"
           tagRemoveIconColor="#CCC"
@@ -74,18 +76,33 @@ class NewTodo extends Component {
           submitButtonColor="#CCC"
           submitButtonText="Submit"
         />
+        </View>
         <View>
-          <Button
+          {this.state.todo && this.state.selectedItems.length ? (
+            <Button
             buttonStyle={{
               backgroundColor: '#ff9933',
               borderRadius: 50,
               width: 120,
-              marginTop: 50,
-              marginLeft: 20,
+              marginTop: 40,
+              marginLeft: 10,
             }}
             onPress={() => this.handleOnPress(location, todos)}
             title="Add Todo"
           />
+          ) : (
+            <Button
+            buttonStyle={{
+              backgroundColor: '#ff9933',
+              borderRadius: 50,
+              width: 120,
+              marginTop: 40,
+              marginLeft: 10,
+            }}
+            title="Add Todo"
+          />
+          )}
+
         </View>
       </View>
     );
