@@ -3,7 +3,7 @@ import MultiSelect from 'react-native-multiple-select';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { StyleSheet, Text, Button, View, ScrollView } from 'react-native';
-import { Input } from 'react-native-elements';
+import { Input, Button as Test, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import DatePicker from 'react-native-datepicker';
@@ -19,8 +19,17 @@ import { createNewTrip } from '../store/trip';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
 class NewTrip extends Component {
-  static navigationOptions = {
-    title: 'Create a new pack',
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Create a new pack',
+      headerLeft:(
+        <Test
+        onPress={() => navigation.goBack()}
+        type="clear"
+        icon={<Icon name='chevron-left' size={30} />}
+        />
+    ),
+    };
   };
   constructor(props) {
     super(props);

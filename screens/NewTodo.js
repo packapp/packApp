@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Text, ScrollView, StyleSheet, TextInput } from 'react-native';
-import { ListItem, Button, CheckBox, Input } from 'react-native-elements';
+import { ListItem, Button, CheckBox, Input, Icon as Test } from 'react-native-elements';
 import { createNewTodo } from '../store/todos';
 import { connect } from 'react-redux';
 import { fetchSingleTrip } from '../store/trip';
 import MultiSelect from 'react-native-multiple-select';
 
 class NewTodo extends Component {
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Add a todo',
+      headerLeft:(
+        <Button
+        onPress={() => navigation.goBack()}
+        type="clear"
+        icon={<Test name='chevron-left' size={30} />}
+        />
+    ),
+    };
+  };
   constructor() {
     super();
     this.state = {
@@ -17,9 +29,6 @@ class NewTodo extends Component {
     };
     this.onSelectedItemsChange = this.onSelectedItemsChange.bind(this);
   }
-  static navigationOptions = {
-    title: 'Add a Todo',
-  };
   handleOnPress(location, todos) {
     this.props.createTodo({ ...this.state, location, todos });
 
