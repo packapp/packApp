@@ -9,7 +9,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 
 class NewItin extends Component {
   static navigationOptions = {
-    title: 'Add an Item'
+    title: 'Add an item'
   }
 
   constructor(props) {
@@ -130,7 +130,7 @@ class NewItin extends Component {
           value={this.state.description}
         />
         <View style={{ height: 5 }} />
-        <Text style={styles.dateInput}>Date and Time</Text>
+        <Text style={styles.dateInput}>Date and time</Text>
         <View
           style={{
             flex: 1,
@@ -217,7 +217,7 @@ class NewItin extends Component {
         </View>
         <View style={{ backgroundColor: '#ff9933', borderRadius: 50, margin: 20 }}>
           <Button
-            title="Add Item"
+            title="Add item"
             type="outline"
             color="white"
             style={styles.button}

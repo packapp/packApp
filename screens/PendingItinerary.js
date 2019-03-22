@@ -7,7 +7,7 @@ import firebase from '../server/config';
 
 export default class PendingItinerary extends Component {
   static navigationOptions = {
-    title: 'Pending Items',
+    title: 'Pending items',
   };
 
   constructor(props) {

@@ -116,7 +116,7 @@ export default class Itinerary extends Component {
                 itin: this.state.allItin,
               })
             }
-            title="Add an Item"
+            title="Add an item"
           />
           <Button
             buttonStyle={{
