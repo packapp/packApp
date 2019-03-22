@@ -70,6 +70,13 @@ class Dashboard extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView>
+          <View>
+            <TripCard
+              trips={this.state.trips}
+              navigate={navigate}
+              userId={userId}
+            />
+          </View>
           <View style={styles.buttonContainer}>
             <Icon
               name="ios-add-circle"
@@ -78,13 +85,6 @@ class Dashboard extends React.Component {
               onPress={() =>
                 navigate('NewTrip', { userId: this.state.currentUser.uid })
               }
-            />
-          </View>
-          <View>
-            <TripCard
-              trips={this.state.trips}
-              navigate={navigate}
-              userId={userId}
             />
           </View>
         </ScrollView>
@@ -126,8 +126,8 @@ class Dashboard extends React.Component {
 const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
-    alignItems: 'flex-end',
-    marginRight: 10,
+    alignItems: 'center',
+    margin: 10
   },
   footer: {
     position: 'absolute',
