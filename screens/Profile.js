@@ -64,7 +64,10 @@ export default class Profile extends Component {
           <View style={styles.cards}>
             <View style={styles.card}>
               <TouchableOpacity style={styles.numPlacesBtn} onPress={() => this.props.navigation.navigate('Places', { places, email, userId })}>
-                <Text style={styles.numPlaces}>{places.length}</Text>
+                { places.length ?
+                  <Text style={styles.numPlaces}>{places.length}</Text>
+                : <Text style={styles.numPlaces}>0</Text>
+                }
               </TouchableOpacity>
               <Text>Places visited</Text>
             </View>
