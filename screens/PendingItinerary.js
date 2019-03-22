@@ -6,6 +6,10 @@ import ProgressCircle from 'react-native-progress-circle';
 import firebase from '../server/config';
 
 export default class PendingItinerary extends Component {
+  static navigationOptions = {
+    title: 'Pending Items',
+  };
+
   constructor(props) {
     super(props);
     this.ref = firebase.firestore().collection('trips');
@@ -112,7 +116,6 @@ export default class PendingItinerary extends Component {
   render() {
     return (
       <ScrollView style={{flex: 1, flexDirection: 'column'}}>
-      <Text style={styles.header}>Pending Itinerary Items</Text>
         {
         this.state.pending && this.state.pending.length ?
           this.state.pending.map(item => {

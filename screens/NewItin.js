@@ -8,6 +8,10 @@ import { Input, Avatar } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
 class NewItin extends Component {
+  static navigationOptions = {
+    title: 'Add Itinerary Item'
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -112,8 +116,7 @@ class NewItin extends Component {
 
   render() {
     return (
-      <ScrollView>
-        <Text style={styles.header}>Add an Itinerary Item</Text>
+      <ScrollView style={{marginTop: 50}}>
         <Input
           placeholder="Title"
           style={styles.textInput}
