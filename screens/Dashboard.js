@@ -18,7 +18,7 @@ let userID = '';
 class Dashboard extends React.Component {
   static navigationOptions = ({navigation}) => {
     return {
-      title: 'Dashboard',
+      title: 'Pack',
       headerRight: (
         <Button
           onPress={() => navigation.navigate('NewTrip', { userId: userID })}
