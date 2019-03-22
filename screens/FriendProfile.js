@@ -4,6 +4,10 @@ import { ListItem, Avatar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default class FriendProfile extends Component {
+  static navigationOptions = {
+    title: 'Places visited'
+  }
+
   render() {
     const firstName = this.props.navigation.state.params.firstName;
     const lastName = this.props.navigation.state.params.lastName;
@@ -11,7 +15,7 @@ export default class FriendProfile extends Component {
     const places = this.props.navigation.state.params.places;
     return (
       <ScrollView style={styles.container}>
-        <View style={{flexDirection: 'row', padding: 10, alignItems: 'center'}}>
+        <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
           <Avatar
             size="large"
             key={firstName}
@@ -19,7 +23,7 @@ export default class FriendProfile extends Component {
             source={{uri:`${imgUrl}`}}
             containerStyle={{padding: 15}}
           />
-          <Text style={styles.title}>{firstName}'s Places Visited</Text>
+          <Text style={styles.title}>{firstName} {lastName}</Text>
         </View>
         {
           places ?
@@ -46,7 +50,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Verdana',
     fontWeight: 'bold',
     color: '#ff9933'
