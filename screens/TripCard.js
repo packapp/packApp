@@ -66,7 +66,9 @@ export class TripCard extends React.Component {
             );
           })
         ) : (
-          <Text>You are not the Alpha for any trips yet!</Text>
+          <View style={{ flex: 1, padding: 20 }}>
+            <Text style={styles.noTrips}>No upcoming trips!</Text>
+          </View>
         )}
       </View>
     );
@@ -120,6 +122,11 @@ const styles = StyleSheet.create({
   circle: {
     alignItems: 'flex-end',
     marginRight: 10
+  },
+  noTrips: {
+    fontFamily: 'Verdana',
+    fontWeight: 'bold',
+    fontSize: 15,
   }
 });
 
