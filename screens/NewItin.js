@@ -9,7 +9,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 
 class NewItin extends Component {
   static navigationOptions = {
-    title: 'Add Itinerary Item'
+    title: 'Add an Item'
   }
 
   constructor(props) {
@@ -116,7 +116,7 @@ class NewItin extends Component {
 
   render() {
     return (
-      <ScrollView style={{marginTop: 50}}>
+      <ScrollView style={{marginTop: 40}}>
         <Input
           placeholder="Title"
           style={styles.textInput}
