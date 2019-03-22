@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchFlights } from '../store/flight';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import {
   PricingCard,
   Tile,
@@ -16,15 +16,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProgressCircle from 'react-native-progress-circle';
 
 export class SingleTrip extends Component {
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({ navigation }) => {
     return {
-      headerLeft:(
+      headerLeft: (
         <Button
-        onPress={() => navigation.goBack()}
-        type="clear"
-        icon={<Icon name='chevron-left' size={30} />}
+          onPress={() => navigation.goBack()}
+          type="clear"
+          icon={<Icon name="chevron-left" size={30} />}
         />
-    ),
+      ),
     };
   };
   async componentDidMount() {
@@ -247,6 +247,32 @@ export class SingleTrip extends Component {
                 />
                 <Text style={styles.text}>Itinerary</Text>
               </View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Avatar
+                  size="large"
+                  rounded
+                  icon={{ name: 'yelp', color: 'white', type: 'font-awesome' }}
+                  onPress={() =>
+                    navigate('Activities', {
+                      airportCode: this.props.trip.endAirport,
+                    })
+                  }
+                  activeOpacity={0.7}
+                  containerStyle={{
+                    marginLeft: 15,
+                    marginTop: 5,
+                    marginRight: 15,
+                  }}
+                  avatarStyle={{ backgroundColor: 'red' }}
+                />
+                <Text style={styles.text2}>Activities</Text>
+              </View>
             </View>
           </View>
           <Divider style={{ backgroundColor: 'gray', marginTop: 20 }} />
@@ -307,6 +333,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginLeft: 10,
+    fontWeight: 'bold',
+    marginTop: 5,
+    paddingLeft: 5,
+  },
+  text2: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 0,
     fontWeight: 'bold',
     marginTop: 5,
     paddingLeft: 5,

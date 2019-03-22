@@ -7,6 +7,40 @@ import { Input, Avatar } from 'react-native-elements';
 
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
+export const createNewItinerary = async (itinInfo, trip, users, userId) => {
+  const calcNumForApproval = numOfUsers => {
+    return Math.ceil(numOfUsers.length / 2);
+  };
+  itinInfo.time =
+    String(itinInfo.date).slice(0, 10) + String(itinInfo.time2).slice(10);
+
+  try {
+    const numForApproval = calcNumForApproval(users);
+
+    let approved = false;
+
+    if (numForApproval === 1) {
+      approved = true;
+    }
+    const newItin = {
+      title: itinInfo.title,
+      description: itinInfo.description,
+      time: new Date(itinInfo.time),
+      numForApproval: calcNumForApproval(users),
+      approved: approved,
+      numApproved: 1,
+      approvedBy: [userId],
+    };
+    const db = firebase.firestore();
+    const tripRef = db.collection('trips').doc(trip);
+    await tripRef.update({
+      itinerary: firebase.firestore.FieldValue.arrayUnion(newItin),
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
 class NewItin extends Component {
   static navigationOptions = {
     title: 'Add an item',
@@ -30,9 +64,6 @@ class NewItin extends Component {
     this.handleOnPress = this.handleOnPress.bind(this);
   }
 
-  calcNumForApproval(numOfUsers) {
-    return Math.ceil(numOfUsers.length / 2);
-  }
   componentDidMount() {}
 
   onSelectedItemsChange = selectedItems => {
@@ -72,48 +103,14 @@ class NewItin extends Component {
         String(this.state.date).slice(0, 10) +
         String(this.state.time2).slice(10),
     });
-    this.createNewItinerary(
+    createNewItinerary(
       this.state,
       this.props.navigation.state.params.trip,
-      this.props.navigation.state.params.itin
+      this.props.navigation.state.params.users,
+      this.props.navigation.state.params.userId
     );
     this.props.navigation.navigate('Dashboard');
   }
-
-  createNewItinerary = async (itinInfo, trip) => {
-    itinInfo.time =
-      String(itinInfo.date).slice(0, 10) + String(itinInfo.time2).slice(10);
-
-    try {
-      const numForApproval = this.calcNumForApproval(
-        this.props.navigation.state.params.users
-      );
-
-      let approved = false;
-
-      if (numForApproval === 1) {
-        approved = true;
-      }
-      const newItin = {
-        title: itinInfo.title,
-        description: itinInfo.description,
-        time: new Date(itinInfo.time),
-        numForApproval: this.calcNumForApproval(
-          this.props.navigation.state.params.users
-        ),
-        approved: approved,
-        numApproved: 1,
-        approvedBy: [this.props.navigation.state.params.userId],
-      };
-      const db = firebase.firestore();
-      const tripRef = db.collection('trips').doc(trip);
-      await tripRef.update({
-        itinerary: firebase.firestore.FieldValue.arrayUnion(newItin),
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   render() {
     return (

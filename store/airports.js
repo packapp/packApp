@@ -1,8 +1,8 @@
-import firebase from '../server/config'; // ACTION TYPES
-
-// ACTION CREATORS
+import firebase from '../server/config';
+// ACTION TYPES
 export const SET_AIRPORT = 'SET_AIRPORT';
 
+// ACTION CREATORS
 export const gotAirport = airport => ({
   type: SET_AIRPORT,
   airport,
