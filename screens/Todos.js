@@ -5,9 +5,22 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { fetchTodos, markAsComplete } from '../store/todos';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Icon as Test} from 'react-native-elements'
 import firebase from '../server/config';
 
 export class Todos extends Component {
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Todos',
+      headerLeft:(
+        <Button
+        onPress={() => navigation.goBack()}
+        type="clear"
+        icon={<Test name='chevron-left' size={30} />}
+        />
+    ),
+    };
+  };
   constructor(props) {
     super(props);
     this.ref = firebase.firestore().collection('trips');
