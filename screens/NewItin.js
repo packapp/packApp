@@ -73,7 +73,7 @@ class NewItin extends Component {
       this.props.navigation.state.params.trip,
       this.props.navigation.state.params.itin
     );
-    this.props.navigation.navigate('SingleTrip');
+    this.props.navigation.navigate('Dashboard');
   }
 
   createNewItinerary = async (itinInfo, trip) => {
@@ -113,7 +113,7 @@ class NewItin extends Component {
   render() {
     return (
       <ScrollView>
-        <Text style={styles.header}>create a itinerary item</Text>
+        <Text style={styles.header}>Add an Itinerary Item</Text>
         <Input
           placeholder="Title"
           style={styles.textInput}
@@ -127,6 +127,7 @@ class NewItin extends Component {
           value={this.state.description}
         />
         <View style={{ height: 5 }} />
+        <Text style={styles.dateInput}>Date and Time</Text>
         <View
           style={{
             flex: 1,
@@ -211,9 +212,9 @@ class NewItin extends Component {
             />
           </View>
         </View>
-        <View style={{ backgroundColor: '#ff9933', borderRadius: 10 }}>
+        <View style={{ backgroundColor: '#ff9933', borderRadius: 50, margin: 20 }}>
           <Button
-            title="Add item!"
+            title="Add Item"
             type="outline"
             color="white"
             style={styles.button}
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Verdana',
   },
   header: {
-    fontSize: 30,
+    fontSize: 20,
     padding: 10,
     fontWeight: 'bold',
     color: '#ff9933',
@@ -248,6 +249,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 8,
   },
+  dateInput: {
+    paddingLeft: 10,
+    color: '#C8C8C8',
+    fontSize: 18
+  },
   button: {
     padding: 10,
     flex: 3,
@@ -257,12 +263,10 @@ const styles = StyleSheet.create({
   dateButton: {
     padding: 10,
     flex: 3,
-
     margin: 10,
     color: 'white',
     backgroundColor: '#aaaaaa',
   },
-
   label: {
     alignSelf: 'center',
     marginLeft: 10,

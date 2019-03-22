@@ -77,7 +77,7 @@ export default class Itinerary extends Component {
     const trip = this.props.navigation.state.params.trip;
     return (
       <View style={styles.container}>
-        <View style={{ flex: 6 }}>
+        <View style={{ flex: 7 }}>
           <Timeline
             style={styles.list}
             data={this.state.itinerary}
@@ -103,10 +103,11 @@ export default class Itinerary extends Component {
           <Button
             buttonStyle={{
               backgroundColor: '#ff9933',
-              borderRadius: 20,
+              borderRadius: 50,
               alignSelf: 'center',
               padding: 10,
-              margin: 10,
+              marginLeft: 10,
+              marginRight: 10
             }}
             onPress={() =>
               this.props.navigation.navigate('NewItin', {
@@ -120,10 +121,11 @@ export default class Itinerary extends Component {
           <Button
             buttonStyle={{
               backgroundColor: '#ff9933',
-              borderRadius: 20,
+              borderRadius: 50,
               alignSelf: 'center',
               padding: 10,
-              margin: 10,
+              marginLeft: 10,
+              marginRight: 10
             }}
             onPress={() =>
               this.props.navigation.navigate('PendingItinerary', trip)
@@ -148,7 +150,6 @@ const styles = StyleSheet.create({
   },
   divider: {
     flex: 1,
-    padding: 30,
     alignItems: 'flex-end',
     justifyContent: 'center',
     flexDirection: 'row',

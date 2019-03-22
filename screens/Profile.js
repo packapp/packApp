@@ -69,7 +69,7 @@ export default class Profile extends Component {
               <Text>Places Visited</Text>
             </View>
           </View>
-          <Button title="Log Out" type='outline' style={styles.logOut} onPress={this.handleLogOut} />
+          <Button title="Log Out" type='outline' titleStyle={{color: '#66cc66'}} containerStyle={{borderEndColor: '#66cc66'}} style={styles.logOut} onPress={this.handleLogOut} />
         </View>
         <View style={styles.footer}>
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user, userId })}/>
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   logOut: {
     paddingTop: 10,
     justifyContent: 'flex-end',
-    fontFamily: 'Verdana'
+    fontFamily: 'Verdana',
   },
   footer: {
     position: 'absolute',

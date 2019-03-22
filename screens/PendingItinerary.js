@@ -112,6 +112,7 @@ export default class PendingItinerary extends Component {
   render() {
     return (
       <ScrollView style={{flex: 1, flexDirection: 'column'}}>
+      <Text style={styles.header}>Pending Itinerary Items</Text>
         {
         this.state.pending && this.state.pending.length ?
           this.state.pending.map(item => {
@@ -155,6 +156,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Verdana',
     fontWeight: 'bold',
     fontSize: 15
+  },
+  header: {
+    fontSize: 20,
+    padding: 10,
+    fontWeight: 'bold',
+    color: '#ff9933',
   },
   description: {
     fontFamily: 'Verdana',
