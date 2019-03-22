@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MultiSelect from 'react-native-multiple-select';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { StyleSheet, Text, Button, View, ScrollView } from 'react-native';
 import { Input } from 'react-native-elements';
@@ -107,9 +108,8 @@ class NewTrip extends Component {
         })
       : [];
     const userId = this.props.navigation.state.params.userId;
-
     return (
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <Input
           placeholder="destination"
           style={styles.textInput}
@@ -356,7 +356,7 @@ class NewTrip extends Component {
             onPress={this.handleOnPress}
           />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 }

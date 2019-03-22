@@ -6,6 +6,10 @@ import ProgressCircle from 'react-native-progress-circle';
 import firebase from '../server/config';
 
 export default class PendingItinerary extends Component {
+  static navigationOptions = {
+    title: 'Pending items',
+  };
+
   constructor(props) {
     super(props);
     this.ref = firebase.firestore().collection('trips');
@@ -155,6 +159,12 @@ const styles = StyleSheet.create({
     fontFamily: 'Verdana',
     fontWeight: 'bold',
     fontSize: 15
+  },
+  header: {
+    fontSize: 20,
+    padding: 10,
+    fontWeight: 'bold',
+    color: '#ff9933',
   },
   description: {
     fontFamily: 'Verdana',
