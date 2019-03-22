@@ -142,7 +142,9 @@ export class SingleTrip extends Component {
                       size="small"
                       key={user.firstName}
                       rounded
-                      source={{ uri: `${user.imgUrl}` }}
+                      // source={{ uri: `${user.imgUrl}` }}
+                      source={user.imgUrl ? {uri: `${user.imgUrl}`} : ''}
+                      title={user.imgUrl ? '' : `${user.firstName[0] + user.lastName[0]}`}
                       containerStyle={{ marginLeft: 0 }}
                       avatarStyle={{borderColor: '#f8f8f8', borderWidth: 1, borderRadius: 17}}
                     />
