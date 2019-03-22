@@ -16,17 +16,17 @@ import TripCard from './TripCard';
 let userID = '';
 
 class Dashboard extends React.Component {
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({ navigation }) => {
     return {
       title: 'Pack',
       headerRight: (
         <Button
           onPress={() => navigation.navigate('NewTrip', { userId: userID })}
           type="clear"
-          icon={<Ionicons name="ios-add-circle" size={30} color="#66cc66"/>}
+          icon={<Ionicons name="ios-add-circle" size={30} color="#66cc66" />}
           style={styles.addBtn}
         />
-      )
+      ),
     };
   };
 
@@ -41,7 +41,12 @@ class Dashboard extends React.Component {
     const trips = [];
     querySnapshot.forEach(doc => {
       if (doc.data().endDate.toDate() > new Date()) {
-        trips.push(doc.data());
+        if (
+          doc.data().attendees.includes(this.state.currentUser.uid) ||
+          doc.data().host === this.state.currentUser.uid
+        ) {
+          trips.push(doc.data());
+        }
       }
     });
     this.setState({ trips });
@@ -130,7 +135,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
     alignItems: 'center',
-    margin: 10
+    margin: 10,
   },
   footer: {
     position: 'absolute',
@@ -148,8 +153,8 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   addBtn: {
-    marginRight: 8
-  }
+    marginRight: 8,
+  },
 });
 
 const mapStateToProps = state => {
