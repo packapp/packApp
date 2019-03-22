@@ -116,7 +116,7 @@ export class SingleTrip extends Component {
         <ScrollView>
           <View style={{ flex: 1, justifyContent: 'top' }}>
             <Tile
-              imageSrc={{ uri: 'https://placeimg.com/320/150/nature' }}
+              imageSrc={{ uri: this.props.trip.imageUrl }}
               title={this.props.navigation.state.params.location}
               featured
               caption={`${onvertTime(date)} - ${onvertTime(date2)}`}
