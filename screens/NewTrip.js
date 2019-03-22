@@ -109,7 +109,6 @@ class NewTrip extends Component {
         })
       : [];
     const userId = this.props.navigation.state.params.userId;
-
     return (
       <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <Input

@@ -8,6 +8,10 @@ import { connect } from 'react-redux';
 import { fetchUsers } from '../store/allUsers';
 
 class Places extends Component {
+  static navigationOptions = {
+    title: 'Places visited'
+  }
+
   constructor(props){
     super(props);
     this.ref = firebase.firestore().collection('users');
@@ -110,15 +114,6 @@ class Places extends Component {
     const places = this.state.places;
     return(
       <ScrollView style={styles.container}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 10, alignItems: 'center'}}>
-          <Text style={styles.title}>Places Visited</Text>
-          <Icon
-            name="ios-add-circle"
-            size={40}
-            color="#66cc66"
-            onPress={() => this.setState({ alert: true})}
-          />
-        </View>
         {
           places ?
             places.map((item, i) => {
@@ -133,6 +128,14 @@ class Places extends Component {
             })
           : null
         }
+        <View style={{margin: 10, alignItems: 'center'}}>
+          <Icon
+            name="ios-add-circle"
+            size={40}
+            color="#66cc66"
+            onPress={() => this.setState({ alert: true})}
+          />
+        </View>
         <View>
           <Dialog.Container visible={this.state.alert}>
             <Dialog.Title>Add new place</Dialog.Title>
