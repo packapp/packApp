@@ -144,6 +144,7 @@ export class SingleTrip extends Component {
                       rounded
                       source={{ uri: `${user.imgUrl}` }}
                       containerStyle={{ marginLeft: 0 }}
+                      avatarStyle={{borderColor: '#f8f8f8', borderWidth: 1, borderRadius: 17}}
                     />
                   </ProgressCircle>
                 ))
@@ -222,7 +223,7 @@ export class SingleTrip extends Component {
         <View style={styles.footer}>
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-chatbubbles" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Howl', { user, userId })}/>
           <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-home" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Dashboard')}/>
-          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user })}/>
+          <Button style={styles.navBtns} type="clear" icon={<Ionicons name="ios-person" size={25} color="#aaaaaa"/>} onPress={() => this.props.navigation.navigate('Profile', { user, userId })}/>
         </View>
       </View>
     );
