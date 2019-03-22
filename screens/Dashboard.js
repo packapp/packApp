@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
 import firebase from '../server/config';
-import { Icon, Button } from 'react-native-elements';
+import { Button } from 'react-native-elements';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { fetchUser } from '../store/user';
 import {
@@ -10,13 +11,25 @@ import {
   fetchSingleTrip,
 } from '../store/trip';
 import { fetchUsers } from '../store/usersPerTrips';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import TripCard from './TripCard';
 
+let userID = '';
+
 class Dashboard extends React.Component {
-  static navigationOptions = {
-    title: 'Dashboard',
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Pack',
+      headerRight: (
+        <Button
+          onPress={() => navigation.navigate('NewTrip', { userId: userID })}
+          type="clear"
+          icon={<Ionicons name="ios-add-circle" size={30} color="#66cc66" />}
+          style={styles.addBtn}
+        />
+      ),
+    };
   };
+
   constructor(props) {
     super(props);
     this.tripsRef = firebase.firestore().collection('trips');
@@ -27,18 +40,41 @@ class Dashboard extends React.Component {
   onCollectionUpdate = querySnapshot => {
     const trips = [];
     querySnapshot.forEach(doc => {
-      trips.push(doc.data());
+      if (doc.data().endDate.toDate() > new Date()) {
+        if (
+          doc.data().attendees.includes(this.state.currentUser.uid) ||
+          doc.data().host === this.state.currentUser.uid
+        ) {
+          trips.push(doc.data());
+        }
+      }
     });
     this.setState({ trips });
   };
 
   async componentDidMount() {
     const { currentUser } = await firebase.auth();
+    userID = currentUser.uid;
     this.setState({ currentUser });
     const userId = this.state.currentUser.uid;
     this.props.fetchUser(userId);
     this.props.fetchAlphaTrips(userId);
     this.props.fetchPackTrips(userId);
+    const newTrips = this.props.alphaTrips
+      ? this.props.alphaTrips.filter(trip => {
+          return trip.endDate < new Date();
+        })
+      : null;
+    newTrips.concat(
+      this.props.packTrips
+        ? this.props.packTrips.filter(trip => {
+            return trip.endDate < new Date();
+          })
+        : null
+    );
+    this.setState({
+      trips: newTrips,
+    });
     this.unsubcribeTrips = this.tripsRef.onSnapshot(this.onCollectionUpdate);
   }
   componentWillUnmount() {
@@ -52,25 +88,9 @@ class Dashboard extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <ScrollView>
-          <View style={styles.buttonContainer}>
-            <Icon
-              reverse
-              name="add"
-              type="material"
-              color="#ff9933"
-              onPress={() =>
-                navigate('NewTrip', { userId: this.state.currentUser.uid })
-              }
-            />
-          </View>
           <View>
             <TripCard
-              trips={this.props.alphaTrips}
-              navigate={navigate}
-              userId={userId}
-            />
-            <TripCard
-              trips={this.props.packTrips}
+              trips={this.state.trips}
               navigate={navigate}
               userId={userId}
             />
@@ -114,8 +134,8 @@ class Dashboard extends React.Component {
 const styles = StyleSheet.create({
   buttonContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'flex-end',
+    alignItems: 'center',
+    margin: 10,
   },
   footer: {
     position: 'absolute',
@@ -130,7 +150,10 @@ const styles = StyleSheet.create({
   },
   navBtns: {
     paddingLeft: 30,
-    paddingRight: 30,
+    paddingRight: 20,
+  },
+  addBtn: {
+    marginRight: 8,
   },
 });
 

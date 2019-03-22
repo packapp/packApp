@@ -25,7 +25,9 @@ import HowlChat from './screens/HowlChat';
 import NewTodo from './screens/NewTodo';
 import HowlGroup from './screens/HowlGroup';
 import RecentActivity from './screens/RecentActivity'
+import NewItin from './screens/NewItin';
 import PendingItinerary from './screens/PendingItinerary';
+import FriendProfile from './screens/FriendProfile';
 
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
@@ -96,8 +98,14 @@ const AppStackNavigator = createStackNavigator(
     RecentActivity: {
       screen: RecentActivity
     },
+    NewItin: {
+      screen: NewItin,
+    },
     PendingItinerary: {
-      screen: PendingItinerary
+      screen: PendingItinerary,
+    },
+    FriendProfile: {
+      screen: FriendProfile
     }
   },
   {

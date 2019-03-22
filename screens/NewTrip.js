@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import MultiSelect from 'react-native-multiple-select';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { StyleSheet, Text, Button, View, ScrollView } from 'react-native';
-import { Input } from 'react-native-elements';
+import { Input, Button as Test, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import DatePicker from 'react-native-datepicker';
@@ -15,7 +16,21 @@ import { fetchUsers } from '../store/allUsers';
 
 import { createNewTrip } from '../store/trip';
 
+import DateTimePicker from 'react-native-modal-datetime-picker';
+
 class NewTrip extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Create a new pack',
+      headerLeft: (
+        <Test
+          onPress={() => navigation.goBack()}
+          type="clear"
+          icon={<Icon name="chevron-left" size={30} />}
+        />
+      ),
+    };
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -29,10 +44,13 @@ class NewTrip extends Component {
       data: [],
       startAirport: '',
       endAirport: '',
+      isEndDateTimePickerVisible: false,
+      isStartDateTimePickerVisible: false,
     };
     this.pickerValueChange = this.pickerValueChange.bind(this);
     this.onSelectedItemsChange = this.onSelectedItemsChange.bind(this);
     this.handleOnPress = this.handleOnPress.bind(this);
+    this.setDate = this.setDate.bind(this);
   }
   componentDidMount() {
     this.props.fetchUsers();
@@ -50,6 +68,7 @@ class NewTrip extends Component {
       ...this.state,
       host: this.props.navigation.state.params.userId,
     });
+    this.props.navigation.navigate('Dashboard');
   }
 
   getSelectedImages(selectedImage) {
@@ -57,25 +76,75 @@ class NewTrip extends Component {
       imageUrl: selectedImage,
     });
   }
-  render() {
-    const users = this.props.allUsers
-      ? this.props.allUsers.map(user => {
-          return { name: `${user.firstName} ${user.lastName}`, id: user.id };
-        })
-      : [];
-    const userId = this.props.navigation.state.params.userId;
 
+  showEndDateTimePicker = () =>
+    this.setState({ isEndDateTimePickerVisible: true });
+
+  hideEndDateTimePicker = () =>
+    this.setState({ isEndDateTimePickerVisible: false });
+
+  handleEndDatePicked = endDate => {
+    console.log('A end date has been picked: ', endDate);
+    this.setState({
+      endDate,
+    });
+    this.hideEndDateTimePicker();
+  };
+
+  showStartDateTimePicker = () =>
+    this.setState({ isStartDateTimePickerVisible: true });
+
+  hideStartDateTimePicker = () =>
+    this.setState({ isStartDateTimePickerVisible: false });
+
+  handleStartDatePicked = startDate => {
+    console.log('A end date has been picked: ', startDate);
+
+    this.hideStartDateTimePicker();
+    this.setState({
+      startDate,
+    });
+  };
+  setDate(newDate) {
+    this.setState({ startDate: newDate });
+    console.log(this.state.startDate);
+  }
+
+  // eslint-disable-next-line complexity
+  render() {
+    const {
+      destination,
+      imageUrl,
+      startAirCity,
+      endAirCity,
+      selectedItems,
+      data,
+      startAirport,
+      endAirport,
+    } = this.state;
+
+    const users = [];
+    if (this.props.allUsers) {
+      this.props.allUsers.forEach(user => {
+        if (user.id !== this.props.navigation.state.params.userId) {
+          users.push({
+            name: `${user.firstName} ${user.lastName}`,
+            id: user.id,
+          });
+        }
+      });
+    }
+    const userId = this.props.navigation.state.params.userId;
     return (
-      <ScrollView>
-        <Text style={styles.header}>create a new pack</Text>
+      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
         <Input
-          placeholder="destination"
+          placeholder="Destination"
           style={styles.textInput}
           onChangeText={destination => this.setState({ destination })}
           value={this.state.destination}
         />
         <Input
-          placeholder="image URL"
+          placeholder="Image URL"
           style={styles.textInput}
           onChangeText={imageUrl => this.setState({ imageUrl })}
           value={this.state.imageUrl}
@@ -89,39 +158,27 @@ class NewTrip extends Component {
             width: '100%',
           }}
         >
-          <Text style={styles.label}>Start Date</Text>
-
-          <DatePicker
-            style={{ width: 200, height: 40, marginLeft: 3, marginTop: 7 }}
-            date={this.state.startDate}
+          <Button title="Start date" onPress={this.showStartDateTimePicker} />
+          <DateTimePicker
+            isVisible={this.state.isStartDateTimePickerVisible}
+            onConfirm={this.handleStartDatePicked}
+            onCancel={this.hideStartDateTimePicker}
             mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate={new Date()}
-            maxDate="2025-04-01"
-            confirmBtnText="Select"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                marginLeft: 36,
-              },
-            }}
-            onDateChange={date => {
-              this.setState({ startDate: date });
-            }}
+            date={this.state.startDate}
+            onDateChange={this.setDate}
           />
+          {/* {this.state.startDate > new Date() ? (
+            <Text>{Date(this.state.startDate).slice(4, 16)}</Text>
+          ) : (
+            <Text>Pick a date!</Text>
+          )} */}
         </View>
         <View
           style={{
+            flex: 1,
             borderColor: 'white',
             borderBottomColor: 'grey',
-
+            alignSelf: 'center',
             borderWidth: 1,
             width: '95%',
           }}
@@ -134,32 +191,12 @@ class NewTrip extends Component {
             width: '100%',
           }}
         >
-          <Text style={styles.label}>End Date</Text>
-
-          <DatePicker
-            style={{ width: 200, height: 40, marginLeft: 11, marginTop: 7 }}
-            date={this.state.endDate}
+          <Button title="End date" onPress={this.showEndDateTimePicker} />
+          <DateTimePicker
+            isVisible={this.state.isEndDateTimePickerVisible}
+            onConfirm={this.handleEndDatePicked}
+            onCancel={this.hideEndDateTimePicker}
             mode="date"
-            placeholder="select date"
-            format="YYYY-MM-DD"
-            minDate={new Date()}
-            maxDate="2025-04-01"
-            confirmBtnText="Select"
-            cancelBtnText="Cancel"
-            customStyles={{
-              dateIcon: {
-                position: 'absolute',
-                left: 0,
-                top: 4,
-                marginLeft: 0,
-              },
-              dateInput: {
-                marginLeft: 36,
-              },
-            }}
-            onDateChange={date => {
-              this.setState({ endDate: date });
-            }}
           />
         </View>
         <View
@@ -167,14 +204,15 @@ class NewTrip extends Component {
             marginTop: 7,
             borderColor: 'white',
             borderBottomColor: 'grey',
+            alignSelf: 'center',
             borderWidth: 1,
             width: '95%',
           }}
         />
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{ width: 150 }}>
+        <View style={{ flex: 1, marginTop: 20 }}>
+          <View style={{ flex: 1 }}>
             <Input
-              placeholder="starting airport"
+              placeholder="Choose city"
               style={styles.textInput}
               onChangeText={startAirCity => {
                 this.setState({ startAirCity });
@@ -182,9 +220,19 @@ class NewTrip extends Component {
               value={this.state.startAirCity}
             />
           </View>
-          <View style={{ backgroundColor: '#aaaaaa', borderRadius: 10 }}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#aaaaaa',
+              borderRadius: 50,
+              marginTop: 20,
+              alignContent: 'flex-start',
+              marginLeft: 10,
+              marginRight: 10,
+            }}
+          >
             <Button
-              title="search airports by city"
+              title="Search airports"
               type="outline"
               color="white"
               style={styles.button}
@@ -208,9 +256,11 @@ class NewTrip extends Component {
             marginTop: 5,
           }}
         >
-          <Text style={styles.airportLabel}> select a departure airport</Text>
-          <View style={{ width: 150, marginLeft: 10 }}>
+          <View style={{ flex: 1, marginLeft: 10 }}>
             <Dropdown
+              dropdownOffset={{ top: 15, bottom: 0 }}
+              containerStyle={{ width: 390 }}
+              label="Select a departure airport"
               data={this.state.data}
               value={this.state.startAirport}
               onChangeText={value => {
@@ -219,10 +269,10 @@ class NewTrip extends Component {
             />
           </View>
         </View>
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{ width: 150 }}>
+        <View style={{ flex: 1 }}>
+          <View style={{ flex: 1 }}>
             <Input
-              placeholder="destination airport"
+              placeholder="Choose city"
               style={styles.textInput}
               onChangeText={endAirCity => {
                 this.setState({ endAirCity });
@@ -230,9 +280,19 @@ class NewTrip extends Component {
               value={this.state.endAirCity}
             />
           </View>
-          <View style={{ backgroundColor: '#aaaaaa', borderRadius: 10 }}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#aaaaaa',
+              borderRadius: 50,
+              marginTop: 20,
+              alignContent: 'flex-start',
+              marginLeft: 10,
+              marginRight: 10,
+            }}
+          >
             <Button
-              title="search airports by city"
+              title="Search airports"
               type="outline"
               color="white"
               style={styles.button}
@@ -256,9 +316,11 @@ class NewTrip extends Component {
             marginTop: 5,
           }}
         >
-          <Text style={styles.airportLabel}> select an arrival airport</Text>
           <View style={{ width: 150, marginLeft: 10 }}>
             <Dropdown
+              dropdownOffset={{ top: 15, bottom: 0 }}
+              containerStyle={{ width: 390 }}
+              label="Select an arrival airport"
               data={this.state.data}
               value={this.state.endAirport}
               onChangeText={value => {
@@ -267,42 +329,77 @@ class NewTrip extends Component {
             />
           </View>
         </View>
-        <MultiSelect
-          hidTags
-          hideTags
-          items={users}
-          uniqueKey="id"
-          ref={component => {
-            this.multiSelect = component;
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            marginLeft: 10,
+            marginRight: 10,
           }}
-          onSelectedItemsChange={this.onSelectedItemsChange}
-          selectedItems={this.state.selectedItems}
-          selectText="pick your pack"
-          searchInputPlaceholderText="search packmates..."
-          onChangeInput={text => console.log(text)}
-          altFontFamily="Verdana"
-          tagRemoveIconColor="#CCC"
-          tagBorderColor="#CCC"
-          tagTextColor="#CCC"
-          selectedItemTextColor="#CCC"
-          selectedItemIconColor="#CCC"
-          itemTextColor="#000"
-          displayKey="name"
-          searchInputStyle={{ color: '#CCC' }}
-          submitButtonColor="#CCC"
-          submitButtonText="Submit"
-        />
-        <View style={{ height: 100 }} />
-        <View style={{ backgroundColor: '#ff9933', borderRadius: 10 }}>
-          <Button
-            title="start the pack!"
-            type="outline"
-            color="white"
-            style={styles.button}
-            onPress={this.handleOnPress}
+        >
+          <MultiSelect
+            hidTags
+            hideTags
+            items={users}
+            uniqueKey="id"
+            fontSize={16}
+            ref={component => {
+              this.multiSelect = component;
+            }}
+            onSelectedItemsChange={this.onSelectedItemsChange}
+            selectedItems={this.state.selectedItems}
+            selectText="Pick your pack"
+            searchInputPlaceholderText="Search packmates..."
+            onChangeInput={text => console.log(text)}
+            altFontFamily="Verdana"
+            tagRemoveIconColor="#CCC"
+            tagBorderColor="#CCC"
+            tagTextColor="#CCC"
+            selectedItemTextColor="#CCC"
+            selectedItemIconColor="#CCC"
+            itemTextColor="#000"
+            displayKey="name"
+            searchInputStyle={{ color: '#CCC' }}
+            submitButtonColor="#CCC"
+            submitButtonText="Submit"
           />
         </View>
-      </ScrollView>
+        <View style={{ height: 0 }} />
+        <View
+          style={{
+            backgroundColor: '#ff9933',
+            borderRadius: 50,
+            flex: 1,
+            justifyContent: 'center',
+            marginLeft: 10,
+            marginRight: 10,
+          }}
+        >
+          {destination &&
+          imageUrl &&
+          startAirCity &&
+          endAirCity &&
+          selectedItems.length &&
+          data.length &&
+          startAirport &&
+          endAirport ? (
+            <Button
+              title="Start your pack!"
+              type="outline"
+              color="white"
+              style={styles.button}
+              onPress={this.handleOnPress}
+            />
+          ) : (
+            <Button
+              title="Start your pack!"
+              type="outline"
+              color="white"
+              style={styles.button}
+            />
+          )}
+        </View>
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -332,7 +429,6 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 10,
-    flex: 3,
     color: 'white',
     backgroundColor: '#aaaaaa',
   },
@@ -349,6 +445,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     width: 150,
     textAlign: 'left',
+  },
+  contentContainer: {
+    paddingVertical: 10,
   },
 });
 

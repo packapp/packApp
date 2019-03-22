@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchFlights } from '../store/flight';
+import { Icon } from 'react-native-elements'
 import {
   PricingCard,
   Tile,
@@ -16,14 +17,23 @@ import ProgressCircle from 'react-native-progress-circle';
 import RecentActivity from './RecentActivity';
 
 export class SingleTrip extends Component {
- async componentDidMount() {
-    const location = this.props.navigation.state.params.location
-    const endAirport = this.props.trip.endAirport
-    const startAirport = this.props.trip.startAirport
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerLeft:(
+        <Button
+        onPress={() => navigation.goBack()}
+        type="clear"
+        icon={<Icon name='chevron-left' size={30} />}
+        />
+    ),
+    };
+  };
+  async componentDidMount() {
+    await this.props.getTrip(this.props.navigation.state.params.location);
+    const endAirport = await trip.endAirport
+    const startAirport = await trip.startAirport
 
-    await this.props.getTrip(location)
-    await this.props.getFlights(endAirport, startAirport);
-
+    console.log(endAirport)
     let userIds = [];
     if (this.props.trip.attendees) {
       userIds = [...this.props.trip.attendees];
@@ -31,6 +41,8 @@ export class SingleTrip extends Component {
     }
     this.userIds = userIds;
     this.props.getUsers(userIds);
+
+    this.props.getFlights(endAirport, startAirport);
   }
 
   todoFilter = (todosObj, userId) => {
@@ -121,7 +133,7 @@ export class SingleTrip extends Component {
         <ScrollView>
           <View style={{ flex: 1, justifyContent: 'top' }}>
             <Tile
-              imageSrc={{ uri: 'https://placeimg.com/320/150/nature' }}
+              imageSrc={{ uri: this.props.trip.imageUrl }}
               title={this.props.navigation.state.params.location}
               featured
               caption={`${onvertTime(date)} - ${onvertTime(date2)}`}
@@ -137,18 +149,29 @@ export class SingleTrip extends Component {
                   <ProgressCircle
                     percent={Math.floor(user.percentage)}
                     key={user.firstName}
-                    radius={30}
-                    borderWidth={8}
+                    radius={20}
+                    borderWidth={3}
                     color={user.color}
                     shadowColor="#999"
                     bgColor="#aaaaaa"
                   >
                     <Avatar
-                      size="medium"
+                      size="small"
                       key={user.firstName}
                       rounded
-                      source={{ uri: `${user.imgUrl}` }}
+                      // source={{ uri: `${user.imgUrl}` }}
+                      source={user.imgUrl ? { uri: `${user.imgUrl}` } : ''}
+                      title={
+                        user.imgUrl
+                          ? ''
+                          : `${user.firstName[0] + user.lastName[0]}`
+                      }
                       containerStyle={{ marginLeft: 0 }}
+                      avatarStyle={{
+                        borderColor: '#f8f8f8',
+                        borderWidth: 1,
+                        borderRadius: 17,
+                      }}
                     />
                   </ProgressCircle>
                 ))
@@ -158,96 +181,111 @@ export class SingleTrip extends Component {
             </ScrollView>
             <Divider style={{ backgroundColor: 'gray', marginBottom: 10 }} />
             <View style={{ flexDirection: 'row' }}>
-              <Avatar
-                size="large"
-                rounded
-                icon={{ name: 'check', color: 'white', type: 'font-awesome' }}
-                onPress={() =>
-                  navigate('Todos', {
-                    todos: this.props.trip.todos,
-                    userId: userId,
-                    location: this.props.trip.location,
-
-                    users: this.props.users,
-
-                  })
-                }
-                activeOpacity={0.7}
-                containerStyle={{ marginLeft: 20, marginTop: 5 }}
-                avatarStyle={{ backgroundColor: '#ff9933' }}
-              />
-              <Avatar
-                size="large"
-                rounded
-                icon={{ name: 'plane', color: 'white', type: 'font-awesome' }}
-                onPress={() =>
-                  navigate('Flights', { flights: this.props.flights })
-                }
-                activeOpacity={0.7}
-                containerStyle={{ marginLeft: 20, marginTop: 5 }}
-                avatarStyle={{ backgroundColor: '#66cc66' }}
-              />
-              <Avatar
-                size="large"
-                rounded
-
-                icon={{name: 'calendar', color: 'white', type: 'font-awesome'}}
-                onPress={() => navigate('Itinerary', {trip: this.props.trip})}
-                activeOpacity={0.7}
-                containerStyle={{
-                  marginLeft: 20,
-                  marginTop: 5,
-                  marginRight: 20,
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
-              />
+              >
+                <Avatar
+                  size="large"
+                  rounded
+                  icon={{ name: 'check', color: 'white', type: 'font-awesome' }}
+                  onPress={() =>
+                    navigate('Todos', {
+                      todos: this.props.trip.todos,
+                      userId: userId,
+                      location: this.props.trip.location,
+
+                      users: this.props.users,
+                    })
+                  }
+                  activeOpacity={0.7}
+                  containerStyle={{ marginLeft: 15, marginTop: 5 }}
+                  avatarStyle={{ backgroundColor: '#ff9933' }}
+                />
+                <Text style={styles.text}>Todos</Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Avatar
+                  size="large"
+                  rounded
+                  icon={{ name: 'plane', color: 'white', type: 'font-awesome' }}
+                  onPress={() =>
+                    navigate('Flights', { flights: this.props.flights })
+                  }
+                  activeOpacity={0.7}
+                  containerStyle={{ marginLeft: 15, marginTop: 5 }}
+                  avatarStyle={{ backgroundColor: '#66cc66' }}
+                />
+                <Text style={styles.text}>Flights</Text>
+              </View>
+              <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                <Avatar
+                  size="large"
+                  rounded
+                  icon={{
+                    name: 'calendar',
+                    color: 'white',
+                    type: 'font-awesome',
+                  }}
+                  onPress={() =>
+                    navigate('Itinerary', {
+                      trip: this.props.trip,
+                      users: this.userIds,
+                      location: this.props.navigation.state.params.location,
+                      userId: userId,
+                    })
+                  }
+                  activeOpacity={0.7}
+                  containerStyle={{
+                    marginLeft: 15,
+                    marginTop: 5,
+                  }}
+                />
+                <Text style={styles.text}>Itinerary</Text>
+              </View>
             </View>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                marginLeft: 32,
-                marginTop: 10,
-                styles: styles.text,
-              }}
-            >
-              <Text
-                style={{
-                  flex: 1,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  marginLeft: 2,
-                }}
-              >
-                Todos
-              </Text>
-              <Text
-                style={{
-                  flex: 1,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  marginLeft: 27,
-                }}
-              >
-                Flights
-              </Text>
-              <Text
-                style={{
-                  flex: 3,
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  marginLeft: 23,
-                }}
-              >
-                Itinerary
-              </Text>
-            </View>
-        </View>
-        <Divider style={{ backgroundColor: 'gray', marginTop: 20}} />
-        <Text style={{marginTop: 30, marginLeft: 20, fontSize: 20}}>Recent activity</Text>
-        <View>
+          </View>
+          <Divider style={{ backgroundColor: 'gray', marginTop: 20 }} />
+          <Text style={{ marginTop: 30, marginLeft: 15, fontSize: 20 }}>
+            Recent activity
+          </Text>
+          <View>
           <RecentActivity trip={this.props.navigation.state.params.location} />
         </View>
-      </ScrollView>
+        </ScrollView>
+        <View style={styles.footer}>
+          <Button
+            style={styles.navBtns}
+            type="clear"
+            icon={<Ionicons name="ios-chatbubbles" size={25} color="#aaaaaa" />}
+            onPress={() =>
+              this.props.navigation.navigate('Howl', { user, userId })
+            }
+          />
+          <Button
+            style={styles.navBtns}
+            type="clear"
+            icon={<Ionicons name="ios-home" size={25} color="#aaaaaa" />}
+            onPress={() => this.props.navigation.navigate('Dashboard')}
+          />
+          <Button
+            style={styles.navBtns}
+            type="clear"
+            icon={<Ionicons name="ios-person" size={25} color="#aaaaaa" />}
+            onPress={() =>
+              this.props.navigation.navigate('Profile', { user, userId })
+            }
+          />
+        </View>
       </View>
     );
   }
@@ -274,8 +312,12 @@ const styles = StyleSheet.create({
     paddingRight: 30,
   },
   text: {
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
+    fontWeight: 'bold',
+    marginTop: 5,
+    paddingLeft: 5,
   },
 });
 
