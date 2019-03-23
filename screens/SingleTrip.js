@@ -77,8 +77,6 @@ export class SingleTrip extends Component {
       let result = `${newDate[0]}-${dates[month]}-${newDate[1]}`
       return result
     }
-    console.log(test(date))
-    console.log(test(date2))
     const startDate = test(date)
     const endDate = test(date2)
     this.props.getFlights(endAirport, startAirport, startDate, endDate);
