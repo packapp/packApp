@@ -30,10 +30,9 @@ export class SingleTrip extends Component {
   };
   async componentDidMount() {
     await this.props.getTrip(this.props.navigation.state.params.location);
-    const endAirport = await trip.endAirport
-    const startAirport = await trip.startAirport
+    const endAirport = this.props.trip.endAirport.toString()
+    const startAirport = this.props.trip.startAirport.toString()
 
-    console.log(endAirport)
     let userIds = [];
     if (this.props.trip.attendees) {
       userIds = [...this.props.trip.attendees];
@@ -42,7 +41,47 @@ export class SingleTrip extends Component {
     this.userIds = userIds;
     this.props.getUsers(userIds);
 
-    this.props.getFlights(endAirport, startAirport);
+
+    const date = this.props.trip.startDate
+    ? this.props.trip.startDate.seconds
+    : '';
+  const date2 = this.props.trip.endDate
+    ? this.props.trip.endDate.seconds
+    : '';
+
+    const onvertTime = time => {
+      let date = new Date(null);
+      date.setSeconds(time);
+      return date.toString().slice(0, 16);
+    };
+
+    const test = date => {
+      const dates = {
+        Jan: '01',
+        Feb: '02',
+        Mar: '03',
+        Apr: '04',
+        May: '05',
+        Jun: '06',
+        Jul: '07',
+        Aug: '08',
+        Sep: '09',
+        Oct: '10',
+        Nov: '11',
+        Dec: '12'
+      }
+
+      const oldDate = onvertTime(date)
+      const month = oldDate.slice(4, 7)
+      let newDate = oldDate.split(' ').reverse().join(' ').slice(1, 12).split(' ')
+      let result = `${newDate[0]}-${dates[month]}-${newDate[1]}`
+      return result
+    }
+    console.log(test(date))
+    console.log(test(date2))
+    const startDate = test(date)
+    const endDate = test(date2)
+    this.props.getFlights(endAirport, startAirport, startDate, endDate);
   }
 
   todoFilter = (todosObj, userId) => {
@@ -332,7 +371,7 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getFlights: (endAirport, startAirport) => dispatch(fetchFlights(endAirport, startAirport)),
+    getFlights: (endAirport, startAirport, startDate, endDate) => dispatch(fetchFlights(endAirport, startAirport, startDate, endDate)),
     getTrip: (tripName) => dispatch(fetchSingleTrip(tripName)),
     getUsers: (userIds) => dispatch(fetchUsers(userIds))
   };
