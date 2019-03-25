@@ -9,7 +9,7 @@ const api = axios.create({
   },
 });
 
-const getPlaces = (coordinates, searchYield = []) => {
+const getPlaces = (coordinates, search) => {
   const latitude = coordinates[0].lat;
   const longitude = coordinates[0].lon;
   const location = { latitude, longitude };
@@ -19,7 +19,7 @@ const getPlaces = (coordinates, searchYield = []) => {
       params: {
         limit: 35,
         sortBy: 'rating',
-        categories: searchYield.join(','),
+        term: search,
         ...location,
       },
     })

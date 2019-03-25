@@ -3,8 +3,8 @@
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "expoServerNgrokUrl": "https://8f-man.anonymous.pack.exp.direct",
+  "packagerNgrokUrl": "https://packager.8f-man.anonymous.pack.exp.direct",
+  "ngrokPid": 7718,
   "webpackServerPort": null
 }

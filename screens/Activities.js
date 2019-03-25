@@ -44,40 +44,28 @@ class Activities extends React.Component {
       error: null,
       searchYield: [],
       search: '',
-      searchByAnything: '',
     };
     this.arrayHolder = [];
     this.searchFilter = this.searchFilter.bind(this);
+    this.handleClear = this.handleClear.bind(this);
   }
-  // renderHeader = () => {
-  //   return (
-  //     <SearchBar
-  //       placeholder="Type Here..."
-  //       lightTheme
-  //       round
-  //       onChangeText={text => this.searchFilterFunction(text)}
-  //       autoCorrect={false}
-  //     />
-  //   );
-  // };
 
   updateSearch = search => {
     this.setState({ search });
   };
 
   searchFilter = async () => {
-    this.state.data.forEach(item => {
-      if (item.title.toLowerCase().includes(this.state.search.toLowerCase())) {
-        this.state.searchYield.push(item.alias);
-      }
-    });
     const places = await YelpService.getPlaces(
       this.props.coordinates,
-      this.state.searchYield
+      this.state.search
     );
     this.setState({ places });
     console.log('PLACES', places);
   };
+
+  handleClear() {
+    this.setState({ search: '' });
+  }
 
   async componentDidMount() {
     await this.props.fetchCoordinates(
@@ -128,6 +116,7 @@ class Activities extends React.Component {
           autoCorrect={false}
           value={this.state.search}
           onEndEditing={this.searchFilter}
+          onClear={this.handleClear}
         />
         <SafeAreaView>
           <Map
