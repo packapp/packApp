@@ -28,6 +28,7 @@ import RecentActivity from './screens/RecentActivity'
 import NewItin from './screens/NewItin';
 import PendingItinerary from './screens/PendingItinerary';
 import FriendProfile from './screens/FriendProfile';
+import SingleTodos from './screens/SingleTodos';
 
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
@@ -105,8 +106,11 @@ const AppStackNavigator = createStackNavigator(
       screen: PendingItinerary,
     },
     FriendProfile: {
-      screen: FriendProfile
-    }
+      screen: FriendProfile,
+    },
+    SingleTodos: {
+      screen: SingleTodos,
+    },
   },
   {
     initialRouteName: 'Loading',
