@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { StyleSheet, Button, ScrollView, View } from 'react-native';
 import { Input, Avatar } from 'react-native-elements';
-import CameraRollPicker from 'react-native-camera-roll-picker';
 import firebase from '../server/config';
+import { ImagePicker, Permissions } from 'expo';
 
 export default class EditProfile extends Component {
   static navigationOptions = {
@@ -14,8 +14,7 @@ export default class EditProfile extends Component {
     this.state = {
       firstName: this.props.navigation.state.params.userProps.firstName,
       lastName: this.props.navigation.state.params.userProps.lastName,
-      imgUrl: [this.props.navigation.state.params.userProps.imgUrl],
-      showCameraRoll: false
+      imgUrl: this.props.navigation.state.params.userProps.imgUrl,
     };
   }
 
@@ -23,7 +22,7 @@ export default class EditProfile extends Component {
     this.setState({
       firstName: this.props.navigation.state.params.userProps.firstName,
       lastName: this.props.navigation.state.params.userProps.lastName,
-      imgUrl: [this.props.navigation.state.params.userProps.imgUrl]
+      imgUrl: this.props.navigation.state.params.userProps.imgUrl
     });
   }
 
@@ -31,8 +30,13 @@ export default class EditProfile extends Component {
     const userId = this.props.navigation.state.params.userId;
     const firstName = this.state.firstName;
     const lastName = this.state.lastName;
-    const imgUrl = this.state.imgUrl[0];
-    // this.convertLocalImage(imgUrl);
+    const imgUrl = this.state.imgUrl;
+
+    const storageRef = firebase.storage().ref();
+    const imageRef = storageRef.child(`images/${this.props.navigation.state.params.userProps.email}`);
+    await imageRef.putString(imgUrl, 'base64').then(function(snapshot) {
+      console.log('Uploaded a base64 string!');
+    });
 
     const db = firebase.firestore();
     const userRef = await db.collection('users').doc(userId);
@@ -44,30 +48,18 @@ export default class EditProfile extends Component {
     this.props.navigation.navigate('Profile');
   }
 
-  getPhotos = () => {
-    this.setState({
-      showCameraRoll: true
+  getSelectedImage = async () => {
+    await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    let result = await ImagePicker.launchImageLibraryAsync({
+      quality: 0,
+      base64: true
     });
+    if (!result.cancelled) {
+      this.setState({
+        imgUrl: result.uri
+      });
+    }
   }
-
-  getSelectedImage = (image) => {
-    const imgUrl = [];
-    imgUrl.push(image[0].uri);
-    this.setState({
-      imgUrl,
-      showCameraRoll: false
-    });
-  }
-
-  // convertLocalImage = async (uri) => {
-  //   const response = await fetch(uri);
-  //   const blob = await response.blob();
-  //   const storageRef = firebase.storage().ref();
-  //   const pathReference = await storageRef.child(`images/${this.props.navigation.state.params.user.email}`);
-  //   pathReference.put(blob).then(snapshot => {
-  //     console.log('uploaded');
-  //   });
-  // }
 
   render() {
     let { imgUrl } = this.state;
@@ -77,22 +69,10 @@ export default class EditProfile extends Component {
           <Avatar
             size="xlarge"
             rounded
-            source={{uri:`${imgUrl[0]}`}}
+            source={{uri:`${imgUrl}`}}
             containerStyle={{borderWidth: 1, borderColor: '#aaaaaa'}}
           />
-          <Button title="Change profile picture" onPress={this.getPhotos} />
-            {this.state.showCameraRoll ?
-                <CameraRollPicker
-                  groupTypes='SavedPhotos'
-                  selectSingleItem={true}
-                  selected={imgUrl}
-                  assetType='Photos'
-                  imagesPerRow={3}
-                  imageMargin={5}
-                  callback={this.getSelectedImage}
-                />
-              : null
-            }
+          <Button title="Change profile picture" onPress={this.getSelectedImage} />
         </View>
           <Input
             placeholder="First Name"
