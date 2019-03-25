@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
-import { Text, View, Image, ScrollView, StyleSheet } from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableHighlight,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { fetchFlights } from '../store/flight';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import {
   PricingCard,
   Tile,
@@ -16,15 +23,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProgressCircle from 'react-native-progress-circle';
 
 export class SingleTrip extends Component {
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({ navigation }) => {
     return {
-      headerLeft:(
+      headerLeft: (
         <Button
-        onPress={() => navigation.goBack()}
-        type="clear"
-        icon={<Icon name='chevron-left' size={30} />}
+          onPress={() => navigation.goBack()}
+          type="clear"
+          icon={<Icon name="chevron-left" size={30} />}
         />
-    ),
+      ),
     };
   };
   async componentDidMount() {
@@ -77,6 +84,7 @@ export class SingleTrip extends Component {
         })
       : [];
     const usersTodoTotal = [];
+    const usersTodosData = {};
     const usersTodos = usersTodoData
       ? usersTodoData.reduce((startArr, userObj) => {
           const userId = Object.keys(userObj);
@@ -86,12 +94,13 @@ export class SingleTrip extends Component {
               acc.user = userId[0];
               todoKeys.forEach(todoKey => {
                 todo[todoKey] ? (acc.true += 1) : (acc.false += 1);
+                usersTodosData[userId] = todo;
               });
               return acc;
             },
             { true: 0, false: 0 }
           );
-
+          console.log(usersTodosData);
           usersTodoTotal.push(userTodoTotal);
         }, [])
       : [];
@@ -121,8 +130,14 @@ export class SingleTrip extends Component {
             userObject.color = color;
           }
         });
+        Object.keys(usersTodosData).forEach(key => {
+          if (key === userObject.userId) {
+            userObject.todoList = usersTodosData[key];
+          }
+        });
       });
     }
+    if (this.props.users) console.log(this.props.users);
     return (
       <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
         <ScrollView>
@@ -141,34 +156,42 @@ export class SingleTrip extends Component {
             >
               {this.props.users ? (
                 this.props.users.map(user => (
-                  <ProgressCircle
-                    percent={Math.floor(user.percentage)}
+                  <TouchableHighlight
                     key={user.firstName}
-                    radius={20}
-                    borderWidth={3}
-                    color={user.color}
-                    shadowColor="#999"
-                    bgColor="#aaaaaa"
+                    onPress={() =>
+                      navigate('SingleTodos', {
+                        todos: user.todoList,
+                      })
+                    }
                   >
-                    <Avatar
-                      size="small"
-                      key={user.firstName}
-                      rounded
-                      // source={{ uri: `${user.imgUrl}` }}
-                      source={user.imgUrl ? { uri: `${user.imgUrl}` } : ''}
-                      title={
-                        user.imgUrl
-                          ? ''
-                          : `${user.firstName[0] + user.lastName[0]}`
-                      }
-                      containerStyle={{ marginLeft: 0 }}
-                      avatarStyle={{
-                        borderColor: '#f8f8f8',
-                        borderWidth: 1,
-                        borderRadius: 17,
-                      }}
-                    />
-                  </ProgressCircle>
+                    <ProgressCircle
+                      percent={Math.floor(user.percentage)}
+                      radius={20}
+                      borderWidth={3}
+                      color={user.color}
+                      shadowColor="#999"
+                      bgColor="#aaaaaa"
+                    >
+                      <Avatar
+                        size="small"
+                        key={user.firstName}
+                        rounded
+                        // source={{ uri: `${user.imgUrl}` }}
+                        source={user.imgUrl ? { uri: `${user.imgUrl}` } : ''}
+                        title={
+                          user.imgUrl
+                            ? ''
+                            : `${user.firstName[0] + user.lastName[0]}`
+                        }
+                        containerStyle={{ marginLeft: 0 }}
+                        avatarStyle={{
+                          borderColor: '#f8f8f8',
+                          borderWidth: 1,
+                          borderRadius: 17,
+                        }}
+                      />
+                    </ProgressCircle>
+                  </TouchableHighlight>
                 ))
               ) : (
                 <Text>No users</Text>
