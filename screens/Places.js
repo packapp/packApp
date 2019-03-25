@@ -6,7 +6,7 @@ import Dialog from 'react-native-dialog';
 import firebase from '../server/config';
 import { connect } from 'react-redux';
 import { fetchUsers } from '../store/allUsers';
-import { Icon as Test} from 'react-native-elements'
+import { Icon as Test} from 'react-native-elements';
 
 class Places extends Component {
   static navigationOptions = ({navigation}) => {
