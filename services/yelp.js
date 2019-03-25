@@ -9,15 +9,18 @@ const api = axios.create({
   },
 });
 
-const getPlaces = (userLocation, filter = {}) => {
+const getPlaces = (coordinates, searchYield = []) => {
+  const latitude = coordinates[0].lat;
+  const longitude = coordinates[0].lon;
+  const location = { latitude, longitude };
+
   return api
     .get('/businesses/search', {
       params: {
         limit: 35,
         sortBy: 'rating',
-        categories: 'tourism',
-        ...userLocation,
-        ...filter,
+        categories: searchYield.join(','),
+        ...location,
       },
     })
     .then(res =>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-//import firebase from '../server/config';
-import * as firebase from 'firebase';
+import firebase from '../server/config';
+import * as firebase2 from 'firebase';
 
 import { StyleSheet, Text, Button, View, ScrollView } from 'react-native';
 import { Input, Avatar } from 'react-native-elements';
@@ -34,7 +34,7 @@ export const createNewItinerary = async (itinInfo, trip, users, userId) => {
     const db = firebase.firestore();
     const tripRef = db.collection('trips').doc(trip);
     await tripRef.update({
-      itinerary: firebase.firestore.FieldValue.arrayUnion(newItin),
+      itinerary: firebase2.firestore.FieldValue.arrayUnion(newItin),
     });
   } catch (err) {
     console.error(err);
@@ -64,7 +64,11 @@ class NewItin extends Component {
     this.handleOnPress = this.handleOnPress.bind(this);
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    if (this.props.navigation.state.params.title) {
+      this.setState({ title: this.props.navigation.state.params.title });
+    }
+  }
 
   onSelectedItemsChange = selectedItems => {
     this.setState({ selectedItems });
@@ -109,10 +113,11 @@ class NewItin extends Component {
       this.props.navigation.state.params.users,
       this.props.navigation.state.params.userId
     );
-    this.props.navigation.navigate('Dashboard');
+    this.props.navigation.navigate('SingleTrip');
   }
 
   render() {
+    console.log('TITLE', this.state.title);
     return (
       <ScrollView style={{ marginTop: 40 }}>
         <Input

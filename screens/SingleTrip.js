@@ -336,6 +336,10 @@ export class SingleTrip extends Component {
                       airportCode: this.props.trip.endAirport,
                       navigate: navigate,
                       user: user,
+                      userId: userId,
+                      users: this.userIds,
+                      trip: this.props.trip,
+                      itin: this.props.trip.itinerary,
                     })
                   }
                   activeOpacity={0.7}

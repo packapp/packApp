@@ -10,9 +10,12 @@ export const gotCoordinates = coordinates => ({
 // THUNK CREATORS
 export const fetchAirportCoordinates = airportCode => async dispatch => {
   try {
+    console.log('AIRPORT CODE', airportCode);
     const db = firebase.firestore();
     const airportsRef = db.collection('airports');
-    const query = await airportsRef.where('code', '==', airportCode);
+    const query = await airportsRef
+      .where('code', '==', airportCode.trim())
+      .get();
     const coordinates = query.docs.map(doc => {
       return { lon: doc.data().lon, lat: doc.data().lat };
     });

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { MapView } from 'expo';
-import Icon from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/Feather';
 import { Alert, AsyncStorage, Button, View, Text } from 'react-native';
 import { createNewItinerary } from './NewItin';
 import { Avatar } from 'react-native-elements';
@@ -18,6 +18,7 @@ export default class Map extends Component {
   // }
 
   handlePress(markerData, place) {
+    const navigate = this.props.navigate;
     Alert.alert(
       'Add to itinerary?',
       '',
@@ -29,7 +30,14 @@ export default class Map extends Component {
         },
         {
           text: 'Yes',
-          onPress: () => createNewItinerary(place),
+          onPress: () =>
+            navigate('NewItin', {
+              users: this.props.users,
+              trip: this.props.trip.location,
+              itin: this.props.itin,
+              userId: String(this.props.userId),
+              title: String(place.name),
+            }),
         },
       ],
       { cancelable: false }
@@ -43,40 +51,22 @@ export default class Map extends Component {
         title={place.name}
         coordinate={place.coords}
         description={`Rating: ${place.rating.toString()}`}
-        onCalloutPress={() => this.handlePress(this, place)}
+        onCalloutPress={() => {
+          this.handlePress(this, place);
+        }}
       >
-        <Icon name="smile-circle" size={25} color="#fda50f" />
+        <Icon name="map-pin" size={25} color="#ff9933" />
       </Marker>
     ));
   }
 
   render() {
-    const { region } = this.props;
+    const region = this.props.region;
+    console.log('PASSED DOWN PLACES', this.props.places);
     const navigate = this.props.navigate;
     return (
       <View style={{ alignContent: 'left' }}>
-        {/* <View style={{ height: 100, paddingRight: 450 }}>
-          <Avatar
-            size=""
-            rounded
-            icon={{
-              name: 'angle-left',
-              color: 'black',
-              type: 'font-awesome',
-            }}
-            onPress={() => navigate('SingleTrip')}
-            activeOpacity={0.7}
-            containerStyle={{ marginLeft: 0, marginTop: 5 }}
-            avatarStyle={{ backgroundColor: 'white' }}
-          />
-        </View> */}
-        <MapView
-          style={styles.container}
-          region={region}
-          showsUserLocation
-          showsMyLocationButton
-          mapPadding={100}
-        >
+        <MapView style={styles.container} region={region} mapPadding={100}>
           {this.renderMarkers()}
         </MapView>
       </View>
