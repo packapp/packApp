@@ -4,15 +4,79 @@ import { Avatar, Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import firebase from '../server/config';
 
+let userProps = [];
+let userId;
+
 export default class Profile extends Component {
-  static navigationOptions = {
-    title: 'Profile'
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Profile',
+      headerRight: (
+        <Button
+          onPress={() => navigation.navigate('EditProfile', {userProps, userId})}
+          type="clear"
+          icon={<Ionicons name="md-create" size={27} color="#ff9933"/>}
+          style={styles.editBtn}
+        />
+      )
+    };
   }
 
   constructor(props) {
     super(props);
     this.handleLogOut = this.handleLogOut.bind(this);
     this.expertNumCount = this.expertNumCount.bind(this);
+    this.ref = firebase.firestore().collection('users');
+    this.unsubscribe = null;
+    this.state = {
+      firstName: '',
+      lastName: '',
+      imgUrl: '',
+      places: []
+    };
+  }
+
+  componentDidMount() {
+    userProps = this.props.navigation.state.params.user;
+    userId = this.props.navigation.state.params.userId;
+    this.setState({
+      firstName: this.props.navigation.state.params.user.firstName,
+      lastName: this.props.navigation.state.params.user.lastName,
+      imgUrl: this.props.navigation.state.params.user.imgUrl
+    });
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onCollectionUpdate = async(querySnapshot) => {
+    let allUserData = [];
+    await querySnapshot.forEach(doc => {
+        allUserData.push(doc.data());
+    });
+    let userData = [];
+    let places = [];
+    allUserData.map(user => {
+      if (user.email === this.props.navigation.state.params.user.email) {
+        userData = user;
+        places = user.places;
+      }
+    });
+    userProps = {...userProps, firstName: userData.firstName, lastName: userData.lastName, imgUrl: userData.imgUrl};
+    const storage = firebase.storage();
+    const pathReference = await storage.ref(`images/${this.props.navigation.state.params.user.email}`).getDownloadURL();
+    console.log('IMAGE REF', pathReference);
+
+    this.setState({
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      imgUrl: userData.imgUrl,
+      // imgUrl: pathReference,
+      places
+    });
+    console.log(this.state.imgUrl);
   }
 
   handleLogOut() {
@@ -38,11 +102,11 @@ export default class Profile extends Component {
   render(){
     const user = this.props.navigation.state.params.user;
     const userId = this.props.navigation.state.params.userId;
-    const firstName = this.props.navigation.state.params.user.firstName;
-    const lastName = this.props.navigation.state.params.user.lastName;
+    const firstName = this.state.firstName;
+    const lastName = this.state.lastName;
     const email = this.props.navigation.state.params.user.email;
-    const places = this.props.navigation.state.params.user.places;
-    const imgUrl = this.props.navigation.state.params.user.imgUrl;
+    const places = this.state.places;
+    const imgUrl = this.state.imgUrl;
     return(
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
@@ -156,6 +220,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: 'white'
+  },
+  editBtn: {
+    marginRight: 10
   },
   navBtns: {
     paddingLeft: 30,

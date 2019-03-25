@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   createStackNavigator,
   createAppContainer,
-  createBottomTabNavigator,
 } from 'react-navigation';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -27,6 +26,7 @@ import HowlGroup from './screens/HowlGroup';
 import NewItin from './screens/NewItin';
 import PendingItinerary from './screens/PendingItinerary';
 import FriendProfile from './screens/FriendProfile';
+import EditProfile from './screens/EditProfile';
 
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
@@ -102,6 +102,9 @@ const AppStackNavigator = createStackNavigator(
     },
     FriendProfile: {
       screen: FriendProfile
+    },
+    EditProfile: {
+      screen: EditProfile
     }
   },
   {
