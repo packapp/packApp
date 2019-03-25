@@ -13,42 +13,38 @@ export default class RecentActivity extends Component {
       this.ref = firebase.firestore().collection('trips').where('location', "==", this.props.trip)
       this.unsubscribe = null;
       this.state = {
-        updatedDoc: {}
+        updatedDoc: []
       }
   }
   async componentDidMount() {
-    this.unsubscribe = await this.ref.onSnapshot(async function(snapshot) {
-      await snapshot.docChanges().forEach(async function(change) {
-          if (change.type === "added") {
-            console.log("added: ", change.doc.data());
-          }
-          if (change.type === "modified") {
-              console.log("Modified data: ", change.doc.data());
-          }
-          if (change.type === "removed") {
-              console.log("Removed data: ", change.doc.data());
-          }
-      });
-  });
+    this.setState({updatedDoc: this.props.trip})
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate)
   }
   componentWillUnmount() {
     this.unsubscribe();
   }
   onCollectionUpdate = (querySnapshot) => {
-    const updatedDoc = [];
-    querySnapshot.forEach(doc => {
-      updatedDoc.push(doc.data());
+    const updatedDoc = []
+    querySnapshot.docChanges().forEach(function(change) {
+        if (change.type === "added") {
+          console.log("added: ", change.doc.data());
+        }
+        if (change.type === "modified") {
+            console.log("Modified data: ", change.doc.data());
+            updatedDoc.push(change.doc.data())
+        }
+        if (change.type === "removed") {
+            console.log("Removed data: ", change.doc.data());
+        }
     });
-    this.setState({
-      updatedDoc
-    });
+    this.setState({updatedDoc})
   }
 
   render() {
     console.log(this.state)
     return (
       <View>
-        <Text>test</Text>
+        <Text>{this.state.updatedDoc.name}</Text>
       </View>
     )
   }

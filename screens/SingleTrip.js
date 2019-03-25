@@ -136,7 +136,7 @@ export class SingleTrip extends Component {
               acc.user = userId[0];
               todoKeys.forEach(todoKey => {
                 todo[todoKey] ? (acc.true += 1) : (acc.false += 1);
-                console.log('KEY', todoKey, 'TODO', todo[todoKey]);
+                // console.log('KEY', todoKey, 'TODO', todo[todoKey]);
                 if (!usersTodosData[userId]) {
                   usersTodosData[userId] = [];
                 }
@@ -149,7 +149,7 @@ export class SingleTrip extends Component {
             },
             { true: 0, false: 0 }
           );
-          console.log(usersTodosData);
+          // console.log(usersTodosData);
           usersTodoTotal.push(userTodoTotal);
         }, [])
       : [];
@@ -186,7 +186,8 @@ export class SingleTrip extends Component {
         });
       });
     }
-    if (this.props.users) console.log(this.props.users);
+    if (this.props.users)
+    // console.log(this.props.users);
     return (
       <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
         <ScrollView>
@@ -323,7 +324,7 @@ export class SingleTrip extends Component {
             Recent activity
           </Text>
           <View>
-          <RecentActivity trip={this.props.navigation.state.params.location} />
+          <RecentActivity trip={this.props.navigation.state.params.location} users={this.props.users}/>
         </View>
         </ScrollView>
         <View style={styles.footer}>
