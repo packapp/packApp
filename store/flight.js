@@ -15,11 +15,12 @@ export const getFlights = (flights) => {
   }
 }
 // THUNK CREATORS
-export const fetchFlights = () => {
+export const fetchFlights = (endAirport, startAirport, startDate, endDate) => {
   return async (dispatch) => {
     try {
       const flights = await axios({
-        url: "https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/SFO-sky/ORD-sky/2019-05-01?inboundpartialdate=2019-06-01",
+        url: `https://skyscanner-skyscanner-flight-search-v1.p.rapidapi.com/apiservices/browseroutes/v1.0/US/USD/en-US/${startAirport}/${endAirport}/${startDate}/${endDate}`,
+
         method: 'GET',
         headers: {"X-RapidAPI-Key": "909373ee33msh904e78720ba25e4p140105jsn1dd6200f19d9"}
       })

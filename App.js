@@ -24,6 +24,7 @@ import Places from './screens/Places';
 import HowlChat from './screens/HowlChat';
 import NewTodo from './screens/NewTodo';
 import HowlGroup from './screens/HowlGroup';
+import RecentActivity from './screens/RecentActivity'
 import NewItin from './screens/NewItin';
 import PendingItinerary from './screens/PendingItinerary';
 import FriendProfile from './screens/FriendProfile';
@@ -93,6 +94,9 @@ const AppStackNavigator = createStackNavigator(
     },
     HowlGroup: {
       screen: HowlGroup,
+    },
+    RecentActivity: {
+      screen: RecentActivity
     },
     NewItin: {
       screen: NewItin,
