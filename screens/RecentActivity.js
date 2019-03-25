@@ -10,29 +10,29 @@ import firebase from '../server/config';
 export default class RecentActivity extends Component {
   constructor(props) {
     super(props)
-      this.ref = firebase.firestore().collection('trips').where(this.props.trip, "==", this.props.trip)
+      this.ref = firebase.firestore().collection('trips').where('location', "==", this.props.trip)
       this.unsubscribe = null;
       this.state = {
-        updatedDoc: []
+        updatedDoc: {}
       }
   }
   async componentDidMount() {
-    this.unsubscribe = this.ref.onSnapshot(function(snapshot) {
-      snapshot.docChanges().forEach(function(change) {
+    this.unsubscribe = await this.ref.onSnapshot(async function(snapshot) {
+      await snapshot.docChanges().forEach(async function(change) {
           if (change.type === "added") {
             console.log("added: ", change.doc.data());
           }
           if (change.type === "modified") {
-              console.log("Modified city: ", change.doc.data());
+              console.log("Modified data: ", change.doc.data());
           }
           if (change.type === "removed") {
-              console.log("Removed city: ", change.doc.data());
+              console.log("Removed data: ", change.doc.data());
           }
       });
   });
   }
   componentWillUnmount() {
-    this.unsubscribe(this.onCollectionUpdate);
+    this.unsubscribe();
   }
   onCollectionUpdate = (querySnapshot) => {
     const updatedDoc = [];

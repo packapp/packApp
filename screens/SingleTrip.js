@@ -154,11 +154,11 @@ export class SingleTrip extends Component {
             if (percentage.percentage > 75) {
               color = '#66cc66';
             } else if (percentage.percentage > 50) {
-              color = '#ff9933';
+              color = '#3e88d6';
             } else if (percentage.percentage > 25) {
-              color = 'blue';
+              color = '#ff9933';
             } else {
-              color = 'red';
+              color = '#ed4337';
             }
             userObject.color = color;
           }
@@ -189,7 +189,7 @@ export class SingleTrip extends Component {
                     radius={20}
                     borderWidth={3}
                     color={user.color}
-                    shadowColor="#999"
+                    shadowColor="#e9e9e9"
                     bgColor="#aaaaaa"
                   >
                     <Avatar
