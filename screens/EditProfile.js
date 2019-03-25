@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import { StyleSheet, Button, ScrollView, View } from 'react-native';
 import { Input, Avatar } from 'react-native-elements';
-import firebase from '../server/config';
 import { ImagePicker, Permissions } from 'expo';
 import b64 from 'base64-js';
+import firebase from '../server/config';
 
 export default class EditProfile extends Component {
   static navigationOptions = {
@@ -53,7 +53,6 @@ export default class EditProfile extends Component {
       const bytes = new Uint8Array(byteArray);
       const storageRef = firebase.storage().ref();
       const imageRef = storageRef.child(`images/${this.props.navigation.state.params.userProps.email}`);
-      // await imageRef.delete();
       await imageRef.put(bytes).then((snapshot) => {
         console.log('Uploaded image!');
       });

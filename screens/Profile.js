@@ -61,7 +61,7 @@ export default class Profile extends Component {
     allUserData.map(user => {
       if (user.email === this.props.navigation.state.params.user.email) {
         userData = user;
-        places = user.places;
+        if (user.places && user.places.length) places = user.places;
       }
     });
     userProps = {...userProps, firstName: userData.firstName, lastName: userData.lastName, imgUrl: userData.imgUrl};
@@ -76,11 +76,9 @@ export default class Profile extends Component {
     this.setState({
       firstName: userData.firstName,
       lastName: userData.lastName,
-      // imgUrl: userData.imgUrl,
       imgUrl,
       places
     });
-    console.log('CHANGED STATE', this.state.imgUrl);
   }
 
   handleLogOut() {

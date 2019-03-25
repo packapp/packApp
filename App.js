@@ -37,9 +37,6 @@ const AppStackNavigator = createStackNavigator(
     },
     SignUp: {
       screen: SignUp,
-      navigationOptions: {
-        headerLeft: null,
-      },
     },
     Login: {
       screen: Login,

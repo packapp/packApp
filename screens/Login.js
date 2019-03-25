@@ -39,15 +39,17 @@ export default class Login extends React.Component {
           value={this.state.password}
         />
         <Button title="Login" style={styles.button} color="#ff9933" onPress={this.handleLogin} />
+        <View style={{position: 'absolute', bottom: 0, marginBottom: 20}}>
         <Text>Don't have an account?</Text>
         <Button
           title="Sign Up"
-          color="#ff9933"
+          color="#66cc66"
           style={styles.button}
           onPress={() => this.props.navigation.navigate('SignUp')}
         />
+        </View>
       </KeyboardAvoidingView>
-    )
+    );
   }
 }
 const styles = StyleSheet.create({
@@ -56,7 +58,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#f8f8f8',
     fontFamily: 'Verdana'
   },
   header: {
@@ -74,6 +75,5 @@ const styles = StyleSheet.create({
   },
   button: {
     padding: 10,
-    backgroundColor: "#ff9933"
   }
 });
