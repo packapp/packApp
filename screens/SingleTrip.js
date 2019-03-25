@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
-import { Text, View, Image, ScrollView, StyleSheet } from 'react-native';
+import {
+  Text,
+  View,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableHighlight,
+} from 'react-native';
 import { connect } from 'react-redux';
 import { fetchFlights } from '../store/flight';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 import {
   PricingCard,
   Tile,
@@ -17,15 +24,15 @@ import ProgressCircle from 'react-native-progress-circle';
 import RecentActivity from './RecentActivity';
 
 export class SingleTrip extends Component {
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({ navigation }) => {
     return {
-      headerLeft:(
+      headerLeft: (
         <Button
-        onPress={() => navigation.goBack()}
-        type="clear"
-        icon={<Icon name='chevron-left' size={30} />}
+          onPress={() => navigation.goBack()}
+          type="clear"
+          icon={<Icon name="chevron-left" size={30} />}
         />
-    ),
+      ),
     };
   };
   async componentDidMount() {
@@ -119,6 +126,7 @@ export class SingleTrip extends Component {
         })
       : [];
     const usersTodoTotal = [];
+    const usersTodosData = {};
     const usersTodos = usersTodoData
       ? usersTodoData.reduce((startArr, userObj) => {
           const userId = Object.keys(userObj);
@@ -128,12 +136,20 @@ export class SingleTrip extends Component {
               acc.user = userId[0];
               todoKeys.forEach(todoKey => {
                 todo[todoKey] ? (acc.true += 1) : (acc.false += 1);
+                console.log('KEY', todoKey, 'TODO', todo[todoKey]);
+                if (!usersTodosData[userId]) {
+                  usersTodosData[userId] = [];
+                }
+                usersTodosData[userId].push({
+                  taskName: todoKey,
+                  complete: todo[todoKey],
+                });
               });
               return acc;
             },
             { true: 0, false: 0 }
           );
-
+          console.log(usersTodosData);
           usersTodoTotal.push(userTodoTotal);
         }, [])
       : [];
@@ -163,8 +179,14 @@ export class SingleTrip extends Component {
             userObject.color = color;
           }
         });
+        Object.keys(usersTodosData).forEach(key => {
+          if (key === userObject.userId) {
+            userObject.todoList = usersTodosData[key];
+          }
+        });
       });
     }
+    if (this.props.users) console.log(this.props.users);
     return (
       <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
         <ScrollView>
@@ -209,6 +231,11 @@ export class SingleTrip extends Component {
                         borderWidth: 1,
                         borderRadius: 17,
                       }}
+                      onPress={() =>
+                        navigate('SingleTodos', {
+                          todos: user.todoList,
+                        })
+                      }
                     />
                   </ProgressCircle>
                 ))
