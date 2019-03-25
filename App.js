@@ -23,10 +23,12 @@ import Places from './screens/Places';
 import HowlChat from './screens/HowlChat';
 import NewTodo from './screens/NewTodo';
 import HowlGroup from './screens/HowlGroup';
+import RecentActivity from './screens/RecentActivity'
 import NewItin from './screens/NewItin';
 import PendingItinerary from './screens/PendingItinerary';
 import FriendProfile from './screens/FriendProfile';
 import EditProfile from './screens/EditProfile';
+import SingleTodos from './screens/SingleTodos';
 
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
@@ -94,6 +96,9 @@ const AppStackNavigator = createStackNavigator(
     HowlGroup: {
       screen: HowlGroup,
     },
+    RecentActivity: {
+      screen: RecentActivity
+    },
     NewItin: {
       screen: NewItin,
     },
@@ -101,11 +106,19 @@ const AppStackNavigator = createStackNavigator(
       screen: PendingItinerary,
     },
     FriendProfile: {
+<<<<<<< HEAD
       screen: FriendProfile
     },
     EditProfile: {
       screen: EditProfile
     }
+=======
+      screen: FriendProfile,
+    },
+    SingleTodos: {
+      screen: SingleTodos,
+    },
+>>>>>>> 262b04528509bee0ee3370e01eacf2d95a17745b
   },
   {
     initialRouteName: 'Loading',
