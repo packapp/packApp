@@ -22,12 +22,14 @@ import Places from './screens/Places';
 import HowlChat from './screens/HowlChat';
 import NewTodo from './screens/NewTodo';
 import HowlGroup from './screens/HowlGroup';
-import RecentActivity from './screens/RecentActivity'
+import RecentActivity from './screens/RecentActivity';
 import NewItin from './screens/NewItin';
 import PendingItinerary from './screens/PendingItinerary';
 import FriendProfile from './screens/FriendProfile';
+import Activities from './screens/Activities';
 import EditProfile from './screens/EditProfile';
 import SingleTodos from './screens/SingleTodos';
+import Map from './screens/Map';
 
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
@@ -93,7 +95,7 @@ const AppStackNavigator = createStackNavigator(
       screen: HowlGroup,
     },
     RecentActivity: {
-      screen: RecentActivity
+      screen: RecentActivity,
     },
     NewItin: {
       screen: NewItin,
@@ -107,8 +109,14 @@ const AppStackNavigator = createStackNavigator(
     EditProfile: {
       screen: EditProfile
     },
+    Activities: {
+      screen: Activities,
+    },
     SingleTodos: {
       screen: SingleTodos,
+    },
+    Map: {
+      screen: Map,
     },
   },
   {
