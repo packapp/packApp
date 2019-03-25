@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { MapView } from 'expo';
 import Icon from 'react-native-vector-icons/Feather';
-import { Alert, View } from 'react-native';
+import { Alert, AsyncStorage, Button, View, Text } from 'react-native';
+import { createNewItinerary } from './NewItin';
+import { Avatar } from 'react-native-elements';
 
 const Marker = MapView.Marker;
 
@@ -52,6 +54,9 @@ export default class Map extends Component {
   render() {
     const region = this.props.region;
     console.log('PASSED DOWN PLACES', this.props.places);
+
+    const navigate = this.props.navigate;
+
     return (
       <View style={{ alignContent: 'left' }}>
         <MapView style={styles.container} region={region} mapPadding={100}>

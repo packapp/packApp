@@ -373,6 +373,7 @@ export class SingleTrip extends Component {
               trip={this.props.navigation.state.params.location}
             />
           </View>
+
           <View>
             <Button
               buttonStyle={{
