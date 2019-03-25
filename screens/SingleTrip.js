@@ -94,7 +94,14 @@ export class SingleTrip extends Component {
               acc.user = userId[0];
               todoKeys.forEach(todoKey => {
                 todo[todoKey] ? (acc.true += 1) : (acc.false += 1);
-                usersTodosData[userId] = todo;
+                console.log('KEY', todoKey, 'TODO', todo[todoKey]);
+                if (!usersTodosData[userId]) {
+                  usersTodosData[userId] = [];
+                }
+                usersTodosData[userId].push({
+                  taskName: todoKey,
+                  complete: todo[todoKey],
+                });
               });
               return acc;
             },
