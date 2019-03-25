@@ -1,22 +1,8 @@
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableHighlight,
-} from 'react-native';
+import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchFlights } from '../store/flight';
-import { Icon } from 'react-native-elements';
-import {
-  PricingCard,
-  Tile,
-  Avatar,
-  Divider,
-  Button,
-} from 'react-native-elements';
+import { Icon, Tile, Avatar, Divider, Button } from 'react-native-elements';
 import { fetchSingleTrip } from '../store/trip';
 import { fetchUsers } from '../store/usersPerTrips';
 import Ionicons from 'react-native-vector-icons/Ionicons';

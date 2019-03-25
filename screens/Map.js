@@ -1,22 +1,11 @@
 import React, { Component } from 'react';
 import { MapView } from 'expo';
 import Icon from 'react-native-vector-icons/Feather';
-import { Alert, AsyncStorage, Button, View, Text } from 'react-native';
-import { createNewItinerary } from './NewItin';
-import { Avatar } from 'react-native-elements';
+import { Alert, View } from 'react-native';
 
 const Marker = MapView.Marker;
 
 export default class Map extends Component {
-  // async addToItinerary(place) {
-  //   try {
-  //     await AsyncStorage.setItem(place.name, JSON.stringify(place));
-
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
-
   handlePress(markerData, place) {
     const navigate = this.props.navigate;
     Alert.alert(
@@ -63,7 +52,6 @@ export default class Map extends Component {
   render() {
     const region = this.props.region;
     console.log('PASSED DOWN PLACES', this.props.places);
-    const navigate = this.props.navigate;
     return (
       <View style={{ alignContent: 'left' }}>
         <MapView style={styles.container} region={region} mapPadding={100}>
