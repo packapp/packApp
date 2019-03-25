@@ -3,6 +3,7 @@ import { StyleSheet, Button, ScrollView, View } from 'react-native';
 import { Input, Avatar } from 'react-native-elements';
 import firebase from '../server/config';
 import { ImagePicker, Permissions } from 'expo';
+import b64 from 'base64-js';
 
 export default class EditProfile extends Component {
   static navigationOptions = {
@@ -32,12 +33,6 @@ export default class EditProfile extends Component {
     const lastName = this.state.lastName;
     const imgUrl = this.state.imgUrl;
 
-    const storageRef = firebase.storage().ref();
-    const imageRef = storageRef.child(`images/${this.props.navigation.state.params.userProps.email}`);
-    await imageRef.putString(imgUrl, 'base64').then(function(snapshot) {
-      console.log('Uploaded a base64 string!');
-    });
-
     const db = firebase.firestore();
     const userRef = await db.collection('users').doc(userId);
     await userRef.update({
@@ -51,12 +46,19 @@ export default class EditProfile extends Component {
   getSelectedImage = async () => {
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
     let result = await ImagePicker.launchImageLibraryAsync({
-      quality: 0,
       base64: true
     });
     if (!result.cancelled) {
+      const byteArray = b64.toByteArray(result.base64);
+      const bytes = new Uint8Array(byteArray);
+      const storageRef = firebase.storage().ref();
+      const imageRef = storageRef.child(`images/${this.props.navigation.state.params.userProps.email}`);
+      // await imageRef.delete();
+      await imageRef.put(bytes).then((snapshot) => {
+        console.log('Uploaded image!');
+      });
       this.setState({
-        imgUrl: result.uri
+        imgUrl: result.uri,
       });
     }
   }

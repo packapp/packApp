@@ -3,7 +3,6 @@ import {
   createStackNavigator,
   createAppContainer,
 } from 'react-navigation';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import store from './store/index';
 // import the different screens
@@ -106,19 +105,14 @@ const AppStackNavigator = createStackNavigator(
       screen: PendingItinerary,
     },
     FriendProfile: {
-<<<<<<< HEAD
       screen: FriendProfile
     },
     EditProfile: {
       screen: EditProfile
-    }
-=======
-      screen: FriendProfile,
     },
     SingleTodos: {
       screen: SingleTodos,
     },
->>>>>>> 262b04528509bee0ee3370e01eacf2d95a17745b
   },
   {
     initialRouteName: 'Loading',

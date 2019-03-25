@@ -66,17 +66,21 @@ export default class Profile extends Component {
     });
     userProps = {...userProps, firstName: userData.firstName, lastName: userData.lastName, imgUrl: userData.imgUrl};
     const storage = firebase.storage();
-    const pathReference = await storage.ref(`images/${this.props.navigation.state.params.user.email}`).getDownloadURL();
-    console.log('IMAGE REF', pathReference);
+    const imgUrl = await storage.ref(`images/${this.props.navigation.state.params.user.email}`).getDownloadURL();
+    const db = firebase.firestore();
+    const userRef = await db.collection('users').doc(userId);
+    await userRef.update({
+      imgUrl
+    });
 
     this.setState({
       firstName: userData.firstName,
       lastName: userData.lastName,
-      imgUrl: userData.imgUrl,
-      // imgUrl: pathReference,
+      // imgUrl: userData.imgUrl,
+      imgUrl,
       places
     });
-    console.log(this.state.imgUrl);
+    console.log('CHANGED STATE', this.state.imgUrl);
   }
 
   handleLogOut() {
