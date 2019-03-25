@@ -30,6 +30,7 @@ import PendingItinerary from './screens/PendingItinerary';
 import FriendProfile from './screens/FriendProfile';
 import Activities from './screens/Activities';
 import SingleTodos from './screens/SingleTodos';
+import Map from './screens/Map';
 
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
@@ -114,6 +115,9 @@ const AppStackNavigator = createStackNavigator(
     },
     SingleTodos: {
       screen: SingleTodos,
+    },
+    Map: {
+      screen: Map,
     },
   },
   {

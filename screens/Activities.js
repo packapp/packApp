@@ -1,11 +1,22 @@
 import React from 'react';
-import { Text, StyleSheet, View, Button, SafeAreaView } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  View,
+  Button,
+  SafeAreaView,
+  FlatList,
+  List,
+  ListItem,
+} from 'react-native';
 import Map from './Map';
 import YelpService from '../services/yelp';
 // import ActionButton from 'react-native-action-button';
+import { Avatar, SearchBar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { connect } from 'react-redux';
 import { fetchCoordinates } from '../store/coordinates';
+const { yelpCategories } = require('./yelpcategories');
 
 // Placeholder until we get user's location
 const region = {
@@ -21,11 +32,45 @@ const deltas = {
 };
 
 class Activities extends React.Component {
-  state = {
-    region: null,
-    places: [],
-    errorMessage: '',
-    isOpen: false,
+  constructor() {
+    super();
+    this.state = {
+      region: null,
+      places: [],
+      errorMessage: '',
+      isOpen: false,
+      loading: false,
+      data: yelpCategories.yelp,
+      error: null,
+      searchYield: [],
+      search: '',
+    };
+    this.arrayHolder = [];
+    this.searchFilter = this.searchFilter.bind(this);
+  }
+  renderHeader = () => {
+    return (
+      <SearchBar
+        placeholder="Type Here..."
+        lightTheme
+        round
+        onChangeText={text => this.searchFilterFunction(text)}
+        autoCorrect={false}
+      />
+    );
+  };
+
+  updateSearch = search => {
+    this.setState({ search });
+  };
+
+  searchFilter = () => {
+    this.state.data.forEach(item => {
+      if (item.title.toLowerCase().includes(this.state.search.toLowerCase())) {
+        this.state.searchYield.push(item.alias);
+      }
+    });
+    console.log(this.state.searchYield);
   };
 
   componentWillMount() {
@@ -69,19 +114,36 @@ class Activities extends React.Component {
   };
 
   render() {
+    const navigate = this.props.navigation.state.params.navigate;
     const { region, places } = this.state;
     return (
-      <View style={{ flex: 1 }}>
-        <View>
-          {/* <Text style={styles.title}>
-          h
-          <Text style={{color:'#fce205'}}>app</Text>
-          y
-        </Text>
-        <Button title='faves' color='#ffddaf' accessibilityLabel="Go to favorites" onPress={() => this.props.navigation.navigate('Favorites')}/> */}
+      <View style={{ flex: 1, marginTop: 30 }}>
+        <View style={{ height: 50, paddingRight: 450 }}>
+          <Avatar
+            size="medium"
+            rounded
+            icon={{
+              name: 'angle-left',
+              color: 'black',
+              type: 'font-awesome',
+            }}
+            onPress={() => navigate('SingleTrip')}
+            activeOpacity={0.7}
+            containerStyle={{ marginLeft: 0, marginTop: 5 }}
+            avatarStyle={{ backgroundColor: 'white' }}
+          />
         </View>
+        <SearchBar
+          placeholder="Search by category..."
+          lightTheme
+          round
+          onChangeText={this.updateSearch}
+          autoCorrect={false}
+          value={this.state.search}
+          onEndEditing={this.searchFilter}
+        />
         <SafeAreaView>
-          <Map region={region} places={places} />
+          <Map region={region} places={places} navigate={navigate} />
           {/* <ActionButton buttonColor='#ffc30b'>
           <ActionButton.Item buttonColor='#fada5e' title="Spas" onPress={() => this.handleFilter({ term: 'spa' })}>
             <Icon name="flower" style={styles.actionButtonIcon} />

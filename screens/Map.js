@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { MapView } from 'expo';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { Alert, AsyncStorage } from 'react-native';
+import { Alert, AsyncStorage, Button, View, Text } from 'react-native';
 import { createNewItinerary } from './NewItin';
+import { Avatar } from 'react-native-elements';
 
 const Marker = MapView.Marker;
 
@@ -51,15 +52,34 @@ export default class Map extends Component {
 
   render() {
     const { region } = this.props;
+    const navigate = this.props.navigate;
     return (
-      <MapView
-        style={styles.container}
-        region={region}
-        showsUserLocation
-        showsMyLocationButton
-      >
-        {this.renderMarkers()}
-      </MapView>
+      <View style={{ alignContent: 'left' }}>
+        {/* <View style={{ height: 100, paddingRight: 450 }}>
+          <Avatar
+            size=""
+            rounded
+            icon={{
+              name: 'angle-left',
+              color: 'black',
+              type: 'font-awesome',
+            }}
+            onPress={() => navigate('SingleTrip')}
+            activeOpacity={0.7}
+            containerStyle={{ marginLeft: 0, marginTop: 5 }}
+            avatarStyle={{ backgroundColor: 'white' }}
+          />
+        </View> */}
+        <MapView
+          style={styles.container}
+          region={region}
+          showsUserLocation
+          showsMyLocationButton
+          mapPadding={100}
+        >
+          {this.renderMarkers()}
+        </MapView>
+      </View>
     );
   }
 }
