@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import {
   createStackNavigator,
   createAppContainer,
-  createBottomTabNavigator,
 } from 'react-navigation';
-import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import store from './store/index';
 // import the different screens
@@ -29,6 +27,7 @@ import NewItin from './screens/NewItin';
 import PendingItinerary from './screens/PendingItinerary';
 import FriendProfile from './screens/FriendProfile';
 import Activities from './screens/Activities';
+import EditProfile from './screens/EditProfile';
 import SingleTodos from './screens/SingleTodos';
 import Map from './screens/Map';
 
@@ -40,9 +39,6 @@ const AppStackNavigator = createStackNavigator(
     },
     SignUp: {
       screen: SignUp,
-      navigationOptions: {
-        headerLeft: null,
-      },
     },
     Login: {
       screen: Login,
@@ -108,7 +104,10 @@ const AppStackNavigator = createStackNavigator(
       screen: PendingItinerary,
     },
     FriendProfile: {
-      screen: FriendProfile,
+      screen: FriendProfile
+    },
+    EditProfile: {
+      screen: EditProfile
     },
     Activities: {
       screen: Activities,
