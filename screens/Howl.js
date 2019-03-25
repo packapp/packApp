@@ -66,6 +66,7 @@ class Howl extends Component {
         {
           this.state.users && this.props.alpha && this.props.pack ?
           <SectionList
+            style={{marginBottom: 60}}
             renderItem={this.renderUserItem}
             renderSectionHeader={({section: {title}}) => (
               <Text style={{color: '#ff9933', fontWeight: 'bold', paddingLeft: 10}}>{title}</Text>
