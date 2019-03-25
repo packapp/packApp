@@ -14,6 +14,7 @@ import { fetchSingleTrip } from '../store/trip';
 import { fetchUsers } from '../store/usersPerTrips';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProgressCircle from 'react-native-progress-circle';
+import RecentActivity from './RecentActivity';
 
 export class SingleTrip extends Component {
   static navigationOptions = ({navigation}) => {
@@ -28,8 +29,9 @@ export class SingleTrip extends Component {
     };
   };
   async componentDidMount() {
-    this.props.getFlights();
     await this.props.getTrip(this.props.navigation.state.params.location);
+    const endAirport = this.props.trip.endAirport.toString()
+    const startAirport = this.props.trip.startAirport.toString()
 
     let userIds = [];
     if (this.props.trip.attendees) {
@@ -38,6 +40,46 @@ export class SingleTrip extends Component {
     }
     this.userIds = userIds;
     this.props.getUsers(userIds);
+
+
+    const date = this.props.trip.startDate
+    ? this.props.trip.startDate.seconds
+    : '';
+  const date2 = this.props.trip.endDate
+    ? this.props.trip.endDate.seconds
+    : '';
+
+    const onvertTime = time => {
+      let date = new Date(null);
+      date.setSeconds(time);
+      return date.toString().slice(0, 16);
+    };
+
+    const test = date => {
+      const dates = {
+        Jan: '01',
+        Feb: '02',
+        Mar: '03',
+        Apr: '04',
+        May: '05',
+        Jun: '06',
+        Jul: '07',
+        Aug: '08',
+        Sep: '09',
+        Oct: '10',
+        Nov: '11',
+        Dec: '12'
+      }
+
+      const oldDate = onvertTime(date)
+      const month = oldDate.slice(4, 7)
+      let newDate = oldDate.split(' ').reverse().join(' ').slice(1, 12).split(' ')
+      let result = `${newDate[0]}-${dates[month]}-${newDate[1]}`
+      return result
+    }
+    const startDate = test(date)
+    const endDate = test(date2)
+    this.props.getFlights(endAirport, startAirport, startDate, endDate);
   }
 
   todoFilter = (todosObj, userId) => {
@@ -112,11 +154,11 @@ export class SingleTrip extends Component {
             if (percentage.percentage > 75) {
               color = '#66cc66';
             } else if (percentage.percentage > 50) {
-              color = '#ff9933';
+              color = '#3e88d6';
             } else if (percentage.percentage > 25) {
-              color = 'blue';
+              color = '#ff9933';
             } else {
-              color = 'red';
+              color = '#ed4337';
             }
             userObject.color = color;
           }
@@ -147,7 +189,7 @@ export class SingleTrip extends Component {
                     radius={20}
                     borderWidth={3}
                     color={user.color}
-                    shadowColor="#999"
+                    shadowColor="#e9e9e9"
                     bgColor="#aaaaaa"
                   >
                     <Avatar
@@ -253,6 +295,9 @@ export class SingleTrip extends Component {
           <Text style={{ marginTop: 30, marginLeft: 15, fontSize: 20 }}>
             Recent activity
           </Text>
+          <View>
+          <RecentActivity trip={this.props.navigation.state.params.location} />
+        </View>
         </ScrollView>
         <View style={styles.footer}>
           <Button
@@ -324,9 +369,9 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getFlights: () => dispatch(fetchFlights()),
-    getTrip: tripName => dispatch(fetchSingleTrip(tripName)),
-    getUsers: userIds => dispatch(fetchUsers(userIds)),
+    getFlights: (endAirport, startAirport, startDate, endDate) => dispatch(fetchFlights(endAirport, startAirport, startDate, endDate)),
+    getTrip: (tripName) => dispatch(fetchSingleTrip(tripName)),
+    getUsers: (userIds) => dispatch(fetchUsers(userIds))
   };
 };
 
