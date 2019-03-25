@@ -163,42 +163,39 @@ export class SingleTrip extends Component {
             >
               {this.props.users ? (
                 this.props.users.map(user => (
-                  <TouchableHighlight
+                  <ProgressCircle
+                    percent={Math.floor(user.percentage)}
                     key={user.firstName}
-                    onPress={() =>
-                      navigate('SingleTodos', {
-                        todos: user.todoList,
-                      })
-                    }
+                    radius={20}
+                    borderWidth={3}
+                    color={user.color}
+                    shadowColor="#999"
+                    bgColor="#aaaaaa"
                   >
-                    <ProgressCircle
-                      percent={Math.floor(user.percentage)}
-                      radius={20}
-                      borderWidth={3}
-                      color={user.color}
-                      shadowColor="#999"
-                      bgColor="#aaaaaa"
-                    >
-                      <Avatar
-                        size="small"
-                        key={user.firstName}
-                        rounded
-                        // source={{ uri: `${user.imgUrl}` }}
-                        source={user.imgUrl ? { uri: `${user.imgUrl}` } : ''}
-                        title={
-                          user.imgUrl
-                            ? ''
-                            : `${user.firstName[0] + user.lastName[0]}`
-                        }
-                        containerStyle={{ marginLeft: 0 }}
-                        avatarStyle={{
-                          borderColor: '#f8f8f8',
-                          borderWidth: 1,
-                          borderRadius: 17,
-                        }}
-                      />
-                    </ProgressCircle>
-                  </TouchableHighlight>
+                    <Avatar
+                      size="small"
+                      key={user.firstName}
+                      rounded
+                      // source={{ uri: `${user.imgUrl}` }}
+                      source={user.imgUrl ? { uri: `${user.imgUrl}` } : ''}
+                      title={
+                        user.imgUrl
+                          ? ''
+                          : `${user.firstName[0] + user.lastName[0]}`
+                      }
+                      containerStyle={{ marginLeft: 0 }}
+                      avatarStyle={{
+                        borderColor: '#f8f8f8',
+                        borderWidth: 1,
+                        borderRadius: 17,
+                      }}
+                      onPress={() =>
+                        navigate('SingleTodos', {
+                          todos: user.todoList,
+                        })
+                      }
+                    />
+                  </ProgressCircle>
                 ))
               ) : (
                 <Text>No users</Text>
