@@ -137,11 +137,21 @@ export class Todos extends Component {
               keys.map((elem, idx) => (
                 <ListItem
                   key={idx}
-                  leftIcon={{
-                    name: 'check',
-                    color: 'orange',
-                    type: 'font-awesome',
-                  }}
+                  leftIcon={
+                    todos[elem].every(todo => {
+                      return todo.completed;
+                    })
+                      ? {
+                          name: 'check',
+                          color: '#66cc66',
+                          type: 'font-awesome',
+                        }
+                      : {
+                          name: 'remove',
+                          color: '#ff9933',
+                          type: 'font-awesome',
+                        }
+                  }
                   title={elem}
                   containerStyle={{ backgroundColor: '#fefcf5' }}
                   subtitle={
@@ -155,7 +165,9 @@ export class Todos extends Component {
                 />
               ))
             ) : (
-              <Text style={{marginLeft: 20, fontSize: 16, marginTop: 10}}>No todos yet!</Text>
+              <Text style={{ marginLeft: 20, fontSize: 16, marginTop: 10 }}>
+                No todos yet!
+              </Text>
             )}
           </View>
           <Text

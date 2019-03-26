@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { ListItem, Button, Icon } from 'react-native-elements';
 
 export class SingleTodos extends Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: `${navigation.state.params.name}'s todos`,
+      headerLeft: (
+        <Button
+          onPress={() => navigation.goBack()}
+          type="clear"
+          icon={<Icon name="chevron-left" size={30} />}
+        />
+      ),
+    };
+  };
   render() {
     const todos = this.props.navigation.state.params.todos || [];
     console.log(todos);
@@ -17,12 +29,12 @@ export class SingleTodos extends Component {
                   todo.complete
                     ? {
                         name: 'check',
-                        color: 'orange',
+                        color: '#66cc66',
                         type: 'font-awesome',
                       }
                     : {
                         name: 'remove',
-                        color: 'green',
+                        color: '#ff9933',
                         type: 'font-awesome',
                       }
                 }

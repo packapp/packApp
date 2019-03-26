@@ -274,6 +274,7 @@ export class SingleTrip extends Component {
                         onPress={() =>
                           navigate('SingleTodos', {
                             todos: user.todoList,
+                            name: user.firstName,
                           })
                         }
                       />
