@@ -118,7 +118,7 @@ export default class SignUp extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    marginTop: 10,
     alignItems: 'center',
     padding: 10,
     fontFamily: 'Verdana'
