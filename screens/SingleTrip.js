@@ -150,7 +150,7 @@ export class SingleTrip extends Component {
               acc.user = userId[0];
               todoKeys.forEach(todoKey => {
                 todo[todoKey] ? (acc.true += 1) : (acc.false += 1);
-                console.log('KEY', todoKey, 'TODO', todo[todoKey]);
+                // console.log('KEY', todoKey, 'TODO', todo[todoKey]);
                 if (!usersTodosData[userId]) {
                   usersTodosData[userId] = [];
                 }
@@ -163,7 +163,7 @@ export class SingleTrip extends Component {
             },
             { true: 0, false: 0 }
           );
-          console.log(usersTodosData);
+          // console.log(usersTodosData);
           usersTodoTotal.push(userTodoTotal);
         }, [])
       : [];
@@ -200,7 +200,8 @@ export class SingleTrip extends Component {
         });
       });
     }
-    if (this.props.users) console.log(this.props.users);
+    if (this.props.users)
+    // console.log(this.props.users);
     return (
       <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
         <ScrollView>
@@ -297,7 +298,7 @@ export class SingleTrip extends Component {
                   rounded
                   icon={{ name: 'plane', color: 'white', type: 'font-awesome' }}
                   onPress={() =>
-                    navigate('Flights', { flights: this.props.flights })
+                    navigate('Flights', { flights: this.props.flights, userId: userId, trip: this.props.navigation.state.params.location })
                   }
                   activeOpacity={0.7}
                   containerStyle={{ marginLeft: 15, marginTop: 5 }}
@@ -365,29 +366,12 @@ export class SingleTrip extends Component {
             </View>
           </View>
           <Divider style={{ backgroundColor: 'gray', marginTop: 20 }} />
-          <Text style={{ marginTop: 30, marginLeft: 15, fontSize: 20 }}>
-            Recent activity
+          <Text style={{ marginTop: 20, marginLeft: 15, fontSize: 20, fontWeight: 'bold' }}>
+            Pack flights
           </Text>
           <View>
-            <RecentActivity
-              trip={this.props.navigation.state.params.location}
-            />
-          </View>
-
-          <View>
-            <Button
-              buttonStyle={{
-                backgroundColor: '#ff9933',
-                borderRadius: 50,
-                alignSelf: 'center',
-                padding: 10,
-                marginLeft: 10,
-                marginRight: 10,
-              }}
-              onPress={() => this.leaveThePack()}
-              title="Leave the pack"
-            />
-          </View>
+          <RecentActivity trip={this.props.navigation.state.params.location} users={this.props.users} selectedTrip={this.props.trip}/>
+        </View>
         </ScrollView>
         <View style={styles.footer}>
           <Button
