@@ -447,7 +447,6 @@ export class SingleTrip extends Component {
             <View>
               <RecentActivity
                 trip={this.props.navigation.state.params.location}
-                users={this.props.users}
                 selectedTrip={tripData}
               />
             </View>
