@@ -8,7 +8,7 @@ export default class RecentActivity extends Component {
     const {users} = this.props;
     return (
       <View style={{marginTop: 15, marginBottom: 100}}>
-        {selectedTrip.bookedFlights ? selectedTrip.bookedFlights.map((flight, idx) => (
+        {selectedTrip.bookedFlights && selectedTrip.bookedFlights.length ? selectedTrip.bookedFlights.map((flight, idx) => (
 
           <View key={idx} style={{flex: 1, flexDirection: 'row', marginLeft: 10, marginBottom: 120}}>
             <View style={{width: 40, height: 50}}>
