@@ -356,7 +356,7 @@ export class SingleTrip extends Component {
             </View>
           </View>
           <Divider style={{ backgroundColor: 'gray', marginTop: 20 }} />
-          <Text style={{ marginTop: 20, marginLeft: 15, fontSize: 20 }}>
+          <Text style={{ marginTop: 20, marginLeft: 15, fontSize: 20, fontWeight: 'bold' }}>
             Pack flights
           </Text>
           <View>
