@@ -1,27 +1,21 @@
 import React, {Component} from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { ListItem, Button, CheckBox, Input, Avatar, Divider } from 'react-native-elements'
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { connect } from 'react-redux';
-import {fetchTodos} from '../store/todos'
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, Text } from 'react-native';
+import { ListItem, Button, Avatar, Divider } from 'react-native-elements';
 import firebase from '../server/config';
 
 export default class RecentActivity extends Component {
   constructor(props) {
-    super(props)
-      this.ref = firebase.firestore().collection('trips').where('location', "==", this.props.trip)
+    super(props);
+      this.ref = firebase.firestore().collection('trips').where('location', "==", this.props.trip);
       this.unsubscribe = null;
       this.state = {
         updatedDoc: []
-      }
+      };
   }
 
   render() {
-    const {selectedTrip} = this.props
-    const {users} = this.props
-    console.log(this.props.users)
-    console.log(selectedTrip.bookedFlights)
+    const {selectedTrip} = this.props;
+    const {users} = this.props;
     return (
       <View style={{marginTop: 15, marginBottom: 100}}>
         {selectedTrip.bookedFlights ? selectedTrip.bookedFlights.map((flight, idx) => (
@@ -33,13 +27,16 @@ export default class RecentActivity extends Component {
                 size="small"
                 source={{
                   uri:
-                  users && users.length ? users.filter(user => user.userId === flight.userId)[0].imgUrl : '',
+                  users && users.length ?
+                    users.filter(user =>
+                      user.userId === flight.userId && user.imgUrl
+                    )[0].imgUrl
+                  : ''
                 }}
               />
             </View>
             <View style={{width: 330, height: 50, marginLeft: 5}}>
-              <Text style={{color: 'gray'}}>{selectedTrip.location}</Text>
-              <Text style={{fontSize: 18, fontWeight: 'bold'}}>
+              <Text style={{fontSize: 15, fontWeight: 'bold', fontFamily: 'Verdana', paddingBottom: 5}}>
                 {users && users.length ? users.filter(user => user.userId === flight.userId)[0].firstName + ' booked a flight!': ''}
               </Text>
               <View style={{backgroundColor: '#fefcf5', borderColor: '#dbdbdb', borderWidth: 1, borderRadius: 5, flexDirection: 'row'}}>
@@ -103,8 +100,8 @@ export default class RecentActivity extends Component {
               </View>
             </View>
         </View>
-        )) : <Text style={{marginLeft: 15, fontSize: 16}}>No flights booked yet!</Text>}
+        )) : <Text style={{marginLeft: 15, fontSize: 16, fontFamily: 'Verdana'}}>No flights booked yet!</Text>}
       </View>
-    )
+    );
   }
 }
