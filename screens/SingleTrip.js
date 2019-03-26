@@ -149,7 +149,6 @@ export class SingleTrip extends Component {
               acc.user = userId[0];
               todoKeys.forEach(todoKey => {
                 todo[todoKey] ? (acc.true += 1) : (acc.false += 1);
-                // console.log('KEY', todoKey, 'TODO', todo[todoKey]);
                 if (!usersTodosData[userId]) {
                   usersTodosData[userId] = [];
                 }
@@ -162,7 +161,6 @@ export class SingleTrip extends Component {
             },
             { true: 0, false: 0 }
           );
-          // console.log(usersTodosData);
           usersTodoTotal.push(userTodoTotal);
         }, [])
       : [];
@@ -200,7 +198,6 @@ export class SingleTrip extends Component {
       });
     }
     if (this.props.users)
-    // console.log(this.props.users);
     return (
       <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
         <ScrollView>
@@ -232,7 +229,6 @@ export class SingleTrip extends Component {
                       size="small"
                       key={user.firstName}
                       rounded
-                      // source={{ uri: `${user.imgUrl}` }}
                       source={user.imgUrl ? { uri: `${user.imgUrl}` } : ''}
                       title={
                         user.imgUrl
@@ -327,6 +323,7 @@ export class SingleTrip extends Component {
                     marginLeft: 15,
                     marginTop: 5,
                   }}
+                  avatarStyle={{ backgroundColor: '#3e88d6' }}
                 />
                 <Text style={styles.text}>Itinerary</Text>
               </View>
@@ -365,12 +362,29 @@ export class SingleTrip extends Component {
             </View>
           </View>
           <Divider style={{ backgroundColor: 'gray', marginTop: 20 }} />
-          <Text style={{ marginTop: 20, marginLeft: 15, fontSize: 20, fontWeight: 'bold' }}>
+          <Text style={{ marginTop: 20, marginLeft: 15, fontSize: 18, fontWeight: 'bold', fontFamily: 'Verdana' }}>
             Pack flights
           </Text>
           <View>
           <RecentActivity trip={this.props.navigation.state.params.location} users={this.props.users} selectedTrip={this.props.trip}/>
         </View>
+        { userId !==  this.props.trip.host ?
+        <View style={{marginBottom: 65}}>
+          <Button
+              buttonStyle={{
+                backgroundColor: '#ff9933',
+                borderRadius: 50,
+                alignSelf: 'center',
+                padding: 10,
+                marginLeft: 10,
+                marginRight: 10,
+              }}
+              onPress={() => this.leaveThePack()}
+              title="Leave the pack"
+            />
+        </View>
+        : null
+        }
         </ScrollView>
         <View style={styles.footer}>
           <Button
@@ -428,6 +442,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 5,
     paddingLeft: 5,
+    fontFamily: 'Verdana'
   },
   text2: {
     justifyContent: 'center',
@@ -436,6 +451,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 5,
     paddingLeft: 5,
+    fontFamily: 'Verdana'
   },
 });
 
