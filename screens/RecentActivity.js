@@ -27,7 +27,11 @@ export default class RecentActivity extends Component {
                 size="small"
                 source={{
                   uri:
-                  users && users.length ? users.filter(user => user.userId === flight.userId)[0].imgUrl : '',
+                  users && users.length ?
+                    users.filter(user =>
+                      user.userId === flight.userId && user.imgUrl
+                    )[0].imgUrl
+                  : ''
                 }}
               />
             </View>
