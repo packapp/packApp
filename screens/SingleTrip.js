@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet, Image } from 'react-native';
+import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchFlights } from '../store/flight';
 import { Icon, Tile, Avatar, Divider, Button } from 'react-native-elements';
@@ -26,8 +26,11 @@ export class SingleTrip extends Component {
 
   constructor(props) {
     super(props);
+    this.ref = firebase.firestore().collection('trips');
+    this.unsubscribe = null;
     this.state = {
       removeSelfAlert: false,
+      tripData: {}
     };
   }
 
@@ -35,9 +38,6 @@ export class SingleTrip extends Component {
     await this.props.getTrip(this.props.navigation.state.params.location);
     const endAirport = this.props.trip.endAirport.toString();
     const startAirport = this.props.trip.startAirport.toString();
-    id = this.props.navigation.state.params.userId;
-    host = this.props.trip.host;
-    console.log('ID & HOST', id, host);
 
     let userIds = [];
     if (this.props.trip.attendees) {
@@ -54,10 +54,10 @@ export class SingleTrip extends Component {
       ? this.props.trip.endDate.seconds
       : '';
 
-    const onvertTime = time => {
-      let date = new Date(null);
-      date.setSeconds(time);
-      return date.toString().slice(0, 16);
+    const convertTime = time => {
+      let newDate = new Date(null);
+      newDate.setSeconds(time);
+      return newDate.toString().slice(0, 16);
     };
 
     const test = date => {
@@ -76,7 +76,7 @@ export class SingleTrip extends Component {
         Dec: '12',
       };
 
-      const oldDate = onvertTime(date);
+      const oldDate = convertTime(date);
       const month = oldDate.slice(4, 7);
       let newDate = oldDate
         .split(' ')
@@ -90,6 +90,27 @@ export class SingleTrip extends Component {
     const startDate = test(date);
     const endDate = test(date2);
     this.props.getFlights(endAirport, startAirport, startDate, endDate);
+    this.setState({
+      tripData: this.props.trip
+    });
+    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onCollectionUpdate = async(querySnapshot) => {
+    let tripData = {};
+    const location = this.props.navigation.state.params.location;
+    await querySnapshot.forEach(doc => {
+      if (doc.id === location) {
+        tripData = doc.data();
+      }
+    });
+    this.setState({
+      tripData
+    });
   }
 
   todoFilter = (todosObj, userId) => {
@@ -129,21 +150,22 @@ export class SingleTrip extends Component {
   // eslint-disable-next-line complexity
   render() {
     const { navigate } = this.props.navigation;
+    const { tripData } = this.state;
     const user = this.props.user;
     const userId = this.props.navigation.state.params.userId;
 
-    const onvertTime = time => {
+    const convertTime = time => {
       let date = new Date(null);
       date.setSeconds(time);
       return date.toString().slice(0, 16);
     };
-    const date = this.props.trip.startDate
-      ? this.props.trip.startDate.seconds
+    const date = tripData.startDate
+      ? tripData.startDate.seconds
       : '';
-    const date2 = this.props.trip.endDate
-      ? this.props.trip.endDate.seconds
+    const date2 = tripData.endDate
+      ? tripData.endDate.seconds
       : '';
-    const todos = this.props.trip.todos ? this.props.trip.todos : {};
+    const todos = tripData.todos ? tripData.todos : {};
     const usersTodoData = this.userIds
       ? this.userIds.map(id => {
           return { [id]: this.todoFilter(todos, id) };
@@ -217,7 +239,7 @@ export class SingleTrip extends Component {
                 imageSrc={{ uri: this.props.trip.imageUrl }}
                 title={this.props.navigation.state.params.location}
                 featured
-                caption={`${onvertTime(date)} - ${onvertTime(date2)}`}
+                caption={`${convertTime(date)} - ${convertTime(date2)}`}
                 captionStyle={{ fontSize: 16 }}
                 height={150}
               />
@@ -305,9 +327,9 @@ export class SingleTrip extends Component {
                     }}
                     onPress={() =>
                       navigate('Todos', {
-                        todos: this.props.trip.todos,
+                        todos: tripData.todos,
                         userId: userId,
-                        location: this.props.trip.location,
+                        location: tripData.location,
 
                         users: this.props.users,
                       })
@@ -357,7 +379,7 @@ export class SingleTrip extends Component {
                     }}
                     onPress={() =>
                       navigate('Itinerary', {
-                        trip: this.props.trip,
+                        trip: tripData,
                         users: this.userIds,
                         location: this.props.navigation.state.params.location,
                         userId: userId,
@@ -389,13 +411,13 @@ export class SingleTrip extends Component {
                     }}
                     onPress={() =>
                       navigate('Activities', {
-                        airportCode: this.props.trip.endAirport,
+                        airportCode: tripData.endAirport,
                         navigate: navigate,
                         user: user,
                         userId: userId,
                         users: this.userIds,
-                        trip: this.props.trip,
-                        itin: this.props.trip.itinerary,
+                        trip: tripData,
+                        itin: tripData.itinerary,
                       })
                     }
                     activeOpacity={0.7}
@@ -425,11 +447,10 @@ export class SingleTrip extends Component {
             <View>
               <RecentActivity
                 trip={this.props.navigation.state.params.location}
-                users={this.props.users}
-                selectedTrip={this.props.trip}
+                selectedTrip={tripData}
               />
             </View>
-            {userId !== this.props.trip.host ? (
+            {userId !== tripData.host ? (
               <View
                 style={{
                   justifyContent: 'flex-end',
