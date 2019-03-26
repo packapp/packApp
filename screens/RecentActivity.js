@@ -1,17 +1,29 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { ListItem, Button, Avatar, Divider } from 'react-native-elements';
-import { fetchUsers } from '../store/allUsers';
-import { connect } from 'react-redux';
+import firebase from '../server/config';
 
-class RecentActivity extends Component {
-  componentDidMount() {
-    this.props.fetchUsers();
+export default class RecentActivity extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      users: []
+    };
+  }
+
+  async componentDidMount() {
+    const db = firebase.firestore();
+    const query = await db.collection('users').get();
+    const users = await query.docs.map(doc => {
+      return { id: doc.id, ...doc.data()};
+    });
+    this.setState({users});
   }
 
   render() {
     const { selectedTrip } = this.props;
-    const { users } = this.props;
+    const { users } = this.state;
+    console.log('USERS', users);
     return (
       <View style={{ marginTop: 15, marginBottom: 100 }}>
         {selectedTrip.bookedFlights && selectedTrip.bookedFlights.length ? (
@@ -33,7 +45,7 @@ class RecentActivity extends Component {
                     uri:
                       users && users.length
                         ? users.filter(
-                            user => user.userId === flight.userId && user.imgUrl
+                            user => user.id === flight.userId && user.imgUrl
                           )[0].imgUrl
                         : '',
                   }}
@@ -49,7 +61,7 @@ class RecentActivity extends Component {
                   }}
                 >
                   {users && users.length
-                    ? users.filter(user => user.userId === flight.userId)[0]
+                    ? users.filter(user => user.id === flight.userId)[0]
                         .firstName + ' booked a flight!'
                     : ''}
                 </Text>
@@ -239,20 +251,3 @@ class RecentActivity extends Component {
     );
   }
 }
-
-const mapStateToProps = state => {
-  return {
-    users: state.allUsers,
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchUsers: () => dispatch(fetchUsers()),
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RecentActivity);
