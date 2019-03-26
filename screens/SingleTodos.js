@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { ListItem, Button, CheckBox, Input } from 'react-native-elements';
+import { View, Text } from 'react-native';
+import { ListItem } from 'react-native-elements';
 
 export class SingleTodos extends Component {
   render() {

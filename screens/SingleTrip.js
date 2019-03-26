@@ -1,27 +1,15 @@
 import React, { Component } from 'react';
-import {
-  Text,
-  View,
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableHighlight,
-} from 'react-native';
+import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchFlights } from '../store/flight';
-import { Icon } from 'react-native-elements';
-import {
-  PricingCard,
-  Tile,
-  Avatar,
-  Divider,
-  Button,
-} from 'react-native-elements';
+import { Icon, Tile, Avatar, Divider, Button } from 'react-native-elements';
 import { fetchSingleTrip } from '../store/trip';
 import { fetchUsers } from '../store/usersPerTrips';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProgressCircle from 'react-native-progress-circle';
 import RecentActivity from './RecentActivity';
+import firebase from '../server/config';
+import * as firebase2 from 'firebase';
 
 export class SingleTrip extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -106,6 +94,28 @@ export class SingleTrip extends Component {
     return todosPerPerson;
   };
 
+  async leaveThePack() {
+    const { navigate } = this.props.navigation;
+    const userId = this.props.navigation.state.params.userId;
+    try {
+      const db = firebase.firestore();
+      const tripRef = db.collection('trips').doc(this.props.trip.location);
+      const query = await tripRef.get();
+      const attendees = query.data().attendees;
+      console.log('attendees', attendees);
+      const newAttendees = attendees.filter(attendee => {
+        return attendee !== userId;
+      });
+
+      await tripRef.update({
+        attendees: newAttendees,
+      });
+
+      navigate('Dashboard');
+    } catch (err) {
+      console.error(err);
+    }
+  }
   // eslint-disable-next-line complexity
   render() {
     const { navigate } = this.props.navigation;
@@ -361,6 +371,21 @@ export class SingleTrip extends Component {
           <View>
             <RecentActivity
               trip={this.props.navigation.state.params.location}
+            />
+          </View>
+
+          <View>
+            <Button
+              buttonStyle={{
+                backgroundColor: '#ff9933',
+                borderRadius: 50,
+                alignSelf: 'center',
+                padding: 10,
+                marginLeft: 10,
+                marginRight: 10,
+              }}
+              onPress={() => this.leaveThePack()}
+              title="Leave the pack"
             />
           </View>
         </ScrollView>
