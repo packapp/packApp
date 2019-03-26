@@ -1,4 +1,11 @@
 import React from 'react';
+
+import { StyleSheet, View, SafeAreaView } from 'react-native';
+import Map from './Map';
+import YelpService from '../services/yelp';
+import { Avatar, SearchBar } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { fetchAirportCoordinates } from '../store/coordinates';
 import {
   Text,
   StyleSheet,
@@ -18,14 +25,6 @@ import { connect } from 'react-redux';
 import { fetchAirportCoordinates } from '../store/coordinates';
 const { yelpCategories } = require('./yelpcategories');
 
-// Placeholder until we get user's location
-// const region = {
-//   latitude: 37.321996988,
-//   longitude: -122.0325472123455,
-//   latitudeDelta: 0.0922,
-//   longitudeDelta: 0.0421,
-// };
-
 const deltas = {
   latitudeDelta: 1.922,
   longitudeDelta: 1.01421,
@@ -35,6 +34,9 @@ class Activities extends React.Component {
   constructor() {
     super();
     this.state = {
+
+      places: [],
+
       region: null,
       places: [],
       errorMessage: '',
@@ -83,6 +85,7 @@ class Activities extends React.Component {
 
   render() {
     const navigate = this.props.navigation.state.params.navigate;
+
     const { places } = this.state;
     const region = this.props.coordinates[0]
       ? {
