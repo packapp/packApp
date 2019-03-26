@@ -87,7 +87,7 @@ export class Todos extends Component {
             >
               Pack Todos
             </Text>
-            {keys ? (
+            {keys && keys.length ? (
               keys.map((elem, idx) => (
                 <ListItem
                   key={idx}
@@ -109,7 +109,7 @@ export class Todos extends Component {
                 />
               ))
             ) : (
-              <Text>No todos</Text>
+              <Text style={{marginLeft: 20, fontSize: 16, marginTop: 10}}>No todos yet!</Text>
             )}
           </View>
           <Text
