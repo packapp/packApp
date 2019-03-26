@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Alert } from 'react-native';
 import { ListItem, Button, CheckBox, Input } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { fetchTodos, markAsComplete } from '../store/todos';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Icon as Test} from 'react-native-elements'
+import { Icon as Test } from 'react-native-elements';
 import firebase from '../server/config';
 
 export class Todos extends Component {
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({ navigation }) => {
     return {
       title: 'Todos',
-      headerLeft:(
+      headerLeft: (
         <Button
-        onPress={() => navigation.goBack()}
-        type="clear"
-        icon={<Test name='chevron-left' size={30} />}
+          onPress={() => navigation.goBack()}
+          type="clear"
+          icon={<Test name="chevron-left" size={30} />}
         />
-    ),
+      ),
     };
   };
   constructor(props) {
@@ -52,6 +52,52 @@ export class Todos extends Component {
       todos: todos,
     });
   };
+
+  handleLongPress(userId, todo) {
+    console.log('IN TODO', userId, todo);
+    Alert.alert(
+      'Remove this task?',
+      '',
+      [
+        {
+          text: 'No',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => this.removeTodo(userId, todo),
+        },
+      ],
+      { cancelable: false }
+    );
+  }
+
+  async removeTodo(userId, todo) {
+    try {
+      const db = firebase.firestore();
+      const tripRef = db
+        .collection('trips')
+        .doc(this.props.navigation.state.params.location);
+      const query = await tripRef.get();
+      const todos = query.data().todos;
+      const newTodos = {};
+      Object.keys(todos).forEach(key => {
+        if (key !== todo.task) {
+          newTodos[key] = todos[key];
+        } else {
+          newTodos[key] = todos[key].filter(user => {
+            return user.userId !== userId;
+          });
+        }
+      });
+      await tripRef.update({
+        todos: newTodos,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
   render() {
     const userId = this.props.navigation.state.params.userId;
@@ -133,6 +179,7 @@ export class Todos extends Component {
               onPress={() =>
                 this.props.markAsComplete(location, userId, elem.task, todos)
               }
+              onLongPress={() => this.handleLongPress(userId, elem)}
             />
           ))}
           <View

@@ -30,6 +30,8 @@ export class TripCard extends React.Component {
               (Date.parse(trip.startDate.toDate()) - Date.parse(new Date())) /
                 86400000
             );
+            const caption =
+              daysLeft < 0 ? 'Enjoy your trip!' : `${daysLeft} days left!`;
             return (
               <View key={idx} style={styles.test}>
                 <View style={{ flex: 1 }}>
@@ -37,7 +39,7 @@ export class TripCard extends React.Component {
                     imageSrc={{ uri: trip.imageUrl }}
                     title={trip.location}
                     titleStyle={{ fontSize: 12, marginBottom: 5 }}
-                    caption={`${daysLeft} days left!`}
+                    caption={caption}
                     featured
                     captionStyle={{ fontSize: 16, marginTop: 0 }}
                     height={200}
