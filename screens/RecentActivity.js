@@ -29,18 +29,18 @@ class RecentActivity extends Component {
                 <Avatar
                   rounded
                   size="small"
-                  source={{
-                    uri:
-                      users && users.length
-                        ? users.filter(
-                            user => user.userId === flight.userId && user.imgUrl
-                          )[0].imgUrl
-                        : '',
-                  }}
+                  // source={{
+                  //   uri:
+                  //     users && users.length
+                  //       ? users.filter(
+                  //           user => user.userId === flight.userId && user.imgUrl
+                  //         )[0].imgUrl
+                  //       : '',
+                  // }}
                 />
               </View>
               <View style={{ width: 330, height: 50, marginLeft: 5 }}>
-                <Text
+                {/* <Text
                   style={{
                     fontSize: 15,
                     fontWeight: 'bold',
@@ -52,7 +52,7 @@ class RecentActivity extends Component {
                     ? users.filter(user => user.userId === flight.userId)[0]
                         .firstName + ' booked a flight!'
                     : ''}
-                </Text>
+                </Text> */}
                 <View
                   style={{
                     backgroundColor: '#fefcf5',

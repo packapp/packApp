@@ -30,10 +30,7 @@ export class SingleTrip extends Component {
     this.unsubscribe = null;
     this.state = {
       removeSelfAlert: false,
-<<<<<<< HEAD
-=======
-      tripData: {}
->>>>>>> master
+      tripData: {},
     };
   }
 
@@ -94,7 +91,7 @@ export class SingleTrip extends Component {
     const endDate = test(date2);
     this.props.getFlights(endAirport, startAirport, startDate, endDate);
     this.setState({
-      tripData: this.props.trip
+      tripData: this.props.trip,
     });
     this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
@@ -103,7 +100,7 @@ export class SingleTrip extends Component {
     this.unsubscribe();
   }
 
-  onCollectionUpdate = async(querySnapshot) => {
+  onCollectionUpdate = async querySnapshot => {
     let tripData = {};
     const location = this.props.navigation.state.params.location;
     await querySnapshot.forEach(doc => {
@@ -112,9 +109,9 @@ export class SingleTrip extends Component {
       }
     });
     this.setState({
-      tripData
+      tripData,
     });
-  }
+  };
 
   todoFilter = (todosObj, userId) => {
     const todosPerPerson = [];
@@ -163,12 +160,8 @@ export class SingleTrip extends Component {
       date.setSeconds(time);
       return date.toString().slice(0, 16);
     };
-    const date = tripData.startDate
-      ? tripData.startDate.seconds
-      : '';
-    const date2 = tripData.endDate
-      ? tripData.endDate.seconds
-      : '';
+    const date = tripData.startDate ? tripData.startDate.seconds : '';
+    const date2 = tripData.endDate ? tripData.endDate.seconds : '';
     const todos = tripData.todos ? tripData.todos : {};
     const usersTodoData = this.userIds
       ? this.userIds.map(id => {
@@ -301,6 +294,7 @@ export class SingleTrip extends Component {
                     onPress={() =>
                       navigate('AddNewPerson', {
                         location: this.props.navigation.state.params.location,
+                        userId: userId,
                       })
                     }
                     activeOpacity={0.7}

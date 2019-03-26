@@ -5,6 +5,7 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import { Dropdown } from 'react-native-material-dropdown';
 import { fetchUsers } from '../store/allUsers';
 import { connect } from 'react-redux';
+import { Button } from 'react-native';
 
 class AddNewPerson extends Component {
   static navigationOptions = {
@@ -23,9 +24,12 @@ class AddNewPerson extends Component {
   }
 
   addPersonToPack = async () => {
+    const { navigate } = this.props.navigation;
     let newUserId = '';
+    console.log(this.state.newUser);
     this.props.allUsers.forEach(user => {
       const fullName = `${user.firstName} ${user.lastName}`;
+      console.log(user, fullName);
       if (this.state.newUser === fullName) {
         newUserId = user.id;
       }
@@ -41,6 +45,10 @@ class AddNewPerson extends Component {
     } catch (err) {
       console.error(err);
     }
+    navigate('SingleTrip', {
+      // location: this.props.navigation.state.params.location,
+      // userId: this.props.navigation.state.params.userId,
+    });
   };
 
   render() {
@@ -61,61 +69,30 @@ class AddNewPerson extends Component {
             data={USERS}
             value={this.state.newUserId}
             onChangeText={value => {
-              this.setState({ newUserId: value });
+              this.setState({ newUser: value });
             }}
           />
         </View>
+        <Button
+          title="Add your packmate!"
+          //type="outline"
+          color="#66cc66"
+          style={styles.button}
+          onPress={this.addPersonToPack}
+        >
+          Add your packmate!
+        </Button>
       </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    backgroundColor: '#f8f8f8',
-    fontFamily: 'Verdana',
-  },
-  header: {
-    fontSize: 20,
-    padding: 10,
-    fontWeight: 'bold',
-    color: '#ff9933',
-  },
-  textInput: {
-    height: 40,
-    flex: 1,
-    maxWidth: 50,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginTop: 8,
-  },
-  dateInput: {
-    paddingLeft: 10,
-    color: '#C8C8C8',
-    fontSize: 18,
-  },
   button: {
     padding: 10,
     flex: 3,
     color: 'white',
     backgroundColor: '#aaaaaa',
-  },
-  dateButton: {
-    padding: 10,
-    flex: 3,
-    margin: 10,
-    color: 'white',
-    backgroundColor: '#aaaaaa',
-  },
-  label: {
-    alignSelf: 'center',
-    marginLeft: 10,
-    fontFamily: 'Verdana',
-    fontSize: 15,
   },
 });
 
