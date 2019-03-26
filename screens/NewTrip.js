@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import MultiSelect from 'react-native-multiple-select';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import { StyleSheet, Text, Button, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, Button, View } from 'react-native';
 import { Input, Button as Test, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-
-import DatePicker from 'react-native-datepicker';
 
 import { fetchAirport } from '../store/airports';
 

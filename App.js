@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import {
-  createStackNavigator,
-  createAppContainer,
-} from 'react-navigation';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { Provider } from 'react-redux';
 import store from './store/index';
 // import the different screens
@@ -30,6 +27,7 @@ import Activities from './screens/Activities';
 import EditProfile from './screens/EditProfile';
 import SingleTodos from './screens/SingleTodos';
 import Map from './screens/Map';
+import AddNewPerson from './screens/AddNewPerson';
 
 // create our app's navigation stack
 const AppStackNavigator = createStackNavigator(
@@ -104,10 +102,10 @@ const AppStackNavigator = createStackNavigator(
       screen: PendingItinerary,
     },
     FriendProfile: {
-      screen: FriendProfile
+      screen: FriendProfile,
     },
     EditProfile: {
-      screen: EditProfile
+      screen: EditProfile,
     },
     Activities: {
       screen: Activities,
@@ -117,6 +115,9 @@ const AppStackNavigator = createStackNavigator(
     },
     Map: {
       screen: Map,
+    },
+    AddNewPerson: {
+      screen: AddNewPerson,
     },
   },
   {

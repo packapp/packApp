@@ -10,7 +10,7 @@ import {
   fetchPackTrips,
   fetchSingleTrip,
 } from '../store/trip';
-import { fetchUsers } from '../store/usersPerTrips';
+import { fetchUsersPerTrip } from '../store/usersPerTrips';
 import TripCard from './TripCard';
 
 let userID = '';
@@ -19,7 +19,10 @@ class Dashboard extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: (
-        <Image source={require('../assets/icon_tiny.png')} style={{height: 40, width: 40}}/>
+        <Image
+          source={require('../assets/icon_tiny.png')}
+          style={{ height: 40, width: 40 }}
+        />
       ),
       headerRight: (
         <Button
@@ -175,7 +178,7 @@ const mapDispatchToProps = dispatch => {
     fetchAlphaTrips: userId => dispatch(fetchAlphaTrips(userId)),
     fetchPackTrips: userId => dispatch(fetchPackTrips(userId)),
     fetchSingleTrip: trip => dispatch(fetchSingleTrip(trip)),
-    fetchUsers: userIds => dispatch(fetchUsers(userIds)),
+    fetchUsersPerTrip: userIds => dispatch(fetchUsersPerTrip(userIds)),
   };
 };
 
