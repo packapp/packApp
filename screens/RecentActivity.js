@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { ListItem, Button, Avatar, Divider } from 'react-native-elements';
+import { fetchUsers } from '../store/allUsers';
+import { connect } from 'react-redux';
 
-export default class RecentActivity extends Component {
+class RecentActivity extends Component {
+  componentDidMount() {
+    this.props.fetchUsers();
+  }
+
   render() {
     const { selectedTrip } = this.props;
     const { users } = this.props;
@@ -26,11 +32,9 @@ export default class RecentActivity extends Component {
                   source={{
                     uri:
                       users && users.length
-                        ? users.filter(user => {
-                            if (user.imgUrl) {
-                              return user.userId === flight.userId;
-                            }
-                          })[0].imgUrl
+                        ? users.filter(
+                            user => user.userId === flight.userId && user.imgUrl
+                          )[0].imgUrl
                         : '',
                   }}
                 />
@@ -235,3 +239,20 @@ export default class RecentActivity extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    users: state.allUsers,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUsers: () => dispatch(fetchUsers()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RecentActivity);
