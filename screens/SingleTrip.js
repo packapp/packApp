@@ -284,7 +284,7 @@ export class SingleTrip extends Component {
                   rounded
                   icon={{ name: 'plane', color: 'white', type: 'font-awesome' }}
                   onPress={() =>
-                    navigate('Flights', { flights: this.props.flights })
+                    navigate('Flights', { flights: this.props.flights, userId: userId, trip: this.props.navigation.state.params.location })
                   }
                   activeOpacity={0.7}
                   containerStyle={{ marginLeft: 15, marginTop: 5 }}
@@ -320,11 +320,11 @@ export class SingleTrip extends Component {
             </View>
           </View>
           <Divider style={{ backgroundColor: 'gray', marginTop: 20 }} />
-          <Text style={{ marginTop: 30, marginLeft: 15, fontSize: 20 }}>
-            Recent activity
+          <Text style={{ marginTop: 20, marginLeft: 15, fontSize: 20 }}>
+            Pack flights
           </Text>
           <View>
-          <RecentActivity trip={this.props.navigation.state.params.location} users={this.props.users}/>
+          <RecentActivity trip={this.props.navigation.state.params.location} users={this.props.users} selectedTrip={this.props.trip}/>
         </View>
         </ScrollView>
         <View style={styles.footer}>

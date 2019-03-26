@@ -1,8 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, Button, KeyboardAvoidingView } from 'react-native';
-import { Input } from 'react-native-elements';
-
+import { StyleSheet, Text, Button, KeyboardAvoidingView, View } from 'react-native';
+import { Input, Avatar } from 'react-native-elements';
+import { ImagePicker, Permissions } from 'expo';
+import b64 from 'base64-js';
 import firebase from '../server/config';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -13,14 +15,15 @@ export default class SignUp extends React.Component {
       errorMessage: null,
       firstName: '',
       lastName: '',
-      imageUrl: '',
+      imgUrl: '',
+      bytes: null
     };
   }
 
-  handleSignUp = () => {
+  handleSignUp = async () => {
     const db = firebase.firestore();
     const usersRef = db.collection('users');
-    const { email, firstName, lastName, imageUrl } = this.state;
+    const { email, firstName, lastName, imgUrl } = this.state;
     firebase
       .auth()
       .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -29,7 +32,7 @@ export default class SignUp extends React.Component {
           email,
           firstName,
           lastName,
-          imageUrl,
+          imgUrl,
         });
       })
       .then(() => this.props.navigation.navigate('Main'))
@@ -37,32 +40,62 @@ export default class SignUp extends React.Component {
         this.setState({ errorMessage: error.message });
         console.log(error);
       });
+    const storageRef = firebase.storage().ref();
+    const imageRef = storageRef.child(`images/${this.state.email}`);
+    await imageRef.put(this.state.bytes).then((snapshot) => {
+      console.log('Uploaded image!');
+    });
   };
 
+  getSelectedImage = async () => {
+    await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    let result = await ImagePicker.launchImageLibraryAsync({
+      base64: true
+    });
+    if (!result.cancelled) {
+      const byteArray = b64.toByteArray(result.base64);
+      const bytes = new Uint8Array(byteArray);
+      this.setState({
+        imgUrl: result.uri,
+        bytes
+      });
+    }
+  }
+
   render() {
+    let { imgUrl } = this.state;
     return (
-      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+      <KeyboardAwareScrollView>
+        <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
           <Text style={styles.header}>pack</Text>
           {this.state.errorMessage && (
             <Text style={{ color: 'red' }}>{this.state.errorMessage}</Text>
           )}
+          <View style={{alignItems: 'center'}}>
+            <Avatar
+              size="xlarge"
+              rounded
+              source={{uri:`${imgUrl}`}}
+              containerStyle={{borderWidth: 1, borderColor: '#aaaaaa'}}
+            />
+            <Button title="Add profile picture" onPress={this.getSelectedImage} />
+          </View>
           <Input
-            placeholder="First Name"
-            autoCapitalize="none"
+            placeholder="First name"
             style={styles.textInput}
             errorStyle={{color: 'red'}}
             onChangeText={firstName => this.setState({ firstName })}
             value={this.state.firstName}
           />
           <Input
-            placeholder="Last Name"
-            autoCapitalize="none"
+            placeholder="Last name"
             style={styles.textInput}
             onChangeText={lastName => this.setState({ lastName })}
             value={this.state.lastName}
           />
           <Input
             placeholder="Email"
+            autoCapitalize="none"
             style={styles.textInput}
             keyboardType="email-address"
             onChangeText={email => this.setState({ email })}
@@ -76,23 +109,9 @@ export default class SignUp extends React.Component {
             onChangeText={password => this.setState({ password })}
             value={this.state.password}
           />
-          <Input
-            placeholder="Image"
-            autoCapitalize="none"
-            style={styles.textInput}
-            onChangeText={imageUrl => this.setState({ imageUrl })}
-            value={this.state.imageUrl}
-          />
-          <Button title="Sign Up" type="outline" color="#ff9933" style={styles.button} onPress={this.handleSignUp} />
-          <Text>Already have an account?</Text>
-          <Button
-            title="Login"
-            type="outline"
-            color="#ff9933"
-            style={styles.button}
-            onPress={() => this.props.navigation.navigate('Login')}
-          />
-      </KeyboardAvoidingView>
+          <Button title="Sign Up" type="outline" color="#ff9933" style={styles.button}onPress={this.handleSignUp} />
+        </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     );
   }
 }
@@ -102,12 +121,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#f8f8f8',
     fontFamily: 'Verdana'
   },
   header: {
     fontSize: 30,
     padding: 10,
+    marginBottom: 10,
     fontWeight: "bold",
     color: "#ff9933"
   },

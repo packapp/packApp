@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
-import { ListItem, Button, CheckBox, Input } from 'react-native-elements'
+import { ListItem, Button, CheckBox, Input, Avatar, Divider } from 'react-native-elements'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import {fetchTodos} from '../store/todos'
@@ -16,35 +16,57 @@ export default class RecentActivity extends Component {
         updatedDoc: []
       }
   }
-  async componentDidMount() {
-    this.setState({updatedDoc: this.props.trip})
-    this.unsubscribe = this.ref.onSnapshot(this.onCollectionUpdate)
-  }
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-  onCollectionUpdate = (querySnapshot) => {
-    const updatedDoc = []
-    querySnapshot.docChanges().forEach(function(change) {
-        if (change.type === "added") {
-          console.log("added: ", change.doc.data());
-        }
-        if (change.type === "modified") {
-            console.log("Modified data: ", change.doc.data());
-            updatedDoc.push(change.doc.data())
-        }
-        if (change.type === "removed") {
-            console.log("Removed data: ", change.doc.data());
-        }
-    });
-    this.setState({updatedDoc})
-  }
 
   render() {
-    console.log(this.state)
+    const {selectedTrip} = this.props
+    const {users} = this.props
+    console.log(this.props.users)
+    console.log(selectedTrip.bookedFlights)
     return (
-      <View>
-        <Text>{this.state.updatedDoc.name}</Text>
+      <View style={{marginTop: 15}}>
+        {selectedTrip.bookedFlights ? selectedTrip.bookedFlights.map((flight, idx) => (
+
+          <View key={idx} style={{flex: 1, flexDirection: 'row', marginLeft: 10}}>
+            <View style={{width: 50, height: 50}}>
+              <Avatar
+                rounded
+                size="medium"
+                source={{
+                  uri:
+                  users && users.length ? users.filter(user => user.userId === flight.userId)[0].imgUrl : '',
+                }}
+              />
+            </View>
+            <View style={{width: 330, height: 50, marginLeft: 5}}>
+              <Text style={{color: 'gray'}}>{selectedTrip.location}</Text>
+              <Text style={{fontSize: 16, fontWeight: 'bold'}}>
+                {users && users.length ? users.filter(user => user.userId === flight.userId)[0].firstName + ' booked a flight!': ''}
+              </Text>
+              <View style={{backgroundColor: '#fefcf5', borderColor: '#dbdbdb', borderWidth: 1, borderRadius: 5}}>
+              <View key={idx} style={{width: 100, height: 100, marginTop: 10, marginLeft: 10}}>
+
+                <ListItem
+                  title={flight.startAirport}
+                  leftIcon={{ name: 'flight-takeoff', marginRight: 0, paddingRight: 0 }}
+                  containerStyle={{padding: 0, paddingBottom: 5, justifyContent: 'top', backgroundColor: '#fefcf5'}}
+                  contentContainerStyle={{padding: 0, justifyContent: 'top'}}
+                  titleStyle={{fontSize: 14, justifyContent: 'flex-start'}}
+                />
+
+                <Divider style={{ backgroundColor: 'gray', marginBottom: 10, marginTop: 10 }} />
+                <ListItem
+                  title={flight.endAirport}
+                  leftIcon={{ name: 'flight-takeoff', paddingRight: 0 }}
+                  containerStyle={{padding: 0, paddingBottom: 5, justifyContent: 'top', backgroundColor: '#fefcf5'}}
+                  contentContainerStyle={{padding: 0, justifyContent: 'top'}}
+                />
+                </View>
+              </View>
+            </View>
+
+        </View>
+
+        )) : <Text></Text>}
       </View>
     )
   }
