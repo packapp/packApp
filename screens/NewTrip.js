@@ -42,8 +42,8 @@ class NewTrip extends Component {
       endAirCity: '',
       selectedItems: [],
       data: [],
-      startAirport: '',
-      endAirport: '',
+      startAirport: 'Click to choose home airport',
+      endAirport: 'Click to choose destination airport',
       isEndDateTimePickerVisible: false,
       isStartDateTimePickerVisible: false,
     };
@@ -260,7 +260,7 @@ class NewTrip extends Component {
             <Dropdown
               dropdownOffset={{ top: 15, bottom: 0 }}
               containerStyle={{ width: 390 }}
-              label="Select a departure airport"
+              label=""
               data={this.state.data}
               value={this.state.startAirport}
               onChangeText={value => {
@@ -320,7 +320,7 @@ class NewTrip extends Component {
             <Dropdown
               dropdownOffset={{ top: 15, bottom: 0 }}
               containerStyle={{ width: 390 }}
-              label="Select an arrival airport"
+              label=""
               data={this.state.data}
               value={this.state.endAirport}
               onChangeText={value => {
