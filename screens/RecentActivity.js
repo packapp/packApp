@@ -23,7 +23,6 @@ export default class RecentActivity extends Component {
   render() {
     const { selectedTrip } = this.props;
     const { users } = this.state;
-    console.log('USERS', users);
     return (
       <View style={{ marginTop: 15, marginBottom: 100 }}>
         {selectedTrip.bookedFlights && selectedTrip.bookedFlights.length ? (
