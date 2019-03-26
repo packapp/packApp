@@ -103,7 +103,7 @@ export default class RecentActivity extends Component {
               </View>
             </View>
         </View>
-        )) : <Text></Text>}
+        )) : <Text style={{marginLeft: 15, fontSize: 16}}>No flights booked yet!</Text>}
       </View>
     )
   }
