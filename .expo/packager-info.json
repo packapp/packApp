@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19009,
-  "packagerPid": 70553,
-  "expoServerNgrokUrl": "https://8f-man.toricpope.packapp.exp.direct",
-  "packagerNgrokUrl": "https://packager.8f-man.toricpope.packapp.exp.direct",
-  "ngrokPid": 70594,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": "https://8f-man.anonymous.packapp.exp.direct",
+  "packagerNgrokUrl": "https://packager.8f-man.anonymous.packapp.exp.direct",
+  "ngrokPid": 6705,
   "webpackServerPort": null
 }
