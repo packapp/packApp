@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import { View, Text, ScrollView, StyleSheet, Linking } from 'react-native';
-import { PricingCard, Button, ListItem, Divider} from 'react-native-elements';
+import { PricingCard, Button, ListItem, Divider, Badge} from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { Icon } from 'react-native-elements'
 import { Constants, WebBrowser } from 'expo'
+import * as firebase from 'firebase'
 
 export class Flights extends Component {
   static navigationOptions = ({navigation}) => {
@@ -22,6 +23,20 @@ export class Flights extends Component {
   _handleOpenWithWebBrowser = () => {
     WebBrowser.openBrowserAsync('https://www.skyscanner.com/?ksh_id=_k_CjwKCAjwstfkBRBoEiwADTmnEBFXJ9nEsj2u56Cy8-vEsMxUUX14mltARFPkwFjq6_zNmzzPa4AlpxoCPj8QAvD_BwE_k_&associateID=SEM_GGT_00065_00033&utm_source=google&utm_medium=cpc&utm_campaign=US-Travel-Search-Brand-Skyscanner%20Only-Exact&utm_term=skyscanner&kpid=google_390972150_27422440950_183285134790_kwd-400074527_c_&gclid=CjwKCAjwstfkBRBoEiwADTmnEBFXJ9nEsj2u56Cy8-vEsMxUUX14mltARFPkwFjq6_zNmzzPa4AlpxoCPj8QAvD_BwE');
   }
+  chooseFlight = async (carrierOutbound, carrierInbound, startAirport, endAirport, price) => {
+    const inbound = carrierInbound
+    const outbound = carrierOutbound
+    const userId = this.props.navigation.state.params.userId
+    const trip = this.props.navigation.state.params.trip
+
+    const flightData = {endAirport, inbound, outbound, price, startAirport, userId}
+
+    const db = firebase.firestore()
+    const flightsRef = await db.collection('trips').doc(trip)
+    await flightsRef.update({
+      bookedFlights: firebase.firestore.FieldValue.arrayUnion(flightData)
+    })
+  }
   render(){
     const { navigate } = this.props.navigation;
     const endAirport = this.props.trip.endAirport.toString()
@@ -29,7 +44,7 @@ export class Flights extends Component {
     const {flights} = this.props.navigation.state.params
     const {Quotes, Carriers } = flights
     const user = this.props.user
-    console.log(flights)
+    console.log(user)
     return (
       <View style={{backgroundColor: '#f8f8f8'}}>
         <ScrollView>
@@ -80,6 +95,13 @@ export class Flights extends Component {
                   containerStyle={{padding: 0, paddingBottom: 5, justifyContent: 'top', backgroundColor: '#fefcf5'}}
                   contentContainerStyle={{padding: 0, justifyContent: 'top'}}
                 />
+                <Badge
+                  onPress={() => this.chooseFlight(flights.Quotes ? ( Carriers.filter((elem => {return elem.CarrierId === quote.OutboundLeg.CarrierIds[0]})))[0].Name.slice(0, 17) : 'Nothing', flights.Quotes ? ( Carriers.filter((elem => {return elem.CarrierId === quote.InboundLeg.CarrierIds[0]})))[0].Name.slice(0, 17) : 'Nothing', startAirport, endAirport, quote.MinPrice)}
+                  status="success"
+                  badgeStyle={{backgroundColor: '#66cc66'}}
+                  containerStyle={{ position: 'absolute', top: -12, right: -4}}
+                  value={<Icon type="ion-icon" name="add" size="large"/>}>
+                </Badge>
                 <Text style={{fontWeight: 'bold', fontSize: 16, color: '#66cc66'}}>${quote.MinPrice}</Text>
                 <Divider style={{ backgroundColor: 'gray', marginBottom: 10, marginTop: 10, marginRight: 10 }} />
                 <ListItem
