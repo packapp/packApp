@@ -37,8 +37,8 @@ export class SingleTrip extends Component {
   };
   async componentDidMount() {
     await this.props.getTrip(this.props.navigation.state.params.location);
-    const endAirport = this.props.trip.endAirport.toString()
-    const startAirport = this.props.trip.startAirport.toString()
+    const endAirport = this.props.trip.endAirport.toString();
+    const startAirport = this.props.trip.startAirport.toString();
 
     let userIds = [];
     if (this.props.trip.attendees) {
@@ -48,13 +48,12 @@ export class SingleTrip extends Component {
     this.userIds = userIds;
     this.props.getUsers(userIds);
 
-
     const date = this.props.trip.startDate
-    ? this.props.trip.startDate.seconds
-    : '';
-  const date2 = this.props.trip.endDate
-    ? this.props.trip.endDate.seconds
-    : '';
+      ? this.props.trip.startDate.seconds
+      : '';
+    const date2 = this.props.trip.endDate
+      ? this.props.trip.endDate.seconds
+      : '';
 
     const onvertTime = time => {
       let date = new Date(null);
@@ -75,17 +74,22 @@ export class SingleTrip extends Component {
         Sep: '09',
         Oct: '10',
         Nov: '11',
-        Dec: '12'
-      }
+        Dec: '12',
+      };
 
-      const oldDate = onvertTime(date)
-      const month = oldDate.slice(4, 7)
-      let newDate = oldDate.split(' ').reverse().join(' ').slice(1, 12).split(' ')
-      let result = `${newDate[0]}-${dates[month]}-${newDate[1]}`
-      return result
-    }
-    const startDate = test(date)
-    const endDate = test(date2)
+      const oldDate = onvertTime(date);
+      const month = oldDate.slice(4, 7);
+      let newDate = oldDate
+        .split(' ')
+        .reverse()
+        .join(' ')
+        .slice(1, 12)
+        .split(' ');
+      let result = `${newDate[0]}-${dates[month]}-${newDate[1]}`;
+      return result;
+    };
+    const startDate = test(date);
+    const endDate = test(date2);
     this.props.getFlights(endAirport, startAirport, startDate, endDate);
   }
 
@@ -316,6 +320,38 @@ export class SingleTrip extends Component {
                 />
                 <Text style={styles.text}>Itinerary</Text>
               </View>
+              <View
+                style={{
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Avatar
+                  size="large"
+                  rounded
+                  icon={{ name: 'yelp', color: 'white', type: 'font-awesome' }}
+                  onPress={() =>
+                    navigate('Activities', {
+                      airportCode: this.props.trip.endAirport,
+                      navigate: navigate,
+                      user: user,
+                      userId: userId,
+                      users: this.userIds,
+                      trip: this.props.trip,
+                      itin: this.props.trip.itinerary,
+                    })
+                  }
+                  activeOpacity={0.7}
+                  containerStyle={{
+                    marginLeft: 15,
+                    marginTop: 5,
+                    marginRight: 15,
+                  }}
+                  avatarStyle={{ backgroundColor: 'red' }}
+                />
+                <Text style={styles.text2}>Activities</Text>
+              </View>
             </View>
           </View>
           <Divider style={{ backgroundColor: 'gray', marginTop: 20 }} />
@@ -323,8 +359,10 @@ export class SingleTrip extends Component {
             Recent activity
           </Text>
           <View>
-          <RecentActivity trip={this.props.navigation.state.params.location} />
-        </View>
+            <RecentActivity
+              trip={this.props.navigation.state.params.location}
+            />
+          </View>
         </ScrollView>
         <View style={styles.footer}>
           <Button
@@ -383,6 +421,14 @@ const styles = StyleSheet.create({
     marginTop: 5,
     paddingLeft: 5,
   },
+  text2: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 0,
+    fontWeight: 'bold',
+    marginTop: 5,
+    paddingLeft: 5,
+  },
 });
 
 const mapState = state => {
@@ -396,9 +442,10 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    getFlights: (endAirport, startAirport, startDate, endDate) => dispatch(fetchFlights(endAirport, startAirport, startDate, endDate)),
-    getTrip: (tripName) => dispatch(fetchSingleTrip(tripName)),
-    getUsers: (userIds) => dispatch(fetchUsers(userIds))
+    getFlights: (endAirport, startAirport, startDate, endDate) =>
+      dispatch(fetchFlights(endAirport, startAirport, startDate, endDate)),
+    getTrip: tripName => dispatch(fetchSingleTrip(tripName)),
+    getUsers: userIds => dispatch(fetchUsers(userIds)),
   };
 };
 
