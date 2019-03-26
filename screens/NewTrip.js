@@ -209,7 +209,18 @@ class NewTrip extends Component {
             width: '95%',
           }}
         />
-        <View><Text style={{fontSize: 24, fontWeight: 'bold', marginLeft: 10, marginTop: 10}}>Outbound airport</Text></View>
+        <View>
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: 'bold',
+              marginLeft: 10,
+              marginTop: 10,
+            }}
+          >
+            Outbound airport
+          </Text>
+        </View>
         <View style={{ flex: 1, marginTop: 10, flexDirection: 'row' }}>
           <View style={{ flex: 1 }}>
             <Input
@@ -270,7 +281,18 @@ class NewTrip extends Component {
             />
           </View>
         </View>
-        <View><Text style={{fontSize: 24, fontWeight: 'bold', marginLeft: 10, marginTop: 10}}>Inbound airport</Text></View>
+        <View>
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: 'bold',
+              marginLeft: 10,
+              marginTop: 10,
+            }}
+          >
+            Inbound airport
+          </Text>
+        </View>
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <View style={{ flex: 1 }}>
             <Input

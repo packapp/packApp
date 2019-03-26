@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import Timeline from 'react-native-timeline-listview';
 import firebase from '../server/config';
-import { Icon } from 'react-native-elements'
+import { Icon } from 'react-native-elements';
 
 export default class Itinerary extends Component {
-  static navigationOptions = ({navigation}) => {
+  static navigationOptions = ({ navigation }) => {
     return {
       title: 'Itinerary',
-      headerLeft:(
+      headerLeft: (
         <Button
-        onPress={() => navigation.goBack()}
-        type="clear"
-        icon={<Icon name='chevron-left' size={30} />}
+          onPress={() => navigation.goBack()}
+          type="clear"
+          icon={<Icon name="chevron-left" size={30} />}
         />
-    ),
+      ),
     };
   };
   constructor(props) {
@@ -82,6 +82,44 @@ export default class Itinerary extends Component {
     });
   };
 
+  handlePress(event) {
+    console.log('IN ITIN', event);
+    Alert.alert(
+      'Remove this item?',
+      '',
+      [
+        {
+          text: 'No',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Yes',
+          onPress: () => this.removeItin(event.description),
+        },
+      ],
+      { cancelable: false }
+    );
+  }
+
+  async removeItin(description) {
+    try {
+      const db = firebase.firestore();
+      const tripRef = db
+        .collection('trips')
+        .doc(this.props.navigation.state.params.trip.location);
+      const query = await tripRef.get();
+      const itin = query.data().itinerary;
+      const newItin = itin.filter(item => {
+        return item.description !== description;
+      });
+      await tripRef.update({
+        itinerary: newItin,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
   render() {
     const trip = this.props.navigation.state.params.trip;
     return (
@@ -106,6 +144,7 @@ export default class Itinerary extends Component {
               style: { paddingTop: 5 },
               removeClippedSubviews: false,
             }}
+            onEventPress={event => this.handlePress(event)}
           />
         </View>
         <View style={styles.divider}>
