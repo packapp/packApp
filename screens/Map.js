@@ -8,15 +8,6 @@ import { Avatar } from 'react-native-elements';
 const Marker = MapView.Marker;
 
 export default class Map extends Component {
-  // async addToItinerary(place) {
-  //   try {
-  //     await AsyncStorage.setItem(place.name, JSON.stringify(place));
-
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
-
   handlePress(markerData, place) {
     const navigate = this.props.navigate;
     Alert.alert(
@@ -63,7 +54,9 @@ export default class Map extends Component {
   render() {
     const region = this.props.region;
     console.log('PASSED DOWN PLACES', this.props.places);
+
     const navigate = this.props.navigate;
+
     return (
       <View style={{ alignContent: 'left' }}>
         <MapView style={styles.container} region={region} mapPadding={100}>

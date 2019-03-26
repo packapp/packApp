@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import firebase from '../server/config';
-import { Avatar, Image, Tile } from 'react-native-elements';
+import { Tile } from 'react-native-elements';
 
 import ProgressCircle from 'react-native-progress-circle';
 
@@ -32,9 +32,9 @@ export class TripCard extends React.Component {
             );
             return (
               <View key={idx} style={styles.test}>
-                <View style={{flex: 1}}>
+                <View style={{ flex: 1 }}>
                   <Tile
-                    imageSrc={{uri: trip.imageUrl}}
+                    imageSrc={{ uri: trip.imageUrl }}
                     title={trip.location}
                     titleStyle={{ fontSize: 12, marginBottom: 5 }}
                     caption={`${daysLeft} days left!`}
@@ -42,11 +42,14 @@ export class TripCard extends React.Component {
                     captionStyle={{ fontSize: 16, marginTop: 0 }}
                     height={200}
                     onPress={() =>
-                      navigate('SingleTrip', { location: trip.location, userId: this.props.userId })
+                      navigate('SingleTrip', {
+                        location: trip.location,
+                        userId: this.props.userId,
+                      })
                     }
                   />
                 </View>
-                <View style={styles.tripCard} >
+                <View style={styles.tripCard}>
                   <View style={styles.circle}>
                     <ProgressCircle
                       percent={percentage}
@@ -78,7 +81,7 @@ export class TripCard extends React.Component {
 const styles = StyleSheet.create({
   tripCard: {
     paddingTop: 10,
-    width: '50%'
+    width: '50%',
   },
   card: {
     color: 'white',
@@ -117,17 +120,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'flex-start',
-    marginBottom: 10
+    marginBottom: 10,
   },
   circle: {
     alignItems: 'flex-end',
-    marginRight: 10
+    marginRight: 10,
   },
   noTrips: {
     fontFamily: 'Verdana',
     fontWeight: 'bold',
     fontSize: 15,
-  }
+  },
 });
 
 export default TripCard;
