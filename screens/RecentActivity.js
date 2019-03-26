@@ -1,21 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { ListItem, Button, Avatar, Divider } from 'react-native-elements';
-import firebase from '../server/config';
 
 export default class RecentActivity extends Component {
-  constructor(props) {
-    super(props);
-    this.ref = firebase
-      .firestore()
-      .collection('trips')
-      .where('location', '==', this.props.trip);
-    this.unsubscribe = null;
-    this.state = {
-      updatedDoc: [],
-    };
-  }
-
   render() {
     const { selectedTrip } = this.props;
     const { users } = this.props;

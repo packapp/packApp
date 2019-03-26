@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchFlights } from '../store/flight';
 import { Icon, Tile, Avatar, Divider, Button } from 'react-native-elements';

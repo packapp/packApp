@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, TextInput, View, Button, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, Button, KeyboardAvoidingView, Image } from 'react-native';
 import { Input } from 'react-native-elements';
 import firebase from '../server/config';
 
@@ -18,7 +18,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
-        <Text style={styles.header}>pack</Text>
+        <Image source={require('../assets/icon_small.png')}/>
         {this.state.errorMessage &&
           <Text style={{ color: 'red' }}>
             {this.state.errorMessage}
@@ -55,8 +55,8 @@ export default class Login extends React.Component {
 }
 const styles = StyleSheet.create({
   container: {
+    marginTop: 40,
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
     padding: 10,
     fontFamily: 'Verdana'
