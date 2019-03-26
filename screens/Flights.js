@@ -47,6 +47,7 @@ export class Flights extends Component {
     this.setState({
       addFlightAlert: false
     });
+    this.props.navigation.navigate('SingleTrip');
   }
 
   render(){
