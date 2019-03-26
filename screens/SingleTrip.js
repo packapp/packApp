@@ -263,6 +263,28 @@ export class SingleTrip extends Component {
                 ) : (
                   <Text>No users</Text>
                 )}
+                <View style={{ alignSelf: 'flex-end' }}>
+                  <Avatar
+                    size="small"
+                    rounded
+                    icon={{
+                      name: 'plus',
+                      color: '#66cc66',
+                      type: 'font-awesome',
+                    }}
+                    // onPress={() =>
+                    //   navigate('NewTrip', {
+                    //     userId: userId,
+                    //   })
+                    // }
+                    activeOpacity={0.7}
+                    containerStyle={{
+                      marginLeft: 15,
+                      marginTop: 0,
+                    }}
+                    avatarStyle={{ backgroundColor: '#f8f8f8' }}
+                  />
+                </View>
               </ScrollView>
               <Divider style={{ backgroundColor: 'gray', marginBottom: 10 }} />
               <View style={{ flexDirection: 'row' }}>
@@ -479,6 +501,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingVertical: 15,
     paddingLeft: 10,
+    flex: 2,
   },
   footer: {
     position: 'absolute',
