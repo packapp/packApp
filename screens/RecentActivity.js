@@ -38,7 +38,6 @@ export default class RecentActivity extends Component {
               />
             </View>
             <View style={{width: 330, height: 50, marginLeft: 5}}>
-              <Text style={{color: 'gray'}}>{selectedTrip.location}</Text>
               <Text style={{fontSize: 18, fontWeight: 'bold'}}>
                 {users && users.length ? users.filter(user => user.userId === flight.userId)[0].firstName + ' booked a flight!': ''}
               </Text>

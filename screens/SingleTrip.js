@@ -9,7 +9,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProgressCircle from 'react-native-progress-circle';
 import RecentActivity from './RecentActivity';
 import firebase from '../server/config';
-import * as firebase2 from 'firebase';
 
 export class SingleTrip extends Component {
   static navigationOptions = ({ navigation }) => {
