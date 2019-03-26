@@ -12,7 +12,7 @@ export const gotUsers = users => ({
 });
 
 // THUNK CREATORS
-export const fetchUsers = userIdArr => async dispatch => {
+export const fetchUsersPerTrip = userIdArr => async dispatch => {
   dispatch(gotUsers([]));
   try {
     const db = firebase.firestore();

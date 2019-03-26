@@ -7,7 +7,7 @@ export default class RecentActivity extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: []
+      users: [],
     };
   }
 
@@ -15,9 +15,9 @@ export default class RecentActivity extends Component {
     const db = firebase.firestore();
     const query = await db.collection('users').get();
     const users = await query.docs.map(doc => {
-      return { id: doc.id, ...doc.data()};
+      return { id: doc.id, ...doc.data() };
     });
-    this.setState({users});
+    this.setState({ users });
   }
 
   render() {
