@@ -209,7 +209,8 @@ class NewTrip extends Component {
             width: '95%',
           }}
         />
-        <View style={{ flex: 1, marginTop: 20 }}>
+        <View><Text style={{fontSize: 24, fontWeight: 'bold', marginLeft: 10, marginTop: 10}}>Outbound airport</Text></View>
+        <View style={{ flex: 1, marginTop: 10, flexDirection: 'row' }}>
           <View style={{ flex: 1 }}>
             <Input
               placeholder="Choose city"
@@ -225,7 +226,7 @@ class NewTrip extends Component {
               flex: 1,
               backgroundColor: '#aaaaaa',
               borderRadius: 50,
-              marginTop: 20,
+              marginTop: 5,
               alignContent: 'flex-start',
               marginLeft: 10,
               marginRight: 10,
@@ -269,7 +270,8 @@ class NewTrip extends Component {
             />
           </View>
         </View>
-        <View style={{ flex: 1 }}>
+        <View><Text style={{fontSize: 24, fontWeight: 'bold', marginLeft: 10, marginTop: 10}}>Inbound airport</Text></View>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
           <View style={{ flex: 1 }}>
             <Input
               placeholder="Choose city"
@@ -285,7 +287,7 @@ class NewTrip extends Component {
               flex: 1,
               backgroundColor: '#aaaaaa',
               borderRadius: 50,
-              marginTop: 20,
+              marginTop: 5,
               alignContent: 'flex-start',
               marginLeft: 10,
               marginRight: 10,
@@ -428,7 +430,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   button: {
-    padding: 10,
+    padding: 5,
     color: 'white',
     backgroundColor: '#aaaaaa',
   },

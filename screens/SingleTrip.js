@@ -9,7 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProgressCircle from 'react-native-progress-circle';
 import RecentActivity from './RecentActivity';
 import firebase from '../server/config';
-import * as firebase2 from 'firebase';
+import Dialog from 'react-native-dialog';
 
 export class SingleTrip extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -23,10 +23,21 @@ export class SingleTrip extends Component {
       ),
     };
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      removeSelfAlert: false,
+    };
+  }
+
   async componentDidMount() {
     await this.props.getTrip(this.props.navigation.state.params.location);
     const endAirport = this.props.trip.endAirport.toString();
     const startAirport = this.props.trip.startAirport.toString();
+    id = this.props.navigation.state.params.userId;
+    host = this.props.trip.host;
+    console.log('ID & HOST', id, host);
 
     let userIds = [];
     if (this.props.trip.attendees) {
@@ -102,7 +113,6 @@ export class SingleTrip extends Component {
       const tripRef = db.collection('trips').doc(this.props.trip.location);
       const query = await tripRef.get();
       const attendees = query.data().attendees;
-      console.log('attendees', attendees);
       const newAttendees = attendees.filter(attendee => {
         return attendee !== userId;
       });
@@ -150,7 +160,6 @@ export class SingleTrip extends Component {
               acc.user = userId[0];
               todoKeys.forEach(todoKey => {
                 todo[todoKey] ? (acc.true += 1) : (acc.false += 1);
-                // console.log('KEY', todoKey, 'TODO', todo[todoKey]);
                 if (!usersTodosData[userId]) {
                   usersTodosData[userId] = [];
                 }
@@ -163,7 +172,6 @@ export class SingleTrip extends Component {
             },
             { true: 0, false: 0 }
           );
-          // console.log(usersTodosData);
           usersTodoTotal.push(userTodoTotal);
         }, [])
       : [];
@@ -201,7 +209,6 @@ export class SingleTrip extends Component {
       });
     }
     if (this.props.users)
-      // console.log(this.props.users);
       return (
         <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
           <ScrollView>
@@ -233,7 +240,6 @@ export class SingleTrip extends Component {
                         size="small"
                         key={user.firstName}
                         rounded
-                        // source={{ uri: `${user.imgUrl}` }}
                         source={user.imgUrl ? { uri: `${user.imgUrl}` } : ''}
                         title={
                           user.imgUrl
@@ -340,6 +346,7 @@ export class SingleTrip extends Component {
                       marginLeft: 15,
                       marginTop: 5,
                     }}
+                    avatarStyle={{ backgroundColor: '#3e88d6' }}
                   />
                   <Text style={styles.text}>Itinerary</Text>
                 </View>
@@ -386,8 +393,9 @@ export class SingleTrip extends Component {
               style={{
                 marginTop: 20,
                 marginLeft: 15,
-                fontSize: 20,
+                fontSize: 18,
                 fontWeight: 'bold',
+                fontFamily: 'Verdana',
               }}
             >
               Pack flights
@@ -398,6 +406,42 @@ export class SingleTrip extends Component {
                 users={this.props.users}
                 selectedTrip={this.props.trip}
               />
+            </View>
+            {userId !== this.props.trip.host ? (
+              <View
+                style={{
+                  justifyContent: 'flex-end',
+                  marginBottom: 65,
+                  alignSelf: 'center',
+                }}
+              >
+                <Button
+                  buttonStyle={{
+                    backgroundColor: '#ff9933',
+                    borderRadius: 50,
+                    alignSelf: 'center',
+                    padding: 10,
+                    marginLeft: 10,
+                    marginRight: 10,
+                    bottom: 0,
+                  }}
+                  onPress={() => this.setState({ removeSelfAlert: true })}
+                  title="Leave the pack"
+                />
+              </View>
+            ) : null}
+            <View>
+              <Dialog.Container visible={this.state.removeSelfAlert}>
+                <Dialog.Title>
+                  Remove yourself from{' '}
+                  {this.props.navigation.state.params.location}?
+                </Dialog.Title>
+                <Dialog.Button
+                  label="Cancel"
+                  onPress={() => this.setState({ removeSelfAlert: false })}
+                />
+                <Dialog.Button label="OK" onPress={() => this.leaveThePack()} />
+              </Dialog.Container>
             </View>
           </ScrollView>
           <View style={styles.footer}>
@@ -441,7 +485,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    height: 70,
+    height: 60,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -458,6 +502,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 5,
     paddingLeft: 5,
+    fontFamily: 'Verdana',
   },
   text2: {
     justifyContent: 'center',
@@ -466,6 +511,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 5,
     paddingLeft: 5,
+    fontFamily: 'Verdana',
+  },
+  removeBtn: {
+    marginRight: 8,
   },
 });
 
