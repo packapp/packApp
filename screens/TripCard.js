@@ -56,7 +56,7 @@ export class TripCard extends React.Component {
                       radius={20}
                       borderWidth={3}
                       color="#66cc66"
-                      shadowColor="#999"
+                      shadowColor="#e9e9e9"
                       bgColor="white"
                     >
                       <Text style={{ fontSize: 10, color: 'black' }}>

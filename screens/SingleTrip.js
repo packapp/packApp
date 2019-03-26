@@ -150,7 +150,7 @@ export class SingleTrip extends Component {
               acc.user = userId[0];
               todoKeys.forEach(todoKey => {
                 todo[todoKey] ? (acc.true += 1) : (acc.false += 1);
-                console.log('KEY', todoKey, 'TODO', todo[todoKey]);
+                // console.log('KEY', todoKey, 'TODO', todo[todoKey]);
                 if (!usersTodosData[userId]) {
                   usersTodosData[userId] = [];
                 }
@@ -163,7 +163,7 @@ export class SingleTrip extends Component {
             },
             { true: 0, false: 0 }
           );
-          console.log(usersTodosData);
+          // console.log(usersTodosData);
           usersTodoTotal.push(userTodoTotal);
         }, [])
       : [];
@@ -200,220 +200,234 @@ export class SingleTrip extends Component {
         });
       });
     }
-    if (this.props.users) console.log(this.props.users);
-    return (
-      <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
-        <ScrollView>
-          <View style={{ flex: 1, justifyContent: 'top' }}>
-            <Tile
-              imageSrc={{ uri: this.props.trip.imageUrl }}
-              title={this.props.navigation.state.params.location}
-              featured
-              caption={`${onvertTime(date)} - ${onvertTime(date2)}`}
-              captionStyle={{ fontSize: 16 }}
-              height={150}
-            />
-            <ScrollView
-              horizontal={true}
-              contentContainerStyle={styles.contentContainer}
-            >
-              {this.props.users ? (
-                this.props.users.map(user => (
-                  <ProgressCircle
-                    percent={Math.floor(user.percentage)}
-                    key={user.firstName}
-                    radius={20}
-                    borderWidth={3}
-                    color={user.color}
-                    shadowColor="#e9e9e9"
-                    bgColor="#aaaaaa"
-                  >
-                    <Avatar
-                      size="small"
+    if (this.props.users)
+      // console.log(this.props.users);
+      return (
+        <View style={{ flex: 1, backgroundColor: '#f8f8f8' }}>
+          <ScrollView>
+            <View style={{ flex: 1, justifyContent: 'top' }}>
+              <Tile
+                imageSrc={{ uri: this.props.trip.imageUrl }}
+                title={this.props.navigation.state.params.location}
+                featured
+                caption={`${onvertTime(date)} - ${onvertTime(date2)}`}
+                captionStyle={{ fontSize: 16 }}
+                height={150}
+              />
+              <ScrollView
+                horizontal={true}
+                contentContainerStyle={styles.contentContainer}
+              >
+                {this.props.users ? (
+                  this.props.users.map(user => (
+                    <ProgressCircle
+                      percent={Math.floor(user.percentage)}
                       key={user.firstName}
-                      rounded
-                      // source={{ uri: `${user.imgUrl}` }}
-                      source={user.imgUrl ? { uri: `${user.imgUrl}` } : ''}
-                      title={
-                        user.imgUrl
-                          ? ''
-                          : `${user.firstName[0] + user.lastName[0]}`
-                      }
-                      containerStyle={{ marginLeft: 0 }}
-                      avatarStyle={{
-                        borderColor: '#f8f8f8',
-                        borderWidth: 1,
-                        borderRadius: 17,
-                      }}
-                      onPress={() =>
-                        navigate('SingleTodos', {
-                          todos: user.todoList,
-                        })
-                      }
-                    />
-                  </ProgressCircle>
-                ))
-              ) : (
-                <Text>No users</Text>
-              )}
-            </ScrollView>
-            <Divider style={{ backgroundColor: 'gray', marginBottom: 10 }} />
-            <View style={{ flexDirection: 'row' }}>
-              <View
-                style={{
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Avatar
-                  size="large"
-                  rounded
-                  icon={{ name: 'check', color: 'white', type: 'font-awesome' }}
-                  onPress={() =>
-                    navigate('Todos', {
-                      todos: this.props.trip.todos,
-                      userId: userId,
-                      location: this.props.trip.location,
+                      radius={20}
+                      borderWidth={3}
+                      color={user.color}
+                      shadowColor="#e9e9e9"
+                      bgColor="#aaaaaa"
+                    >
+                      <Avatar
+                        size="small"
+                        key={user.firstName}
+                        rounded
+                        // source={{ uri: `${user.imgUrl}` }}
+                        source={user.imgUrl ? { uri: `${user.imgUrl}` } : ''}
+                        title={
+                          user.imgUrl
+                            ? ''
+                            : `${user.firstName[0] + user.lastName[0]}`
+                        }
+                        containerStyle={{ marginLeft: 0 }}
+                        avatarStyle={{
+                          borderColor: '#f8f8f8',
+                          borderWidth: 1,
+                          borderRadius: 17,
+                        }}
+                        onPress={() =>
+                          navigate('SingleTodos', {
+                            todos: user.todoList,
+                          })
+                        }
+                      />
+                    </ProgressCircle>
+                  ))
+                ) : (
+                  <Text>No users</Text>
+                )}
+              </ScrollView>
+              <Divider style={{ backgroundColor: 'gray', marginBottom: 10 }} />
+              <View style={{ flexDirection: 'row' }}>
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Avatar
+                    size="large"
+                    rounded
+                    icon={{
+                      name: 'check',
+                      color: 'white',
+                      type: 'font-awesome',
+                    }}
+                    onPress={() =>
+                      navigate('Todos', {
+                        todos: this.props.trip.todos,
+                        userId: userId,
+                        location: this.props.trip.location,
 
-                      users: this.props.users,
-                    })
-                  }
-                  activeOpacity={0.7}
-                  containerStyle={{ marginLeft: 15, marginTop: 5 }}
-                  avatarStyle={{ backgroundColor: '#ff9933' }}
-                />
-                <Text style={styles.text}>Todos</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Avatar
-                  size="large"
-                  rounded
-                  icon={{ name: 'plane', color: 'white', type: 'font-awesome' }}
-                  onPress={() =>
-                    navigate('Flights', { flights: this.props.flights })
-                  }
-                  activeOpacity={0.7}
-                  containerStyle={{ marginLeft: 15, marginTop: 5 }}
-                  avatarStyle={{ backgroundColor: '#66cc66' }}
-                />
-                <Text style={styles.text}>Flights</Text>
-              </View>
-              <View style={{ flexDirection: 'column', alignItems: 'center' }}>
-                <Avatar
-                  size="large"
-                  rounded
-                  icon={{
-                    name: 'calendar',
-                    color: 'white',
-                    type: 'font-awesome',
+                        users: this.props.users,
+                      })
+                    }
+                    activeOpacity={0.7}
+                    containerStyle={{ marginLeft: 15, marginTop: 5 }}
+                    avatarStyle={{ backgroundColor: '#ff9933' }}
+                  />
+                  <Text style={styles.text}>Todos</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
-                  onPress={() =>
-                    navigate('Itinerary', {
-                      trip: this.props.trip,
-                      users: this.userIds,
-                      location: this.props.navigation.state.params.location,
-                      userId: userId,
-                    })
-                  }
-                  activeOpacity={0.7}
-                  containerStyle={{
-                    marginLeft: 15,
-                    marginTop: 5,
+                >
+                  <Avatar
+                    size="large"
+                    rounded
+                    icon={{
+                      name: 'plane',
+                      color: 'white',
+                      type: 'font-awesome',
+                    }}
+                    onPress={() =>
+                      navigate('Flights', {
+                        flights: this.props.flights,
+                        userId: userId,
+                        trip: this.props.navigation.state.params.location,
+                      })
+                    }
+                    activeOpacity={0.7}
+                    containerStyle={{ marginLeft: 15, marginTop: 5 }}
+                    avatarStyle={{ backgroundColor: '#66cc66' }}
+                  />
+                  <Text style={styles.text}>Flights</Text>
+                </View>
+                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                  <Avatar
+                    size="large"
+                    rounded
+                    icon={{
+                      name: 'calendar',
+                      color: 'white',
+                      type: 'font-awesome',
+                    }}
+                    onPress={() =>
+                      navigate('Itinerary', {
+                        trip: this.props.trip,
+                        users: this.userIds,
+                        location: this.props.navigation.state.params.location,
+                        userId: userId,
+                      })
+                    }
+                    activeOpacity={0.7}
+                    containerStyle={{
+                      marginLeft: 15,
+                      marginTop: 5,
+                    }}
+                  />
+                  <Text style={styles.text}>Itinerary</Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
-                />
-                <Text style={styles.text}>Itinerary</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                <Avatar
-                  size="large"
-                  rounded
-                  icon={{ name: 'yelp', color: 'white', type: 'font-awesome' }}
-                  onPress={() =>
-                    navigate('Activities', {
-                      airportCode: this.props.trip.endAirport,
-                      navigate: navigate,
-                      user: user,
-                      userId: userId,
-                      users: this.userIds,
-                      trip: this.props.trip,
-                      itin: this.props.trip.itinerary,
-                    })
-                  }
-                  activeOpacity={0.7}
-                  containerStyle={{
-                    marginLeft: 15,
-                    marginTop: 5,
-                    marginRight: 15,
-                  }}
-                  avatarStyle={{ backgroundColor: 'red' }}
-                />
-                <Text style={styles.text2}>Activities</Text>
+                >
+                  <Avatar
+                    size="large"
+                    rounded
+                    icon={{
+                      name: 'yelp',
+                      color: 'white',
+                      type: 'font-awesome',
+                    }}
+                    onPress={() =>
+                      navigate('Activities', {
+                        airportCode: this.props.trip.endAirport,
+                        navigate: navigate,
+                        user: user,
+                        userId: userId,
+                        users: this.userIds,
+                        trip: this.props.trip,
+                        itin: this.props.trip.itinerary,
+                      })
+                    }
+                    activeOpacity={0.7}
+                    containerStyle={{
+                      marginLeft: 15,
+                      marginTop: 5,
+                      marginRight: 15,
+                    }}
+                    avatarStyle={{ backgroundColor: 'red' }}
+                  />
+                  <Text style={styles.text2}>Activities</Text>
+                </View>
               </View>
             </View>
-          </View>
-          <Divider style={{ backgroundColor: 'gray', marginTop: 20 }} />
-          <Text style={{ marginTop: 30, marginLeft: 15, fontSize: 20 }}>
-            Recent activity
-          </Text>
-          <View>
-            <RecentActivity
-              trip={this.props.navigation.state.params.location}
-            />
-          </View>
-          <View>
-            <Button
-              buttonStyle={{
-                backgroundColor: '#ff9933',
-                borderRadius: 50,
-                alignSelf: 'center',
-                padding: 10,
-                marginLeft: 10,
-                marginRight: 10,
+            <Divider style={{ backgroundColor: 'gray', marginTop: 20 }} />
+            <Text
+              style={{
+                marginTop: 20,
+                marginLeft: 15,
+                fontSize: 20,
+                fontWeight: 'bold',
               }}
-              onPress={() => this.leaveThePack()}
-              title="Leave the pack"
+            >
+              Pack flights
+            </Text>
+            <View>
+              <RecentActivity
+                trip={this.props.navigation.state.params.location}
+                users={this.props.users}
+                selectedTrip={this.props.trip}
+              />
+            </View>
+          </ScrollView>
+          <View style={styles.footer}>
+            <Button
+              style={styles.navBtns}
+              type="clear"
+              icon={
+                <Ionicons name="ios-chatbubbles" size={25} color="#aaaaaa" />
+              }
+              onPress={() =>
+                this.props.navigation.navigate('Howl', { user, userId })
+              }
+            />
+            <Button
+              style={styles.navBtns}
+              type="clear"
+              icon={<Ionicons name="ios-home" size={25} color="#aaaaaa" />}
+              onPress={() => this.props.navigation.navigate('Dashboard')}
+            />
+            <Button
+              style={styles.navBtns}
+              type="clear"
+              icon={<Ionicons name="ios-person" size={25} color="#aaaaaa" />}
+              onPress={() =>
+                this.props.navigation.navigate('Profile', { user, userId })
+              }
             />
           </View>
-        </ScrollView>
-        <View style={styles.footer}>
-          <Button
-            style={styles.navBtns}
-            type="clear"
-            icon={<Ionicons name="ios-chatbubbles" size={25} color="#aaaaaa" />}
-            onPress={() =>
-              this.props.navigation.navigate('Howl', { user, userId })
-            }
-          />
-          <Button
-            style={styles.navBtns}
-            type="clear"
-            icon={<Ionicons name="ios-home" size={25} color="#aaaaaa" />}
-            onPress={() => this.props.navigation.navigate('Dashboard')}
-          />
-          <Button
-            style={styles.navBtns}
-            type="clear"
-            icon={<Ionicons name="ios-person" size={25} color="#aaaaaa" />}
-            onPress={() =>
-              this.props.navigation.navigate('Profile', { user, userId })
-            }
-          />
         </View>
-      </View>
-    );
+      );
   }
 }
 
