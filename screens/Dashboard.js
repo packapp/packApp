@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, Image } from 'react-native';
 import firebase from '../server/config';
 import { Button } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -18,7 +18,9 @@ let userID = '';
 class Dashboard extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Pack',
+      title: (
+        <Image source={require('../assets/icon_tiny.png')} style={{height: 40, width: 40}}/>
+      ),
       headerRight: (
         <Button
           onPress={() => navigation.navigate('NewTrip', { userId: userID })}
