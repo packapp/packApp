@@ -26,9 +26,11 @@ export default class RecentActivity extends Component {
                   source={{
                     uri:
                       users && users.length
-                        ? users.filter(
-                            user => user.userId === flight.userId && user.imgUrl
-                          )[0].imgUrl
+                        ? users.filter(user => {
+                            if (user.imgUrl) {
+                              return user.userId === flight.userId;
+                            }
+                          })[0].imgUrl
                         : '',
                   }}
                 />

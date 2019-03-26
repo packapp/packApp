@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchFlights } from '../store/flight';
 import { Icon, Tile, Avatar, Divider, Button } from 'react-native-elements';
 import { fetchSingleTrip } from '../store/trip';
-import { fetchUsers } from '../store/usersPerTrips';
+import { fetchUsersPerTrip } from '../store/usersPerTrips';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProgressCircle from 'react-native-progress-circle';
 import RecentActivity from './RecentActivity';
@@ -128,6 +128,7 @@ export class SingleTrip extends Component {
   }
   // eslint-disable-next-line complexity
   render() {
+    console.log(this.props.users);
     const { navigate } = this.props.navigation;
     const user = this.props.user;
     const userId = this.props.navigation.state.params.userId;
@@ -272,11 +273,11 @@ export class SingleTrip extends Component {
                       color: '#66cc66',
                       type: 'font-awesome',
                     }}
-                    // onPress={() =>
-                    //   navigate('NewTrip', {
-                    //     userId: userId,
-                    //   })
-                    // }
+                    onPress={() =>
+                      navigate('AddNewPerson', {
+                        location: this.props.navigation.state.params.location,
+                      })
+                    }
                     activeOpacity={0.7}
                     containerStyle={{
                       marginLeft: 15,
@@ -555,7 +556,7 @@ const mapDispatch = dispatch => {
     getFlights: (endAirport, startAirport, startDate, endDate) =>
       dispatch(fetchFlights(endAirport, startAirport, startDate, endDate)),
     getTrip: tripName => dispatch(fetchSingleTrip(tripName)),
-    getUsers: userIds => dispatch(fetchUsers(userIds)),
+    getUsers: userIds => dispatch(fetchUsersPerTrip(userIds)),
   };
 };
 
