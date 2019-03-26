@@ -1,24 +1,14 @@
 import React, {Component} from 'react';
 import { View, Text } from 'react-native';
 import { ListItem, Button, Avatar, Divider } from 'react-native-elements';
-import firebase from '../server/config';
 
 export default class RecentActivity extends Component {
-  constructor(props) {
-    super(props);
-      this.ref = firebase.firestore().collection('trips').where('location', "==", this.props.trip);
-      this.unsubscribe = null;
-      this.state = {
-        updatedDoc: []
-      };
-  }
-
   render() {
     const {selectedTrip} = this.props;
     const {users} = this.props;
     return (
       <View style={{marginTop: 15, marginBottom: 100}}>
-        {selectedTrip.bookedFlights ? selectedTrip.bookedFlights.map((flight, idx) => (
+        {selectedTrip.bookedFlights && selectedTrip.bookedFlights.length ? selectedTrip.bookedFlights.map((flight, idx) => (
 
           <View key={idx} style={{flex: 1, flexDirection: 'row', marginLeft: 10, marginBottom: 120}}>
             <View style={{width: 40, height: 50}}>
