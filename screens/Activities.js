@@ -1,29 +1,10 @@
 import React from 'react';
-
 import { StyleSheet, View, SafeAreaView } from 'react-native';
 import Map from './Map';
 import YelpService from '../services/yelp';
 import { Avatar, SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { fetchAirportCoordinates } from '../store/coordinates';
-import {
-  Text,
-  StyleSheet,
-  View,
-  Button,
-  SafeAreaView,
-  FlatList,
-  List,
-  ListItem,
-} from 'react-native';
-import Map from './Map';
-import YelpService from '../services/yelp';
-// import ActionButton from 'react-native-action-button';
-import { Avatar, SearchBar } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { connect } from 'react-redux';
-import { fetchAirportCoordinates } from '../store/coordinates';
-const { yelpCategories } = require('./yelpcategories');
 
 const deltas = {
   latitudeDelta: 1.922,
@@ -34,17 +15,7 @@ class Activities extends React.Component {
   constructor() {
     super();
     this.state = {
-
       places: [],
-
-      region: null,
-      places: [],
-      errorMessage: '',
-      isOpen: false,
-      loading: false,
-      data: yelpCategories.yelp,
-      error: null,
-      searchYield: [],
       search: '',
     };
     this.arrayHolder = [];
@@ -85,8 +56,6 @@ class Activities extends React.Component {
 
   render() {
     const navigate = this.props.navigation.state.params.navigate;
-
-    const { places } = this.state;
     const region = this.props.coordinates[0]
       ? {
           latitude: this.props.coordinates[0].lat,
