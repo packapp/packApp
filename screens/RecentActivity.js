@@ -32,7 +32,7 @@ export default class RecentActivity extends Component {
               />
             </View>
             <View style={{width: 330, height: 50, marginLeft: 5}}>
-              <Text style={{fontSize: 15, fontWeight: 'bold', fontFamily: 'Verdana'}}>
+              <Text style={{fontSize: 15, fontWeight: 'bold', fontFamily: 'Verdana', paddingBottom: 5}}>
                 {users && users.length ? users.filter(user => user.userId === flight.userId)[0].firstName + ' booked a flight!': ''}
               </Text>
               <View style={{backgroundColor: '#fefcf5', borderColor: '#dbdbdb', borderWidth: 1, borderRadius: 5, flexDirection: 'row'}}>
