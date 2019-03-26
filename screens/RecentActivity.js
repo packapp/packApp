@@ -23,14 +23,14 @@ export default class RecentActivity extends Component {
     console.log(this.props.users)
     console.log(selectedTrip.bookedFlights)
     return (
-      <View style={{marginTop: 15}}>
+      <View style={{marginTop: 15, marginBottom: 100}}>
         {selectedTrip.bookedFlights ? selectedTrip.bookedFlights.map((flight, idx) => (
 
-          <View key={idx} style={{flex: 1, flexDirection: 'row', marginLeft: 10}}>
-            <View style={{width: 50, height: 50}}>
+          <View key={idx} style={{flex: 1, flexDirection: 'row', marginLeft: 10, marginBottom: 120}}>
+            <View style={{width: 40, height: 50}}>
               <Avatar
                 rounded
-                size="medium"
+                size="small"
                 source={{
                   uri:
                   users && users.length ? users.filter(user => user.userId === flight.userId)[0].imgUrl : '',
@@ -103,8 +103,7 @@ export default class RecentActivity extends Component {
               </View>
             </View>
         </View>
-
-        )) : <Text></Text>}
+        )) : <Text style={{marginLeft: 15, fontSize: 16}}>No flights booked yet!</Text>}
       </View>
     )
   }
