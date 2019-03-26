@@ -9,6 +9,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import ProgressCircle from 'react-native-progress-circle';
 import RecentActivity from './RecentActivity';
 import firebase from '../server/config';
+import Dialog from 'react-native-dialog';
 
 export class SingleTrip extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -19,13 +20,24 @@ export class SingleTrip extends Component {
           type="clear"
           icon={<Icon name="chevron-left" size={30} />}
         />
-      ),
+      )
     };
   };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      removeSelfAlert: false
+    };
+  }
+
   async componentDidMount() {
     await this.props.getTrip(this.props.navigation.state.params.location);
     const endAirport = this.props.trip.endAirport.toString();
     const startAirport = this.props.trip.startAirport.toString();
+    id = this.props.navigation.state.params.userId;
+    host = this.props.trip.host;
+    console.log('ID & HOST', id, host);
 
     let userIds = [];
     if (this.props.trip.attendees) {
@@ -101,7 +113,6 @@ export class SingleTrip extends Component {
       const tripRef = db.collection('trips').doc(this.props.trip.location);
       const query = await tripRef.get();
       const attendees = query.data().attendees;
-      console.log('attendees', attendees);
       const newAttendees = attendees.filter(attendee => {
         return attendee !== userId;
       });
@@ -369,7 +380,7 @@ export class SingleTrip extends Component {
           <RecentActivity trip={this.props.navigation.state.params.location} users={this.props.users} selectedTrip={this.props.trip}/>
         </View>
         { userId !==  this.props.trip.host ?
-        <View style={{marginBottom: 65}}>
+        <View style={{justifyContent: 'flex-end', marginBottom: 65, alignSelf: 'center'}}>
           <Button
               buttonStyle={{
                 backgroundColor: '#ff9933',
@@ -378,13 +389,21 @@ export class SingleTrip extends Component {
                 padding: 10,
                 marginLeft: 10,
                 marginRight: 10,
+                bottom: 0,
               }}
-              onPress={() => this.leaveThePack()}
+              onPress={() => this.setState({removeSelfAlert: true})}
               title="Leave the pack"
             />
         </View>
         : null
         }
+        <View>
+          <Dialog.Container visible={this.state.removeSelfAlert}>
+            <Dialog.Title>Remove yourself from {this.props.navigation.state.params.location}?</Dialog.Title>
+            <Dialog.Button label="Cancel" onPress={() => this.setState({removeSelfAlert: false})}/>
+            <Dialog.Button label="OK" onPress={() => this.leaveThePack()}/>
+          </Dialog.Container>
+        </View>
         </ScrollView>
         <View style={styles.footer}>
           <Button
@@ -453,6 +472,9 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     fontFamily: 'Verdana'
   },
+  removeBtn: {
+    marginRight: 8
+  }
 });
 
 const mapState = state => {
