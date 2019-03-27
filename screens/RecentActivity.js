@@ -36,7 +36,7 @@ export default class RecentActivity extends Component {
                 marginBottom: 120,
               }}
             >
-              <View style={{ width: 40, height: 50 }}>
+              <View style={{ width: 35, height: 50 }}>
                 <Avatar
                   rounded
                   size="small"

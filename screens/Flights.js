@@ -59,7 +59,7 @@ export class Flights extends Component {
       <View style={{backgroundColor: '#f8f8f8'}}>
         <ScrollView>
           {flights.Quotes ? flights.Quotes.map((quote, idx) => (
-            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginLeft: 10, marginRight: 10, marginTop: 10,   borderWidth: 1, borderColor: '#dbdbdb', borderRadius: 5, backgroundColor: '#fefcf5'}}>
+            <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between', marginLeft: 10, marginRight: 10, marginTop: 10, borderWidth: 1, borderColor: '#dbdbdb', borderRadius: 5, backgroundColor: '#fefcf5'}}>
               <View key={idx} style={{width: 100, height: 100, marginTop: 10, marginLeft: 10}}>
 
                 <ListItem
@@ -98,20 +98,23 @@ export class Flights extends Component {
                 <Text style={{color: 'gray'}}>Inbound</Text>
               </View>
               <View style={{borderBottomColor: 'black', borderWidth: 1}}></View>
-              <View style={{width: 100, height: 100, marginTop: 10, marginLeft: 10, marginRight: 0}}>
-                <ListItem
-                  title={endAirport}
-                  leftIcon={{ name: 'flight-land' }}
-                  containerStyle={{padding: 0, paddingBottom: 5, justifyContent: 'top', backgroundColor: '#fefcf5'}}
-                  contentContainerStyle={{padding: 0, justifyContent: 'top'}}
-                />
-                <Badge
+              <View style={{width: 90, height: 100, marginTop: 10, marginLeft: 10, marginRight: 0}}>
+
+              <Badge
                   onPress={() => this.setState({addFlightAlert: true})}
                   status="success"
                   badgeStyle={{backgroundColor: '#66cc66'}}
-                  containerStyle={{ position: 'absolute', top: -12, right: -4}}
-                  value={<Icon type="ion-icon" name="add" size="large"/>}>
+                  containerStyle={{ position: 'absolute', top: -14, right: 2}}
+                  value={<Icon type="ion-icon" name="add" size="large" color="white"/>}>
                 </Badge>
+
+                <ListItem
+                  title={endAirport}
+                  leftIcon={{ name: 'flight-land' }}
+                  containerStyle={{padding: 0, paddingBottom: 5, justifyContent: 'top', backgroundColor: 'transparent', width: 80}}
+                  contentContainerStyle={{padding: 0, justifyContent: 'top'}}
+                />
+
                 <View>
                   <Dialog.Container visible={this.state.addFlightAlert}>
                     <Dialog.Title>Share this as your flight to your pack?</Dialog.Title>
@@ -124,7 +127,7 @@ export class Flights extends Component {
                 <ListItem
                   title={startAirport}
                   leftIcon={{ name: 'flight-land' }}
-                  containerStyle={{padding: 0, paddingBottom: 5, justifyContent: 'top', backgroundColor: '#fefcf5'}}
+                  containerStyle={{padding: 0, paddingBottom: 5, justifyContent: 'top', backgroundColor: '#fefcf5', width: 80}}
                   contentContainerStyle={{padding: 0, justifyContent: 'top'}}
                 />
               </View>
