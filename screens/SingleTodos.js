@@ -45,7 +45,7 @@ export class SingleTodos extends Component {
           })
         ) : (
           <Text
-            style={{ fontSize: 30, fontFamily: 'Verdana', textAlign: 'center' }}
+            style={{ fontSize: 24, fontFamily: 'Verdana', textAlign: 'center', marginTop: 40 }}
           >
             {' '}
             No todos yet!
