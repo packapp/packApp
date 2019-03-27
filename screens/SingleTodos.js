@@ -20,7 +20,7 @@ export class SingleTodos extends Component {
     console.log(todos);
     return (
       <View>
-        {todos.length > 1 ? (
+        {todos.length >= 1 ? (
           todos.map((todo, idx) => {
             return (
               <ListItem
@@ -45,7 +45,12 @@ export class SingleTodos extends Component {
           })
         ) : (
           <Text
-            style={{ fontSize: 24, fontFamily: 'Verdana', textAlign: 'center', marginTop: 40 }}
+            style={{
+              fontSize: 18,
+              fontFamily: 'Verdana',
+              textAlign: 'center',
+              marginTop: 40,
+            }}
           >
             {' '}
             No todos yet!
