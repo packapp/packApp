@@ -6,6 +6,7 @@ import { StyleSheet, Text, Button, View, ScrollView } from 'react-native';
 import { Input, Avatar } from 'react-native-elements';
 
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 
 export const createNewItinerary = async (itinInfo, trip, users, userId) => {
   const calcNumForApproval = numOfUsers => {
@@ -181,6 +182,11 @@ class NewItin extends Component {
               onCancel={this.hideDateTimePicker}
               mode="date"
             />
+            {this.state.date > new Date() ? (
+              <Text>{this.state.date.toString().slice(4, 16)}</Text>
+            ) : (
+              <Text>Pick a date!</Text>
+            )}
           </View>
           <View style={{ flex: 1 }}>
             <View
@@ -216,6 +222,18 @@ class NewItin extends Component {
               onCancel={this.hideTimePicker}
               mode="time"
             />
+            {this.state.time2 !== '' ? (
+              <Text>
+                {moment(this.state.time2.toString().slice(16, 24), 'HH:mm:ss')
+                  .format('h:mm:ss A')
+                  .slice(0, -6) +
+                  moment(this.state.time2.toString().slice(16, 24), 'HH:mm:ss')
+                    .format('h:mm:ss A')
+                    .slice(-3)}
+              </Text>
+            ) : (
+              <Text>Pick a time!</Text>
+            )}
           </View>
         </View>
         <View

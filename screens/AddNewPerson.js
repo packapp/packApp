@@ -45,10 +45,7 @@ class AddNewPerson extends Component {
     } catch (err) {
       console.error(err);
     }
-    navigate('Dashboard', {
-      // location: this.props.navigation.state.params.location,
-      // userId: this.props.navigation.state.params.userId,
-    });
+    navigate('Dashboard', {});
   };
 
   render() {
@@ -61,7 +58,14 @@ class AddNewPerson extends Component {
     if (this.props.allUsers) console.log(this.props.allUsers);
     return (
       <ScrollView style={{ marginTop: 40 }}>
-        <View style={{ flex: 1, marginLeft: 10, marginRight: 10, justifyContent: 'center' }}>
+        <View
+          style={{
+            flex: 1,
+            marginLeft: 10,
+            marginRight: 10,
+            justifyContent: 'center',
+          }}
+        >
           <Dropdown
             dropdownOffset={{ top: 15, bottom: 0 }}
             // containerStyle={{ width: 380 }}
@@ -74,7 +78,11 @@ class AddNewPerson extends Component {
           />
         </View>
         <Button
-          title={ !this.state.newUser ? "Add your packmate!" : `Add ${this.state.newUser} to pack!`}
+          title={
+            !this.state.newUser
+              ? 'Add your packmate!'
+              : `Add ${this.state.newUser} to pack!`
+          }
           //type="outline"
           color="#66cc66"
           style={styles.button}
