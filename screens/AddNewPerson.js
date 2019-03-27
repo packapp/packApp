@@ -61,10 +61,10 @@ class AddNewPerson extends Component {
     if (this.props.allUsers) console.log(this.props.allUsers);
     return (
       <ScrollView style={{ marginTop: 40 }}>
-        <View style={{ flex: 1, marginLeft: 10 }}>
+        <View style={{ flex: 1, marginLeft: 10, marginRight: 10, justifyContent: 'center' }}>
           <Dropdown
             dropdownOffset={{ top: 15, bottom: 0 }}
-            containerStyle={{ width: 350 }}
+            // containerStyle={{ width: 380 }}
             label="Who do you want to add?"
             data={USERS}
             value={this.state.newUserId}
