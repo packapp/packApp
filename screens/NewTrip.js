@@ -103,11 +103,9 @@ class NewTrip extends Component {
     await this.setState({
       startDate,
     });
-    console.log('STATE', this.state.startDate);
   };
   async setDate(newDate) {
     await this.setState({ startDate: newDate });
-    console.log(this.state.startDate);
   }
 
   // eslint-disable-next-line complexity
@@ -168,9 +166,37 @@ class NewTrip extends Component {
             onDateChange={this.setDate}
           />
           {this.state.startDate > new Date() ? (
-            <Text>{this.state.startDate.toString().slice(4, 16)}</Text>
+            <Text
+              style={{
+                fontSize: 14,
+                borderWidth: 1,
+                padding: 5,
+                marginTop: 7,
+                borderRadius: 15,
+                borderColor: 'gray',
+                marginLeft: 5,
+                paddingLeft: 14,
+                paddingRight: 14,
+              }}
+            >
+              {this.state.startDate.toString().slice(4, 16)}
+            </Text>
           ) : (
-            <Text>Pick a date!</Text>
+            <Text
+              style={{
+                fontSize: 14,
+                borderWidth: 1,
+                padding: 5,
+                marginTop: 7,
+                borderRadius: 15,
+                borderColor: 'gray',
+                marginLeft: 5,
+                paddingLeft: 14,
+                paddingRight: 14,
+              }}
+            >
+              Pick a date!
+            </Text>
           )}
         </View>
         <View
@@ -181,6 +207,8 @@ class NewTrip extends Component {
             alignSelf: 'center',
             borderWidth: 1,
             width: '95%',
+            marginTop: 7,
+            marginBottom: 7,
           }}
         />
         <View
@@ -199,11 +227,39 @@ class NewTrip extends Component {
             mode="date"
           />
           {this.state.endDate > new Date() ? (
-            <Text style={{ fontFamily: 'Verdana', textAlign: 'center' }}>
+            <Text
+              style={{
+                fontSize: 14,
+                borderWidth: 1,
+                padding: 5,
+                marginTop: 7,
+                borderRadius: 15,
+                borderColor: 'gray',
+                marginLeft: 12,
+                textAlign: 'center',
+                paddingLeft: 14,
+                paddingRight: 14,
+              }}
+            >
               {this.state.endDate.toString().slice(4, 16)}
             </Text>
           ) : (
-            <Text>Pick a date!</Text>
+            <Text
+              style={{
+                fontSize: 14,
+                borderWidth: 1,
+                padding: 5,
+                marginTop: 7,
+                borderRadius: 15,
+                borderColor: 'gray',
+                marginLeft: 12,
+                textAlign: 'center',
+                paddingLeft: 14,
+                paddingRight: 14,
+              }}
+            >
+              Pick a date!
+            </Text>
           )}
         </View>
         <View
