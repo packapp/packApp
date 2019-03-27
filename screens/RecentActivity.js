@@ -36,7 +36,7 @@ export default class RecentActivity extends Component {
                 marginBottom: 120,
               }}
             >
-              <View style={{ width: 40, height: 50 }}>
+              <View style={{ width: 35, height: 50 }}>
                 <Avatar
                   rounded
                   size="small"
@@ -50,7 +50,7 @@ export default class RecentActivity extends Component {
                   }}
                 />
               </View>
-              <View style={{ width: 330, height: 50, marginLeft: 5 }}>
+              <View style={{ width: 310, height: 50, marginLeft: 5 }}>
                 <Text
                   style={{
                     fontSize: 15,
@@ -176,7 +176,7 @@ export default class RecentActivity extends Component {
                   </View>
                   <View
                     style={{
-                      width: 100,
+                      width: 90,
                       height: 100,
                       marginTop: 10,
                       marginLeft: 5,
@@ -191,6 +191,7 @@ export default class RecentActivity extends Component {
                         paddingBottom: 5,
                         justifyContent: 'top',
                         backgroundColor: '#fefcf5',
+                        width: 80
                       }}
                       contentContainerStyle={{
                         padding: 0,
@@ -226,6 +227,7 @@ export default class RecentActivity extends Component {
                         paddingBottom: 5,
                         justifyContent: 'top',
                         backgroundColor: '#fefcf5',
+                        width: 80
                       }}
                       contentContainerStyle={{
                         padding: 0,
