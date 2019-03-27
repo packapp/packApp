@@ -155,12 +155,17 @@ export class Todos extends Component {
                   title={elem}
                   containerStyle={{ backgroundColor: '#fefcf5' }}
                   subtitle={
-                    todos ? (
-                      todos[elem].filter(elem => elem.completed === false)
-                        .length + ' people need to complete this task'
-                    ) : (
-                      <Text>All done</Text>
-                    )
+                    todos
+                      ? todos[elem].filter(elem => elem.completed === false)
+                          .length === 1
+                        ? todos[elem].filter(elem => elem.completed === false)
+                            .length + ' person needs to complete this task'
+                        : todos[elem].filter(elem => elem.completed === false)
+                            .length === 0
+                        ? 'Complete!'
+                        : todos[elem].filter(elem => elem.completed === false)
+                            .length + ' people need to complete this task'
+                      : null
                   }
                 />
               ))
@@ -181,19 +186,25 @@ export class Todos extends Component {
           >
             Your Todos
           </Text>
-          {todoFilter(todos, userId).map((elem, idx) => (
-            <CheckBox
-              key={idx}
-              title={elem.task}
-              checked={elem.completed}
-              checkedColor="#66cc66"
-              containerStyle={{ backgroundColor: '#fefcf5' }}
-              onPress={() =>
-                this.props.markAsComplete(location, userId, elem.task, todos)
-              }
-              onLongPress={() => this.handleLongPress(userId, elem)}
-            />
-          ))}
+          {todoFilter(todos, userId).length ? (
+            todoFilter(todos, userId).map((elem, idx) => (
+              <CheckBox
+                key={idx}
+                title={elem.task}
+                checked={elem.completed}
+                checkedColor="#66cc66"
+                containerStyle={{ backgroundColor: '#fefcf5' }}
+                onPress={() =>
+                  this.props.markAsComplete(location, userId, elem.task, todos)
+                }
+                onLongPress={() => this.handleLongPress(userId, elem)}
+              />
+            ))
+          ) : (
+            <Text style={{ marginLeft: 20, fontSize: 16, marginTop: 10 }}>
+              No todos yet!
+            </Text>
+          )}
           <View
             style={{
               marginLeft: 135,
