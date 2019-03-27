@@ -104,7 +104,6 @@ class NewTrip extends Component {
       startDate,
     });
     console.log('STATE', this.state.startDate);
-    console.log('this.startDate', this.newStartDate);
   };
   async setDate(newDate) {
     await this.setState({ startDate: newDate });
