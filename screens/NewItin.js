@@ -149,7 +149,7 @@ class NewItin extends Component {
             marginLeft: 20,
           }}
         >
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, alignItems: 'center' }}>
             <View
               style={{
                 margin: 10,
@@ -188,14 +188,13 @@ class NewItin extends Component {
               <Text>Pick a date!</Text>
             )}
           </View>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, alignItems: 'center' }}>
             <View
               style={{
                 margin: 5,
                 flex: 1,
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginRight: 20,
               }}
             >
               <Avatar
