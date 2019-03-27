@@ -9,7 +9,7 @@ import { Button } from 'react-native';
 
 class AddNewPerson extends Component {
   static navigationOptions = {
-    title: 'Add an item',
+    title: 'Invite people',
   };
 
   constructor(props) {
@@ -64,8 +64,8 @@ class AddNewPerson extends Component {
         <View style={{ flex: 1, marginLeft: 10 }}>
           <Dropdown
             dropdownOffset={{ top: 15, bottom: 0 }}
-            containerStyle={{ width: 390 }}
-            label="New User"
+            containerStyle={{ width: 350 }}
+            label="Who do you want to add?"
             data={USERS}
             value={this.state.newUserId}
             onChangeText={value => {
@@ -74,7 +74,7 @@ class AddNewPerson extends Component {
           />
         </View>
         <Button
-          title="Add your packmate!"
+          title={ !this.state.newUser ? "Add your packmate!" : `Add ${this.state.newUser} to pack!`}
           //type="outline"
           color="#66cc66"
           style={styles.button}
