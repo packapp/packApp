@@ -200,7 +200,9 @@ class NewTrip extends Component {
             mode="date"
           />
           {this.state.endDate > new Date() ? (
-            <Text>{this.state.endDate.toString().slice(4, 16)}</Text>
+            <Text style={{ fontFamily: 'Verdana', textAlign: 'center' }}>
+              {this.state.endDate.toString().slice(4, 16)}
+            </Text>
           ) : (
             <Text>Pick a date!</Text>
           )}
