@@ -53,6 +53,7 @@ class NewTrip extends Component {
   componentDidMount() {
     this.props.fetchUsers();
   }
+
   pickerValueChange(itemValue, itemIndex) {
     this.setState({ startAirport: itemValue });
   }
@@ -95,16 +96,18 @@ class NewTrip extends Component {
   hideStartDateTimePicker = () =>
     this.setState({ isStartDateTimePickerVisible: false });
 
-  handleStartDatePicked = startDate => {
-    console.log('A end date has been picked: ', startDate);
+  handleStartDatePicked = async startDate => {
+    console.log('A start date has been picked: ', startDate);
 
     this.hideStartDateTimePicker();
-    this.setState({
+    await this.setState({
       startDate,
     });
+    console.log('STATE', this.state.startDate);
+    console.log('this.startDate', this.newStartDate);
   };
-  setDate(newDate) {
-    this.setState({ startDate: newDate });
+  async setDate(newDate) {
+    await this.setState({ startDate: newDate });
     console.log(this.state.startDate);
   }
 
@@ -165,11 +168,11 @@ class NewTrip extends Component {
             date={this.state.startDate}
             onDateChange={this.setDate}
           />
-          {/* {this.state.startDate > new Date() ? (
-            <Text>{Date(this.state.startDate).slice(4, 16)}</Text>
+          {this.state.startDate > new Date() ? (
+            <Text>{this.state.startDate.toString().slice(4, 16)}</Text>
           ) : (
             <Text>Pick a date!</Text>
-          )} */}
+          )}
         </View>
         <View
           style={{
@@ -196,6 +199,11 @@ class NewTrip extends Component {
             onCancel={this.hideEndDateTimePicker}
             mode="date"
           />
+          {this.state.endDate > new Date() ? (
+            <Text>{this.state.endDate.toString().slice(4, 16)}</Text>
+          ) : (
+            <Text>Pick a date!</Text>
+          )}
         </View>
         <View
           style={{

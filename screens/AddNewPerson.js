@@ -45,10 +45,7 @@ class AddNewPerson extends Component {
     } catch (err) {
       console.error(err);
     }
-    navigate('Dashboard', {
-      // location: this.props.navigation.state.params.location,
-      // userId: this.props.navigation.state.params.userId,
-    });
+    navigate('Dashboard', {});
   };
 
   render() {
