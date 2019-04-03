@@ -15,7 +15,7 @@ import TripCard from './TripCard';
 
 let userID = '';
 
-class Dashboard extends React.Component {
+export class Dashboard extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: (
